@@ -1,13 +1,11 @@
 import React, { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { FiMenu, FiX } from 'react-icons/fi'
-import { useAuth } from '../hooks/useAuth'
 
 const Header: React.FC = () => {
   const location = useLocation()
   const path = location.pathname
   const [isOpen, setIsOpen] = useState(false)
-  const { user } = useAuth()
 
   const toggleMenu = () => setIsOpen(!isOpen)
 

@@ -66,7 +66,6 @@ const Chat: React.FC = () => {
 
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
-  const fileInputRef = useRef<HTMLInputElement>(null)
   const emojiPickerRef = useRef<HTMLDivElement>(null)
 
   // Reply bar UI above input
@@ -894,43 +893,6 @@ const Chat: React.FC = () => {
   }
 
   const renderMessageContent = (content: string) => {
-    const trimmed = content.trim()
-    const voiceRegex = /\[Voice Message\]\(([^)]+)\)/
-    const voiceMatch = trimmed.match(voiceRegex)
-    if (voiceMatch) {
-      // Removed rendering of VoiceMessage component as per user request
-      return null
-    }
-
-    const fileRegex = /\[File: ([^\]]+)\]\(([^)]+)\)/
-    const fileMatch = trimmed.match(fileRegex)
-
-    if (fileMatch) {
-      const name = fileMatch[1]
-      const url = fileMatch[2]
-      const isImage = /\.(jpg|jpeg|png|gif|bmp|webp)$/i.test(name)
-      if (isImage) {
-        return (
-          <img
-            src={url}
-            alt={name}
-            className="max-w-64 max-h-64 cursor-pointer rounded"
-            onClick={() => window.open(url, '_blank')}
-          />
-        )
-      }
-      return (
-        <a
-          href={url}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="file-link underline cursor-pointer"
-        >
-          {name}
-        </a>
-      )
-    }
-
     return <span>{content}</span>
   }
 
