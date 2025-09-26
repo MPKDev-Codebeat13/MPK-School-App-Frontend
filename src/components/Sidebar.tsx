@@ -66,7 +66,7 @@ export default function Sidebar() {
           className="fixed top-4 left-0 z-50 bg-violet-600 text-white p-2 rounded-lg shadow-lg hover:bg-violet-700 transition-colors"
           onClick={() => setIsOpen(!isOpen)}
         >
-          <FiMenu size={24} />
+          <FiMenu size={24} className="w-64 p-4 mr-4" />
         </button>
       )}
 

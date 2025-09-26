@@ -44,6 +44,30 @@ const themes = [
     class:
       'bg-gradient-to-br from-yellow-400 via-orange-500 to-red-600 text-white',
   },
+  {
+    name: 'Midnight Abyss',
+    class: 'bg-gradient-to-br from-black via-purple-900 to-red-900 text-white',
+  },
+  {
+    name: 'Neon Glow',
+    class:
+      'bg-gradient-to-br from-pink-500 via-blue-500 to-green-500 text-white',
+  },
+  {
+    name: 'Pastel Dream',
+    class:
+      'bg-gradient-to-br from-pink-100 via-blue-100 to-green-100 text-gray-800',
+  },
+  {
+    name: 'Retro Synthwave',
+    class:
+      'bg-gradient-to-br from-purple-600 via-pink-600 to-cyan-600 text-white',
+  },
+  {
+    name: 'Nature Zen',
+    class:
+      'bg-gradient-to-br from-green-300 via-blue-200 to-teal-300 text-gray-800',
+  },
 ]
 
 const Settings: React.FC = () => {
