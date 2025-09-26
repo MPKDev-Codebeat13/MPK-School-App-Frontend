@@ -3,6 +3,7 @@ import { useAuth } from '../context/AuthContext'
 import { useTheme } from '../context/ThemeContext'
 import Sidebar from '../components/Sidebar'
 import { Button } from '../components/ui/button'
+import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import {
   createLessonPlan,
@@ -53,6 +54,7 @@ const CreateLessonPlan: React.FC = () => {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [isSaving, setIsSaving] = useState(false)
+  const [generatedPlan, setGeneratedPlan] = useState<any>(null)
 
   const handleInputChange = (
     e: React.ChangeEvent<
@@ -139,8 +141,14 @@ const CreateLessonPlan: React.FC = () => {
         aiPrompt,
         formData.subject
       )
-      // Navigate to the details page of the newly generated lesson plan
-      navigate(`/teacher-lesson-plan/${data.lessonPlan._id}`)
+      // Set the generated plan for preview
+      setGeneratedPlan(data.lessonPlan)
+      // Populate form data for potential save
+      setFormData({
+        ...formData,
+        title: data.lessonPlan.title,
+        lessonPlan: data.lessonPlan.description,
+      })
     } catch (error: any) {
       let errorMessage = 'Failed to generate lesson plan'
 
@@ -394,6 +402,65 @@ const CreateLessonPlan: React.FC = () => {
               <Button onClick={handleGenerateAI} disabled={loading}>
                 {loading ? 'Generating...' : 'Generate with AI'}
               </Button>
+
+              {/* Generated Plan Preview */}
+              {generatedPlan && (
+                <div className="mt-6 transition-opacity duration-500 ease-in-out opacity-100">
+                  <Card
+                    className={`${isLight ? 'bg-gray-50 border-gray-200' : ''}`}
+                  >
+                    <CardHeader>
+                      <CardTitle
+                        className={`${isLight ? 'text-gray-900' : ''}`}
+                      >
+                        Generated Lesson Plan: {generatedPlan.title}
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="space-y-2">
+                        <p
+                          className={`text-sm ${
+                            isLight ? 'text-gray-700' : 'text-gray-300'
+                          }`}
+                        >
+                          <strong>Subject:</strong> {generatedPlan.subject}
+                        </p>
+                        <p
+                          className={`text-sm ${
+                            isLight ? 'text-gray-700' : 'text-gray-300'
+                          }`}
+                        >
+                          <strong>Grade:</strong> {generatedPlan.grade}
+                        </p>
+                        <div
+                          className={`text-sm ${
+                            isLight ? 'text-gray-700' : 'text-gray-300'
+                          }`}
+                        >
+                          <strong>Description:</strong>
+                          <div className="mt-2 p-3 bg-gray-100 dark:bg-gray-800 rounded max-h-64 overflow-y-auto whitespace-pre-wrap">
+                            {generatedPlan.description}
+                          </div>
+                        </div>
+                      </div>
+                      <div className="mt-4 flex space-x-2">
+                        <Button
+                          onClick={() => handleSave('ai')}
+                          disabled={isSaving}
+                        >
+                          {isSaving ? 'Saving...' : 'Save Lesson Plan'}
+                        </Button>
+                        <Button
+                          variant="outline"
+                          onClick={() => setGeneratedPlan(null)}
+                        >
+                          Discard
+                        </Button>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </div>
+              )}
             </div>
           )}
         </div>
