@@ -1016,7 +1016,7 @@ const Chat: React.FC = () => {
           } backdrop-blur-xl shadow-xl`}
         >
           <div className="p-4 border-b">
-            <h3 className="text-lg font-bold flex items-center gap-2">
+            <h3 className="text-lg font-bold flex items-center gap-2 ml-12">
               <MessageCircle className="animate-spin-slow" />
               Chat Mode
             </h3>

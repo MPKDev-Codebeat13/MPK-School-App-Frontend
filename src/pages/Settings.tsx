@@ -68,6 +68,29 @@ const themes = [
     class:
       'bg-gradient-to-br from-green-300 via-blue-200 to-teal-300 text-gray-800',
   },
+  {
+    name: 'Cyberpunk Neon',
+    class:
+      'bg-black bg-gradient-to-br from-green-400 via-pink-500 to-purple-600 text-white',
+  },
+  {
+    name: 'Desert Mirage',
+    class:
+      'bg-gradient-to-br from-yellow-300 via-orange-400 to-red-500 text-white',
+  },
+  {
+    name: 'Forest Whisper',
+    class: 'bg-gradient-to-br from-green-900 via-brown-800 to-black text-white',
+  },
+  {
+    name: 'Ice Crystal',
+    class:
+      'bg-gradient-to-br from-blue-100 via-cyan-200 to-white text-gray-900',
+  },
+  {
+    name: 'Royal Velvet',
+    class: 'bg-gradient-to-br from-purple-900 via-gold-600 to-black text-white',
+  },
 ]
 
 const Settings: React.FC = () => {

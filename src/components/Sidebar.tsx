@@ -81,11 +81,7 @@ export default function Sidebar() {
               className="text-gray-500 hover:text-gray-700 transition-colors hover:scale-110"
               onClick={() => setIsOpen(!isOpen)}
             >
-              {isOpen ? (
-                <FiX size={20} />
-              ) : (
-                <FiMenu size={20} className="w-64 p-4 mr-4" />
-              )}
+              {isOpen ? <FiX size={20} /> : <FiMenu size={20} />}
             </button>
             <Link
               to="/dashboard"
