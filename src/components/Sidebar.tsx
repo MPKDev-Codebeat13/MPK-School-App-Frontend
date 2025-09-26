@@ -1,11 +1,10 @@
-import React from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useTheme } from '../context/ThemeContext'
 
 export default function Sidebar() {
   const { user } = useAuth()
-  const { theme, isLight } = useTheme()
+  const { isLight } = useTheme()
 
   // Extract display name for initials to avoid TS issues
   const displayName = user?.fullName || user?.name || 'User'
@@ -74,42 +73,43 @@ export default function Sidebar() {
       >
         <div className="flex items-center gap-3">
           <div className="relative">
-            {user?.profilePicture || user?.avatar ? (
-              <>
-                <img
-                  src={
-                    (user?.profilePicture || user?.avatar).startsWith('http')
-                      ? user?.profilePicture || user?.avatar
-                      : `${(
-                          import.meta.env.VITE_API_BASE_URL ||
-                          'http://localhost:4000/api'
-                        ).replace('/api', '')}${
-                          user?.profilePicture || user?.avatar
-                        }`
-                  }
-                  alt="Profile"
-                  className="w-10 h-10 rounded-full border-2 border-violet-400 object-cover"
-                  onError={(e) => {
-                    e.currentTarget.style.display = 'none'
-                    const fallback = e.currentTarget
-                      .nextElementSibling as HTMLElement
-                    if (fallback) {
-                      fallback.style.display = 'flex'
+            {(() => {
+              const profilePic = user?.profilePicture || user?.avatar
+              return profilePic ? (
+                <>
+                  <img
+                    src={
+                      profilePic.startsWith('http')
+                        ? profilePic
+                        : `${(
+                            import.meta.env.VITE_API_BASE_URL ||
+                            'http://localhost:4000/api'
+                          ).replace('/api', '')}${profilePic}`
                     }
-                  }}
-                />
-                <div
-                  className="w-10 h-10 rounded-full bg-violet-600 flex items-center justify-center text-white font-bold absolute top-0 left-0"
-                  style={{ display: 'none' }}
-                >
+                    alt="Profile"
+                    className="w-10 h-10 rounded-full border-2 border-violet-400 object-cover"
+                    onError={(e) => {
+                      e.currentTarget.style.display = 'none'
+                      const fallback = e.currentTarget
+                        .nextElementSibling as HTMLElement
+                      if (fallback) {
+                        fallback.style.display = 'flex'
+                      }
+                    }}
+                  />
+                  <div
+                    className="w-10 h-10 rounded-full bg-violet-600 flex items-center justify-center text-white font-bold absolute top-0 left-0"
+                    style={{ display: 'none' }}
+                  >
+                    {initial}
+                  </div>
+                </>
+              ) : (
+                <div className="w-10 h-10 rounded-full bg-violet-600 flex items-center justify-center text-white font-bold">
                   {initial}
                 </div>
-              </>
-            ) : (
-              <div className="w-10 h-10 rounded-full bg-violet-600 flex items-center justify-center text-white font-bold">
-                {initial}
-              </div>
-            )}
+              )
+            })()}
           </div>
           <div>
             <p className="font-semibold text-sm">{displayName}</p>
