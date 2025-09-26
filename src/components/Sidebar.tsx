@@ -72,7 +72,7 @@ export default function Sidebar() {
 
       <aside
         className={`${sidebarBg} ${sidebarText} h-screen shadow-lg rounded-r-2xl flex flex-col transition-all duration-300 relative sticky top-0 ${
-          isOpen ? 'w-64 p-4' : 'w-0 overflow-hidden'
+          isOpen ? 'w-64 p-4 mr-4' : 'w-0 overflow-hidden'
         }`}
       >
         {isOpen && (
