@@ -759,7 +759,12 @@ const Chat: React.FC = () => {
       headers: { Authorization: `Bearer ${accessToken}` },
     })
       .then((res) => res.json())
-      .then((data) => setAllUsers(data.users || []))
+      .then((data) => {
+        const filteredUsers = (data.users || []).filter(
+          (u: any) => getUserId(u) !== getUserId(user)
+        )
+        setAllUsers(filteredUsers)
+      })
       .catch(() => setAllUsers([]))
     return () => {
       newSocket.disconnect()
@@ -1022,7 +1027,7 @@ const Chat: React.FC = () => {
           <div className="p-4 space-y-3">
             <button
               onClick={() => joinRoom('public')}
-              className={`w-full text-left p-4 rounded-xl transition-all duration-200 transform hover:scale-105 ${
+              className={`w-full text-left p-4 rounded-xl transition-all duration-300 transform hover:scale-105 hover:shadow-lg ${
                 currentRoom === 'public'
                   ? 'bg-gradient-to-r from-violet-100 to-purple-100 dark:from-violet-900/50 dark:to-purple-900/50 border-2 border-violet-300 dark:border-violet-600 shadow-lg'
                   : 'hover:bg-gray-50 dark:hover:bg-gray-700/50 border-2 border-transparent border-gray-200 bg-gray-50 dark:bg-gray-800/50'
@@ -1041,7 +1046,7 @@ const Chat: React.FC = () => {
             </button>
             <button
               onClick={() => joinRoom('private')}
-              className={`w-full text-left p-4 rounded-xl transition-all duration-200 transform hover:scale-105 ${
+              className={`w-full text-left p-4 rounded-xl transition-all duration-300 transform hover:scale-105 hover:shadow-lg ${
                 currentRoom === 'private'
                   ? 'bg-gradient-to-r from-orange-100 to-yellow-100 dark:from-orange-900/20 dark:to-yellow-900/20 border-2 border-orange-300 dark:border-orange-600 shadow-lg'
                   : 'hover:bg-gray-50 dark:hover:bg-gray-700/50 border-2 border-transparent border-orange-200 bg-orange-50 dark:bg-orange-900/20'
@@ -1326,7 +1331,7 @@ const Chat: React.FC = () => {
               <button
                 onClick={sendMessage}
                 disabled={!currentMessage.trim()}
-                className="p-2 bg-violet-500 text-white rounded-lg hover:bg-violet-600 disabled:opacity-50"
+                className="p-2 bg-violet-500 text-white rounded-lg hover:bg-violet-600 disabled:opacity-50 transform hover:scale-110 transition-all duration-200 shadow-md hover:shadow-lg"
               >
                 <Send className="w-5 h-5" />
               </button>

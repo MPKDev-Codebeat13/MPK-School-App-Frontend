@@ -69,24 +69,26 @@ export default function Sidebar() {
       </button>
 
       <aside
-        className={`${sidebarBg} ${sidebarText} h-screen shadow-lg rounded-r-2xl flex flex-col transition-all duration-300 relative ${
+        className={`${sidebarBg} ${sidebarText} h-screen shadow-lg rounded-r-2xl flex flex-col transition-all duration-300 relative sticky top-0 ${
           isOpen ? 'w-64 p-4' : 'w-0 overflow-hidden'
         }`}
       >
         {isOpen && (
-          <button
-            className="absolute top-2 left-2 text-gray-500 hover:text-gray-700 transition-colors"
-            onClick={() => setIsOpen(false)}
-          >
-            <FiX size={20} />
-          </button>
+          <div className="flex items-center gap-2 mb-6">
+            <button
+              className="text-gray-500 hover:text-gray-700 transition-colors hover:scale-110"
+              onClick={() => setIsOpen(false)}
+            >
+              <FiX size={20} />
+            </button>
+            <Link
+              to="/dashboard"
+              className="text-1xl font-bold text-violet-400 hover:text-violet-300 transition-colors duration-200"
+            >
+              📊 MYM Dashboard
+            </Link>
+          </div>
         )}
-        <Link
-          to="/dashboard"
-          className="text-1xl font-bold mb-6 text-violet-400 hover:text-violet-300 transition-colors duration-200"
-        >
-          📊 MYM Dashboard
-        </Link>
 
         {/* Profile Section */}
         <Link
