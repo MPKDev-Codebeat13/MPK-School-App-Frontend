@@ -63,7 +63,7 @@ export default function Sidebar() {
       {/* Hamburger Menu - only show when sidebar is closed */}
       {!isOpen && (
         <button
-          className="fixed top-4 left-80 z-50 bg-violet-600 text-white p-2 rounded-lg shadow-lg hover:bg-violet-700 transition-colors"
+          className="fixed top-4 left-0 z-50 bg-violet-600 text-white p-2 rounded-lg shadow-lg hover:bg-violet-700 transition-colors"
           onClick={() => setIsOpen(!isOpen)}
         >
           <FiMenu size={24} />
