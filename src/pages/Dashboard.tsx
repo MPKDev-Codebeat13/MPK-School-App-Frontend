@@ -199,7 +199,7 @@ export default function Dashboard() {
       <Sidebar />
 
       {/* Main Content */}
-      <main className="flex-1 p-8 space-y-8 relative">
+      <main className="flex-1 p-8 pl-16 space-y-8 relative">
         {/* Topbar */}
         <div className="flex justify-between items-center mb-6">
           <WelcomeBanner />
