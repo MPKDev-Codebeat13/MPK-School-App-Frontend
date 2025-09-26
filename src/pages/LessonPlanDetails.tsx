@@ -24,7 +24,7 @@ interface LessonPlan {
 const LessonPlanDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>()
   const { accessToken } = useAuth()
-  const { theme } = useTheme()
+  const { theme, isLight } = useTheme()
   const navigate = useNavigate()
   const [lessonPlan, setLessonPlan] = useState<LessonPlan | null>(null)
   const [loading, setLoading] = useState(true)
@@ -62,7 +62,9 @@ const LessonPlanDetails: React.FC = () => {
 
   if (loading) {
     return (
-      <div className={`min-h-screen flex items-center justify-center ${theme}`}>
+      <div
+        className={`min-h-screen flex items-center justify-center ${theme.class}`}
+      >
         <p>Loading lesson plan...</p>
       </div>
     )
@@ -70,7 +72,9 @@ const LessonPlanDetails: React.FC = () => {
 
   if (error) {
     return (
-      <div className={`min-h-screen flex items-center justify-center ${theme}`}>
+      <div
+        className={`min-h-screen flex items-center justify-center ${theme.class}`}
+      >
         <p className="text-red-600">{error}</p>
         <button
           onClick={() => navigate(-1)}
@@ -84,7 +88,9 @@ const LessonPlanDetails: React.FC = () => {
 
   if (!lessonPlan) {
     return (
-      <div className={`min-h-screen flex items-center justify-center ${theme}`}>
+      <div
+        className={`min-h-screen flex items-center justify-center ${theme.class}`}
+      >
         <p>Lesson plan not found.</p>
         <button
           onClick={() => navigate(-1)}
@@ -97,11 +103,11 @@ const LessonPlanDetails: React.FC = () => {
   }
 
   return (
-    <div className={`flex min-h-screen bg-transparent ${theme}`}>
+    <div className={`flex min-h-screen bg-transparent ${theme.class}`}>
       <Sidebar />
       <main
         className={`flex-1 p-8 max-w-4xl mx-auto rounded-lg shadow-md text-gray-900 backdrop-blur-md bg-opacity-80 ${
-          theme === 'dark'
+          !isLight
             ? 'bg-gradient-to-r from-purple-900 via-pink-900 to-red-900 text-white'
             : 'bg-gradient-to-r from-indigo-100 via-purple-100 to-pink-100 text-gray-900'
         }`}

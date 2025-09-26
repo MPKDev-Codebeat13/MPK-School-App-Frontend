@@ -113,7 +113,7 @@ const TakeAttendance: React.FC = () => {
   }
 
   return (
-    <div className={`flex min-h-screen ${theme}`}>
+    <div className={`flex min-h-screen ${theme.class}`}>
       <Sidebar />
       <main className={`flex-1 p-8`}>
         <h1
@@ -124,7 +124,7 @@ const TakeAttendance: React.FC = () => {
           Take Attendance
         </h1>
         {error && <p className="text-red-600 mb-4">{error}</p>}
-        <Card className={theme}>
+        <Card className={theme.class}>
           <div className="mb-4 text-center">
             <h2 className="text-xl font-semibold">
               Attendance for {new Date().toLocaleDateString()} -{' '}

@@ -1,10 +1,11 @@
+import React from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useTheme } from '../context/ThemeContext'
 
 export default function Sidebar() {
   const { user } = useAuth()
-  const { isLight } = useTheme()
+  const { theme, isLight } = useTheme()
 
   // Extract display name for initials to avoid TS issues
   const displayName = user?.fullName || user?.name || 'User'
