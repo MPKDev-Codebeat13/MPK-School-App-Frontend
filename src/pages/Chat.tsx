@@ -1181,7 +1181,7 @@ const Chat: React.FC = () => {
                     isOwnMessage ? 'justify-end' : 'justify-start'
                   } relative`}
                 >
-                  {isSelectionMode && (
+                  {isSelectionMode && isOwnMessage && (
                     <button
                       onClick={(e) => {
                         e.stopPropagation()
