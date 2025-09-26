@@ -60,13 +60,15 @@ export default function Sidebar() {
 
   return (
     <>
-      {/* Hamburger Menu */}
-      <button
-        className="fixed top-4 left-4 z-50 bg-violet-600 text-white p-2 rounded-lg shadow-lg hover:bg-violet-700 transition-colors"
-        onClick={() => setIsOpen(!isOpen)}
-      >
-        {isOpen ? <FiX size={24} /> : <FiMenu size={24} />}
-      </button>
+      {/* Hamburger Menu - only show when sidebar is closed */}
+      {!isOpen && (
+        <button
+          className="fixed top-4 left-4 z-50 bg-violet-600 text-white p-2 rounded-lg shadow-lg hover:bg-violet-700 transition-colors"
+          onClick={() => setIsOpen(!isOpen)}
+        >
+          <FiMenu size={24} />
+        </button>
+      )}
 
       <aside
         className={`${sidebarBg} ${sidebarText} h-screen shadow-lg rounded-r-2xl flex flex-col transition-all duration-300 relative sticky top-0 ${
@@ -74,19 +76,19 @@ export default function Sidebar() {
         }`}
       >
         {isOpen && (
-          <div className="flex items-center gap-2 mb-6">
-            <button
-              className="text-gray-500 hover:text-gray-700 transition-colors hover:scale-110"
-              onClick={() => setIsOpen(false)}
-            >
-              <FiX size={20} />
-            </button>
+          <div className="flex items-center justify-between gap-2 mb-6">
             <Link
               to="/dashboard"
               className="text-1xl font-bold text-violet-400 hover:text-violet-300 transition-colors duration-200"
             >
               📊 MYM Dashboard
             </Link>
+            <button
+              className="text-gray-500 hover:text-gray-700 transition-colors hover:scale-110"
+              onClick={() => setIsOpen(false)}
+            >
+              <FiX size={20} />
+            </button>
           </div>
         )}
 
