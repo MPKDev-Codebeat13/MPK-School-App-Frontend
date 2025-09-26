@@ -1,0 +1,136 @@
+import React from 'react'
+import { Link } from 'react-router-dom'
+import { useAuth } from '../context/AuthContext'
+import { useTheme } from '../context/ThemeContext'
+
+export default function Sidebar() {
+  const { user } = useAuth()
+  const { theme, isLight } = useTheme()
+
+  // Extract display name for initials to avoid TS issues
+  const displayName = user?.fullName || user?.name || 'User'
+  const initial = displayName.charAt(0).toUpperCase()
+
+  // role-based links
+  const roleLinks: Record<string, { to: string; label: string }[]> = {
+    Parent: [
+      { to: '/check-child', label: 'AI Assistant' },
+      { to: '/chat', label: 'Chat' },
+      { to: '/settings', label: 'Settings' },
+    ],
+    Teacher: [
+      { to: '/lesson-planner', label: 'Lesson Planner' },
+      { to: '/chat', label: 'Chat' },
+      { to: '/settings', label: 'Settings' },
+    ],
+    Babysitter: [
+      { to: '/babysitter/attendance/', label: 'Take Attendance' },
+      { to: '/chat', label: 'Chat' },
+      { to: '/settings', label: 'Settings' },
+    ],
+    Student: [
+      { to: '/homework', label: 'Homework Helper' },
+      { to: '/chat', label: 'Chat' },
+      { to: '/settings', label: 'Settings' },
+    ],
+    Admin: [
+      { to: '/manage-users', label: 'Manage Users' },
+      { to: '/chat', label: 'Chat' },
+      { to: '/reports-lesson', label: 'Reports of the Lesson Plan' },
+      { to: '/reports-attendance', label: 'Reports of the Attendance' },
+      { to: '/settings', label: 'Settings' },
+    ],
+    Department: [
+      { to: '/chat', label: 'Chat' },
+      { to: '/settings', label: 'Settings' },
+      { to: '/check-lesson-plans', label: 'Check Lesson Plans' },
+    ],
+  }
+
+  const links = roleLinks[user?.role || 'Student']
+
+  const sidebarBg = isLight ? 'bg-gray-100' : 'bg-gray-900'
+  const sidebarText = isLight ? 'text-gray-900' : 'text-white'
+  const profileBg = isLight ? 'bg-gray-200' : 'bg-gray-800'
+  const profileHover = isLight ? 'hover:bg-gray-300' : 'hover:bg-gray-700'
+  const linkHover = isLight ? 'hover:bg-violet-100' : 'hover:bg-violet-600'
+  const textSecondary = isLight ? 'text-gray-600' : 'text-gray-400'
+
+  return (
+    <aside
+      className={`w-64 ${sidebarBg} ${sidebarText} h-screen p-4 shadow-lg rounded-r-2xl flex flex-col sticky top-0`}
+    >
+      <Link
+        to="/dashboard"
+        className="text-1xl font-bold mb-6 text-violet-400 hover:text-violet-300 transition-colors duration-200"
+      >
+        📊 MYM Dashboard
+      </Link>
+
+      {/* Profile Section */}
+      <Link
+        to="/profile"
+        className={`mb-6 p-3 ${profileBg} rounded-lg ${profileHover} transition-colors duration-200 block`}
+      >
+        <div className="flex items-center gap-3">
+          <div className="relative">
+            {user?.profilePicture || user?.avatar ? (
+              <>
+                <img
+                  src={
+                    (user?.profilePicture || user?.avatar).startsWith('http')
+                      ? user?.profilePicture || user?.avatar
+                      : `${(
+                          import.meta.env.VITE_API_BASE_URL ||
+                          'http://localhost:4000/api'
+                        ).replace('/api', '')}${
+                          user?.profilePicture || user?.avatar
+                        }`
+                  }
+                  alt="Profile"
+                  className="w-10 h-10 rounded-full border-2 border-violet-400 object-cover"
+                  onError={(e) => {
+                    e.currentTarget.style.display = 'none'
+                    const fallback = e.currentTarget
+                      .nextElementSibling as HTMLElement
+                    if (fallback) {
+                      fallback.style.display = 'flex'
+                    }
+                  }}
+                />
+                <div
+                  className="w-10 h-10 rounded-full bg-violet-600 flex items-center justify-center text-white font-bold absolute top-0 left-0"
+                  style={{ display: 'none' }}
+                >
+                  {initial}
+                </div>
+              </>
+            ) : (
+              <div className="w-10 h-10 rounded-full bg-violet-600 flex items-center justify-center text-white font-bold">
+                {initial}
+              </div>
+            )}
+          </div>
+          <div>
+            <p className="font-semibold text-sm">{displayName}</p>
+            <p className={`text-xs ${textSecondary}`}>
+              {user?.role || 'Student'}
+            </p>
+          </div>
+        </div>
+      </Link>
+
+      <nav className="flex flex-col gap-3">
+        {links.map((link) => (
+          <Link
+            key={link.to}
+            to={link.to}
+            className={`p-2 rounded-lg ${linkHover} transition-colors duration-200`}
+          >
+            {link.label}
+          </Link>
+        ))}
+      </nav>
+    </aside>
+  )
+}
