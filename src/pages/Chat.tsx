@@ -1020,7 +1020,7 @@ const Chat: React.FC = () => {
               <MessageCircle className="animate-spin-slow" />
               Chat Mode
             </h3>
-            <p className="text-sm text-gray-600 dark:text-gray-400">
+            <p className="text-sm text-gray-600 dark:text-gray-400 ml-12">
               Choose Public or Private chat
             </p>
           </div>
