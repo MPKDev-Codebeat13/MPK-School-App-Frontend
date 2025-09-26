@@ -1,11 +1,13 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useTheme } from '../context/ThemeContext'
+import { FiMenu, FiX } from 'react-icons/fi'
 
 export default function Sidebar() {
   const { user } = useAuth()
   const { theme, isLight } = useTheme()
+  const [isOpen, setIsOpen] = useState(true)
 
   // Extract display name for initials to avoid TS issues
   const displayName = user?.fullName || user?.name || 'User'
@@ -57,81 +59,102 @@ export default function Sidebar() {
   const textSecondary = isLight ? 'text-gray-600' : 'text-gray-400'
 
   return (
-    <aside
-      className={`w-64 ${sidebarBg} ${sidebarText} h-screen p-4 shadow-lg rounded-r-2xl flex flex-col sticky top-0`}
-    >
-      <Link
-        to="/dashboard"
-        className="text-1xl font-bold mb-6 text-violet-400 hover:text-violet-300 transition-colors duration-200"
+    <>
+      {/* Hamburger Menu */}
+      <button
+        className="fixed top-4 left-4 z-50 bg-violet-600 text-white p-2 rounded-lg shadow-lg hover:bg-violet-700 transition-colors"
+        onClick={() => setIsOpen(!isOpen)}
       >
-        📊 MYM Dashboard
-      </Link>
+        {isOpen ? <FiX size={24} /> : <FiMenu size={24} />}
+      </button>
 
-      {/* Profile Section */}
-      <Link
-        to="/profile"
-        className={`mb-6 p-3 ${profileBg} rounded-lg ${profileHover} transition-colors duration-200 block`}
+      {/* Overlay */}
+      {isOpen && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 z-40"
+          onClick={() => setIsOpen(false)}
+        />
+      )}
+
+      <aside
+        className={`w-64 ${sidebarBg} ${sidebarText} h-screen p-4 shadow-lg rounded-r-2xl flex flex-col fixed top-0 left-0 z-50 transition-transform duration-300 ${
+          isOpen ? 'translate-x-0' : '-translate-x-full'
+        }`}
       >
-        <div className="flex items-center gap-3">
-          <div className="relative">
-            {(() => {
-              const profilePic = user?.profilePicture || user?.avatar
-              return profilePic ? (
-                <>
-                  <img
-                    src={
-                      profilePic.startsWith('http')
-                        ? profilePic
-                        : `${(
-                            import.meta.env.VITE_API_BASE_URL ||
-                            'http://localhost:4000/api'
-                          ).replace('/api', '')}${profilePic}`
-                    }
-                    alt="Profile"
-                    className="w-10 h-10 rounded-full border-2 border-violet-400 object-cover"
-                    onError={(e) => {
-                      e.currentTarget.style.display = 'none'
-                      const fallback = e.currentTarget
-                        .nextElementSibling as HTMLElement
-                      if (fallback) {
-                        fallback.style.display = 'flex'
+        <Link
+          to="/dashboard"
+          className="text-1xl font-bold mb-6 text-violet-400 hover:text-violet-300 transition-colors duration-200"
+        >
+          📊 MYM Dashboard
+        </Link>
+
+        {/* Profile Section */}
+        <Link
+          to="/profile"
+          className={`mb-6 p-3 ${profileBg} rounded-lg ${profileHover} transition-colors duration-200 block`}
+        >
+          <div className="flex items-center gap-3">
+            <div className="relative">
+              {(() => {
+                const profilePic = user?.profilePicture || user?.avatar
+                return profilePic ? (
+                  <>
+                    <img
+                      src={
+                        profilePic.startsWith('http')
+                          ? profilePic
+                          : `${(
+                              import.meta.env.VITE_API_BASE_URL ||
+                              'http://localhost:4000/api'
+                            ).replace('/api', '')}${profilePic}`
                       }
-                    }}
-                  />
-                  <div
-                    className="w-10 h-10 rounded-full bg-violet-600 flex items-center justify-center text-white font-bold absolute top-0 left-0"
-                    style={{ display: 'none' }}
-                  >
+                      alt="Profile"
+                      className="w-10 h-10 rounded-full border-2 border-violet-400 object-cover"
+                      onError={(e) => {
+                        e.currentTarget.style.display = 'none'
+                        const fallback = e.currentTarget
+                          .nextElementSibling as HTMLElement
+                        if (fallback) {
+                          fallback.style.display = 'flex'
+                        }
+                      }}
+                    />
+                    <div
+                      className="w-10 h-10 rounded-full bg-violet-600 flex items-center justify-center text-white font-bold absolute top-0 left-0"
+                      style={{ display: 'none' }}
+                    >
+                      {initial}
+                    </div>
+                  </>
+                ) : (
+                  <div className="w-10 h-10 rounded-full bg-violet-600 flex items-center justify-center text-white font-bold">
                     {initial}
                   </div>
-                </>
-              ) : (
-                <div className="w-10 h-10 rounded-full bg-violet-600 flex items-center justify-center text-white font-bold">
-                  {initial}
-                </div>
-              )
-            })()}
+                )
+              })()}
+            </div>
+            <div>
+              <p className="font-semibold text-sm">{displayName}</p>
+              <p className={`text-xs ${textSecondary}`}>
+                {user?.role || 'Student'}
+              </p>
+            </div>
           </div>
-          <div>
-            <p className="font-semibold text-sm">{displayName}</p>
-            <p className={`text-xs ${textSecondary}`}>
-              {user?.role || 'Student'}
-            </p>
-          </div>
-        </div>
-      </Link>
+        </Link>
 
-      <nav className="flex flex-col gap-3">
-        {links.map((link) => (
-          <Link
-            key={link.to}
-            to={link.to}
-            className={`p-2 rounded-lg ${linkHover} transition-colors duration-200`}
-          >
-            {link.label}
-          </Link>
-        ))}
-      </nav>
-    </aside>
+        <nav className="flex flex-col gap-3">
+          {links.map((link) => (
+            <Link
+              key={link.to}
+              to={link.to}
+              className={`p-2 rounded-lg ${linkHover} transition-colors duration-200`}
+              onClick={() => setIsOpen(false)} // Close sidebar on link click for mobile
+            >
+              {link.label}
+            </Link>
+          ))}
+        </nav>
+      </aside>
+    </>
   )
 }
