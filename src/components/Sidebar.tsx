@@ -68,17 +68,9 @@ export default function Sidebar() {
         {isOpen ? <FiX size={24} /> : <FiMenu size={24} />}
       </button>
 
-      {/* Overlay */}
-      {isOpen && (
-        <div
-          className="fixed inset-0 bg-black bg-opacity-50 z-40"
-          onClick={() => setIsOpen(false)}
-        />
-      )}
-
       <aside
-        className={`w-64 ${sidebarBg} ${sidebarText} h-screen p-4 shadow-lg rounded-r-2xl flex flex-col fixed top-0 left-0 z-50 transition-transform duration-300 ${
-          isOpen ? 'translate-x-0' : '-translate-x-full'
+        className={`${sidebarBg} ${sidebarText} h-screen shadow-lg rounded-r-2xl flex flex-col transition-all duration-300 ${
+          isOpen ? 'w-64 p-4' : 'w-0 overflow-hidden'
         }`}
       >
         <Link
