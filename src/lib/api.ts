@@ -1,5 +1,69 @@
 const API_BASE =
-  import.meta.env.VITE_API_BASE_URL || 'http://localhost:4000/api'
+  import.meta.env.VITE_API_BASE_URL || 'https://mym-nexus.onrender.com/api'
+
+// Global error handler for API responses
+const handleApiError = async (response: Response, defaultMessage: string) => {
+  let errorMessage = defaultMessage
+
+  try {
+    const errorData = await response.json()
+    if (errorData.error) {
+      errorMessage = errorData.error
+    } else if (errorData.message) {
+      errorMessage = errorData.message
+    }
+  } catch (e) {
+    // If parsing fails, use default message
+  }
+
+  // Handle specific HTTP status codes
+  switch (response.status) {
+    case 401:
+      // Unauthorized - redirect to login
+      if (typeof window !== 'undefined') {
+        localStorage.removeItem('accessToken')
+        localStorage.removeItem('refreshToken')
+        window.location.href = '/login'
+      }
+      throw new Error('Session expired. Please log in again.')
+    case 403:
+      throw new Error(
+        'Access denied. You do not have permission to perform this action.'
+      )
+    case 429:
+      throw new Error('Too many requests. Please try again later.')
+    case 500:
+      throw new Error('Server error. Please try again later.')
+    default:
+      throw new Error(errorMessage)
+  }
+}
+
+// Wrapper for fetch with global error handling
+const apiFetch = async (url: string, options: RequestInit = {}) => {
+  try {
+    const response = await fetch(url, {
+      ...options,
+      headers: {
+        'Content-Type': 'application/json',
+        ...options.headers,
+      },
+    })
+
+    if (!response.ok) {
+      await handleApiError(response, 'Request failed')
+    }
+
+    return response
+  } catch (error) {
+    if (error instanceof TypeError && error.message.includes('fetch')) {
+      throw new Error(
+        'Network error. Please check your connection and try again.'
+      )
+    }
+    throw error
+  }
+}
 
 export const API_ENDPOINTS = {
   // Auth endpoints

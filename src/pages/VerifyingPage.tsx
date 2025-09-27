@@ -1,4 +1,4 @@
- import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useParams, useNavigate, useSearchParams } from 'react-router-dom'
 import { API_ENDPOINTS } from '../lib/api'
 
@@ -39,7 +39,7 @@ const VerifyingPage: React.FC = () => {
 
       if (!response.ok) {
         const data = await response.json()
-        setError(data.error || 'Verification failed')
+        setError(data.error || data.message || 'Verification failed')
         setSuccess(false)
       } else {
         setSuccess(true)

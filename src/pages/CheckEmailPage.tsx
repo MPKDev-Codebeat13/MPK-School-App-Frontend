@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { API_ENDPOINTS } from '../lib/api'
 import { useAuth } from '../hooks/useAuth'
@@ -6,14 +6,39 @@ import { useAuth } from '../hooks/useAuth'
 const CheckEmailPage: React.FC = () => {
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
-  const { login } = useAuth()
+  const { user } = useAuth()
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const [success, setSuccess] = useState(false)
   const [resendStatus, setResendStatus] = useState<string | null>(null)
   const [emailSent, setEmailSent] = useState(false)
+  const [isVerified, setIsVerified] = useState(false)
 
   const token = searchParams.get('token')
+
+  // Poll for verification status
+  const checkVerificationStatus = useCallback(async () => {
+    if (!user?.email || isVerified) return
+
+    try {
+      const response = await fetch(`${API_ENDPOINTS.PROFILE}`, {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+          'Content-Type': 'application/json',
+        },
+      })
+
+      if (response.ok) {
+        const userData = await response.json()
+        if (userData.user?.isVerified) {
+          setIsVerified(true)
+          setTimeout(() => navigate('/login?verified=true'), 2000)
+        }
+      }
+    } catch (err) {
+      console.error('Error checking verification status:', err)
+    }
+  }, [user?.email, isVerified, navigate])
 
   useEffect(() => {
     // If token is present, redirect to proper verification page
@@ -21,51 +46,18 @@ const CheckEmailPage: React.FC = () => {
       navigate(`/verify-email?token=${token}`, { replace: true })
       return
     }
-    // Otherwise, send verification email only once
-    if (!emailSent) {
+
+    // Send verification email only once
+    if (!emailSent && user?.email) {
       sendVerificationEmail()
       setEmailSent(true)
     }
-  }, [token, navigate, emailSent])
 
-  const verifyEmail = async () => {
-    if (!token) return
+    // Start polling for verification status
+    const pollInterval = setInterval(checkVerificationStatus, 3000) // Poll every 3 seconds
 
-    setLoading(true)
-    setError(null)
-
-    try {
-      const response = await fetch(
-        `${API_ENDPOINTS.VERIFY_EMAIL}?token=${token}`,
-        {
-          method: 'GET',
-        }
-      )
-
-      if (response.redirected) {
-        // Backend redirects to login page with success message
-        const url = new URL(response.url)
-        const verified = url.searchParams.get('verified')
-        if (verified === 'true') {
-          setSuccess(true)
-          setTimeout(() => navigate('/login'), 2000)
-        }
-      } else {
-        const data = await response.json()
-        if (response.ok) {
-          setSuccess(true)
-          setTimeout(() => navigate('/login'), 2000)
-        } else {
-          setError(data.message || data.error || 'Verification failed')
-        }
-      }
-    } catch (err) {
-      console.error('Verification error:', err)
-      setError('Server error, please try again later')
-    } finally {
-      setLoading(false)
-    }
-  }
+    return () => clearInterval(pollInterval)
+  }, [token, navigate, emailSent, user?.email, checkVerificationStatus])
 
   const sendVerificationEmail = async () => {
     setLoading(true)
@@ -114,43 +106,6 @@ const CheckEmailPage: React.FC = () => {
     await sendVerificationEmail()
   }
 
-  if (success) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-800 p-6">
-        <div className="w-full max-w-md bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl shadow-2xl p-8 text-center">
-          <div className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
-            <svg
-              className="w-8 h-8 text-white"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M5 13l4 4L19 7"
-              />
-            </svg>
-          </div>
-          <h1 className="text-2xl font-bold text-white mb-4">
-            Email Verified!
-          </h1>
-          <p className="text-gray-300 mb-6">
-            Your email has been successfully verified. You can now access your
-            account.
-          </p>
-          <button
-            onClick={() => navigate('/login')}
-            className="w-full py-3 bg-gradient-to-r from-indigo-500 via-purple-600 to-pink-500 text-white font-bold rounded-xl shadow-lg hover:scale-105 transition-all"
-          >
-            Continue to Login
-          </button>
-        </div>
-      </div>
-    )
-  }
-
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-800 p-6">
       <div className="w-full max-w-md bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl shadow-2xl p-8 text-center">
@@ -172,95 +127,63 @@ const CheckEmailPage: React.FC = () => {
 
         <h1 className="text-2xl font-bold text-white mb-4">Check Your Email</h1>
 
-        {token ? (
-          <>
-            <p className="text-gray-300 mb-6">
-              Click the button below to verify your email address.
-            </p>
-            {loading && (
-              <div className="flex justify-center mb-4">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-500"></div>
-              </div>
-            )}
-            {error && (
-              <div className="mb-4 p-3 bg-red-500/20 border border-red-500/50 rounded-lg text-red-300 text-sm">
-                {error}
-              </div>
-            )}
-            <div className="space-y-3">
-              <button
-                onClick={verifyEmail}
-                disabled={loading}
-                className="w-full py-3 bg-gradient-to-r from-indigo-500 via-purple-600 to-pink-500 text-white font-bold rounded-xl shadow-lg hover:scale-105 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {loading ? 'Verifying...' : 'Verify Email'}
-              </button>
-              <button
-                onClick={() => {
-                  // For OAuth users, redirect to dashboard instead of home
-                  const storedUser = localStorage.getItem('user')
-                  if (storedUser) {
-                    const user = JSON.parse(storedUser)
-                    if (user.isOAuth) {
-                      navigate('/')
-                      return
-                    }
-                  }
+        <p className="text-gray-300 mb-6">
+          We've sent a verification link to your email address. Please click the
+          link to verify your account.
+        </p>
+        <p className="text-sm text-gray-400 mb-6">
+          Didn't receive the email? Check your spam folder or resend below.
+        </p>
+
+        {isVerified && (
+          <div className="mb-4 p-3 bg-green-500/20 border border-green-500/50 rounded-lg text-green-300 text-sm">
+            Email verified successfully! Redirecting to login...
+          </div>
+        )}
+
+        {error && (
+          <div className="mb-4 p-3 bg-red-500/20 border border-red-500/50 rounded-lg text-red-300 text-sm">
+            {error}
+          </div>
+        )}
+
+        <div className="space-y-3">
+          <button
+            onClick={() => {
+              // For OAuth users, redirect to dashboard instead of home
+              const storedUser = localStorage.getItem('user')
+              if (storedUser) {
+                const user = JSON.parse(storedUser)
+                if (user.isOAuth) {
                   navigate('/')
-                }}
-                className="w-full py-3 bg-white/10 text-white font-semibold rounded-xl border border-white/20 hover:bg-white/20 transition-all"
-              >
-                Go to Home
-              </button>
-            </div>
-          </>
-        ) : (
-          <>
-            <p className="text-gray-300 mb-6">
-              We've sent a verification link to your email address. Please click
-              the link to verify your account.
-            </p>
-            <p className="text-sm text-gray-400 mb-6">
-              Didn't receive the email? Check your spam folder or try logging in
-              to resend.
-            </p>
-            <div className="space-y-3">
-              <button
-                onClick={() => {
-                  // For OAuth users, redirect to dashboard instead of home
-                  const storedUser = localStorage.getItem('user')
-                  if (storedUser) {
-                    const user = JSON.parse(storedUser)
-                    if (user.isOAuth) {
-                      navigate('/')
-                      return
-                    }
-                  }
-                  navigate('/')
-                }}
-                className="w-full py-3 bg-gradient-to-r from-indigo-500 via-purple-600 to-pink-500 text-white font-bold rounded-xl shadow-lg hover:scale-105 transition-all"
-              >
-                Go to Home
-              </button>
-              <button
-                onClick={resendVerification}
-                className="w-full py-3 bg-white/10 text-white font-semibold rounded-xl border border-white/20 hover:bg-white/20 transition-all"
-              >
-                Resend Verification Email
-              </button>
-            </div>
-            {resendStatus && (
-              <div
-                className={`mt-4 p-3 rounded-lg text-sm ${
-                  resendStatus.includes('successfully')
-                    ? 'bg-green-500/20 border border-green-500/50 text-green-300'
-                    : 'bg-red-500/20 border border-red-500/50 text-red-300'
-                }`}
-              >
-                {resendStatus}
-              </div>
-            )}
-          </>
+                  return
+                }
+              }
+              navigate('/')
+            }}
+            className="w-full py-3 bg-gradient-to-r from-indigo-500 via-purple-600 to-pink-500 text-white font-bold rounded-xl shadow-lg hover:scale-105 transition-all"
+          >
+            Go to Home
+          </button>
+          <button
+            onClick={resendVerification}
+            disabled={loading}
+            className="w-full py-3 bg-white/10 text-white font-semibold rounded-xl border border-white/20 hover:bg-white/20 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {loading ? 'Sending...' : 'Resend Verification Email'}
+          </button>
+        </div>
+
+        {resendStatus && (
+          <div
+            className={`mt-4 p-3 rounded-lg text-sm ${
+              resendStatus.includes('successfully')
+                ? 'bg-green-500/20 border border-green-500/50 text-green-300'
+                : 'bg-red-500/20 border border-red-500/50 text-red-300'
+            }`}
+          >
+            {resendStatus}
+          </div>
         )}
       </div>
     </div>
