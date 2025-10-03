@@ -899,13 +899,18 @@ const Chat: React.FC = () => {
         }
 
         const data = JSON.parse(text)
-        console.log('[DEBUG] Parsed data:', data.length, 'messages')
+        console.log(
+          '[DEBUG] Parsed data:',
+          data.messages?.length || 0,
+          'messages'
+        )
+        const messagesArray = data.messages || []
         if (before) {
-          setMessages((prev) => [...data, ...prev])
-          if (data.length < 50) setHasMore(false)
+          setMessages((prev) => [...messagesArray, ...prev])
+          if (messagesArray.length < 50) setHasMore(false)
         } else {
-          setMessages(data)
-          setHasMore(data.length === 50)
+          setMessages(messagesArray)
+          setHasMore(messagesArray.length === 50)
         }
       } else {
         const errorText = await response.text()
