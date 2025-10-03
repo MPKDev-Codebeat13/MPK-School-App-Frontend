@@ -1038,7 +1038,7 @@ const Chat: React.FC = () => {
                           setSelectedMessages(new Set())
                           setShowMenuDropdown(false)
                         }}
-                        className="block w-full text-left p-1 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
+                        className="block w-full text-left p-1 hover:bg-gray-100 dark:hover:bg-gray-700 rounded text-gray-900 dark:text-gray-100"
                       >
                         {isSelectionMode ? 'Exit selection' : 'Select messages'}
                       </button>
