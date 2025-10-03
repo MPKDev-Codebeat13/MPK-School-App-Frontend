@@ -887,13 +887,21 @@ const Chat: React.FC = () => {
       )
 
       if (response.ok) {
-        if (
-          !response.headers.get('content-type')?.includes('application/json')
-        ) {
+        const contentType = response.headers.get('content-type')
+        if (!contentType || !contentType.includes('application/json')) {
+          console.error('[DEBUG] Invalid content-type:', contentType)
           throw new Error('Server returned invalid response format.')
         }
 
-        const data = await response.json()
+        const text = await response.text()
+        if (!text) {
+          console.warn('[DEBUG] Empty response body received')
+          setMessages([])
+          setHasMore(false)
+          return
+        }
+
+        const data = JSON.parse(text)
         console.log(
           '[DEBUG] Parsed data:',
           data.messages?.length || 0,
