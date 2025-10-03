@@ -875,9 +875,13 @@ const Chat: React.FC = () => {
       let url = `${API_ENDPOINTS.CHAT_MESSAGES}?room=${room}`
       if (before) url += `&before=${before}`
       console.log('[DEBUG] Fetching messages from:', url)
+      const controller = new AbortController()
+      const timeoutId = setTimeout(() => controller.abort(), 30000) // 30 second timeout
       const response = await fetch(url, {
         headers: { Authorization: `Bearer ${accessToken}` },
+        signal: controller.signal,
       })
+      clearTimeout(timeoutId)
       console.log(
         '[DEBUG] Response status:',
         response.status,
