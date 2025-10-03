@@ -893,12 +893,7 @@ const Chat: React.FC = () => {
           throw new Error('Server returned invalid response format.')
         }
 
-        const text = await response.text()
-        if (!text.trim()) {
-          throw new Error('Server returned empty response.')
-        }
-
-        const data = JSON.parse(text)
+        const data = await response.json()
         console.log(
           '[DEBUG] Parsed data:',
           data.messages?.length || 0,
