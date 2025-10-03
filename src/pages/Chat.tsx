@@ -58,6 +58,7 @@ const Chat: React.FC = () => {
   )
   const [hasMore, setHasMore] = useState(true)
   const [loadingMore, setLoadingMore] = useState(false)
+  const [isSending, setIsSending] = useState(false)
   const messagesContainerRef = useRef<HTMLDivElement>(null)
   const loadMoreRef = useRef<HTMLDivElement>(null)
 
