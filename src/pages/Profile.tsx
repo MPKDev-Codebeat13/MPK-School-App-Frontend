@@ -161,8 +161,8 @@ export default function Profile() {
       if (response.ok) {
         setMsg('Account deleted successfully. Redirecting...')
         setTimeout(() => {
-          logout()
           goTo('/')
+          logout()
         }, 2000)
       } else {
         const error = await response.json()
@@ -252,7 +252,9 @@ export default function Profile() {
             {/* Info form */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5">
               <div className="space-y-2">
-                <label className={`${textMuted} text-sm sm:text-base`}>Full Name</label>
+                <label className={`${textMuted} text-sm sm:text-base`}>
+                  Full Name
+                </label>
                 <Input
                   value={name}
                   onChange={(e) => setName(e.target.value)}
@@ -266,7 +268,9 @@ export default function Profile() {
               </div>
 
               <div className="space-y-2">
-                <label className={`${textMuted} text-sm sm:text-base`}>Email</label>
+                <label className={`${textMuted} text-sm sm:text-base`}>
+                  Email
+                </label>
                 <Input
                   value={email}
                   readOnly
@@ -279,7 +283,9 @@ export default function Profile() {
               </div>
 
               <div className="space-y-2">
-                <label className={`${textMuted} text-sm sm:text-base`}>Role</label>
+                <label className={`${textMuted} text-sm sm:text-base`}>
+                  Role
+                </label>
                 <Input
                   value={role}
                   readOnly
