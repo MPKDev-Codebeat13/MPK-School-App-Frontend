@@ -886,7 +886,9 @@ const Chat: React.FC = () => {
       )
 
       if (response.ok) {
-        if (!response.headers.get('content-type')?.includes('application/json')) {
+        if (
+          !response.headers.get('content-type')?.includes('application/json')
+        ) {
           throw new Error('Server returned invalid response format.')
         }
 
@@ -1073,6 +1075,7 @@ const Chat: React.FC = () => {
             if (!message.sender) return null
             const sender = message.sender
             const isOwnMessage = sender._id === user?._id
+            const isLeftAligned = index % 2 === 0
             const isSelected = message._id
               ? selectedMessages.has(message._id)
               : false
@@ -1080,7 +1083,7 @@ const Chat: React.FC = () => {
               <div
                 key={message._id || index}
                 className={`flex gap-3 ${
-                  isOwnMessage ? 'justify-start' : 'justify-end'
+                  isLeftAligned ? 'justify-start' : 'justify-end'
                 } relative`}
               >
                 {isSelectionMode && (
@@ -1108,7 +1111,7 @@ const Chat: React.FC = () => {
                     />
                   </button>
                 )}
-                {!isOwnMessage && sender.profilePicture && (
+                {isLeftAligned && sender.profilePicture && (
                   <img
                     src={sender.profilePicture}
                     alt={sender.fullName}
@@ -1122,7 +1125,7 @@ const Chat: React.FC = () => {
                     }}
                   />
                 )}
-                {isOwnMessage &&
+                {!isLeftAligned &&
                   ((fullUserData || user).profilePicture ? (
                     <img
                       src={(fullUserData || user).profilePicture}
