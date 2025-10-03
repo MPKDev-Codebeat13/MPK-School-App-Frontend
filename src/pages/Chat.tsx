@@ -1097,16 +1097,14 @@ const Chat: React.FC = () => {
               if (!message.sender) return null
               const sender = message.sender
               const isOwnMessage = sender._id === user?._id
-              const isLeftAligned = index % 2 === 0
+              const isLeftAligned = true
               const isSelected = message._id
                 ? selectedMessages.has(message._id)
                 : false
               return (
                 <div
                   key={message._id || index}
-                  className={`flex gap-3 ${
-                    isLeftAligned ? 'justify-start' : 'justify-end'
-                  } relative`}
+                  className={`flex gap-3 justify-start relative`}
                 >
                   {isSelectionMode && (
                     <button
