@@ -1072,138 +1072,157 @@ const Chat: React.FC = () => {
               Loading more messages...
             </div>
           )}
-          {messages.map((message, index) => {
-            if (!message.sender) return null
-            const sender = message.sender
-            const isOwnMessage = sender._id === user?._id
-            const isLeftAligned = index % 2 === 0
-            const isSelected = message._id
-              ? selectedMessages.has(message._id)
-              : false
-            return (
-              <div
-                key={message._id || index}
-                className={`flex gap-3 ${
-                  isLeftAligned ? 'justify-start' : 'justify-end'
-                } relative`}
-              >
-                {isSelectionMode && (
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation()
-                      const newSelected = new Set(selectedMessages)
-                      if (message._id) {
-                        if (newSelected.has(message._id)) {
-                          newSelected.delete(message._id)
-                        } else {
-                          newSelected.add(message._id)
+          {messages.length === 0 && !loadingMore ? (
+            <div className="flex flex-col items-center justify-center h-full text-center">
+              <Globe className="w-16 h-16 text-gray-400 mb-4" />
+              <h3 className="text-lg font-semibold text-gray-600 dark:text-gray-400 mb-2">
+                No messages yet
+              </h3>
+              <p className="text-gray-500 dark:text-gray-500">
+                Start the conversation by sending a message!
+              </p>
+            </div>
+          ) : (
+            messages.map((message, index) => {
+              if (!message.sender) return null
+              const sender = message.sender
+              const isOwnMessage = sender._id === user?._id
+              const isLeftAligned = index % 2 === 0
+              const isSelected = message._id
+                ? selectedMessages.has(message._id)
+                : false
+              return (
+                <div
+                  key={message._id || index}
+                  className={`flex gap-3 ${
+                    isLeftAligned ? 'justify-start' : 'justify-end'
+                  } relative`}
+                >
+                  {isSelectionMode && (
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        const newSelected = new Set(selectedMessages)
+                        if (message._id) {
+                          if (newSelected.has(message._id)) {
+                            newSelected.delete(message._id)
+                          } else {
+                            newSelected.add(message._id)
+                          }
+                          setSelectedMessages(newSelected)
                         }
-                        setSelectedMessages(newSelected)
-                      }
-                    }}
-                    className="mt-2 p-1 rounded hover:bg-gray-200 dark:hover:bg-gray-600"
-                  >
-                    <CheckCircle
-                      className={`w-5 h-5 ${
-                        message._id && selectedMessages.has(message._id)
-                          ? 'text-green-500'
-                          : 'text-gray-400'
-                      }`}
-                    />
-                  </button>
-                )}
-                {isLeftAligned && sender.profilePicture && (
-                  <img
-                    src={sender.profilePicture}
-                    alt={sender.fullName}
-                    className="w-8 h-8 rounded-full mt-1 object-cover border-2 border-white shadow-sm"
-                    onError={(e) => {
-                      const target = e.target as HTMLImageElement
-                      target.onerror = null
-                      target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(
-                        sender.fullName
-                      )}&background=random&color=fff&size=64`
-                    }}
-                  />
-                )}
-                {!isLeftAligned &&
-                  ((fullUserData || user).profilePicture ? (
-                    <img
-                      src={(fullUserData || user).profilePicture}
-                      alt={(fullUserData || user).fullName}
-                      className="w-8 h-8 rounded-full mt-1 object-cover border-2 border-white shadow-sm"
-                      onError={(e) => {
-                        const target = e.target as HTMLImageElement
-                        target.onerror = null
-                        target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(
-                          (fullUserData || user).fullName
-                        )}&background=random&color=fff&size=64`
                       }}
-                    />
-                  ) : (
-                    <div className="w-8 h-8 rounded-full bg-gradient-to-r from-purple-500 to-indigo-600 flex items-center justify-center shadow-md mt-1">
-                      <span className="text-sm font-semibold text-white select-none">
-                        {(fullUserData || user)?.fullName
-                          ?.charAt(0)
-                          ?.toUpperCase() || 'U'}
+                      className="mt-2 p-1 rounded hover:bg-gray-200 dark:hover:bg-gray-600"
+                    >
+                      <CheckCircle
+                        className={`w-5 h-5 ${
+                          message._id && selectedMessages.has(message._id)
+                            ? 'text-green-500'
+                            : 'text-gray-400'
+                        }`}
+                      />
+                    </button>
+                  )}
+                  {isLeftAligned &&
+                    (sender.profilePicture ? (
+                      <img
+                        src={sender.profilePicture}
+                        alt={sender.fullName}
+                        className="w-8 h-8 rounded-full mt-1 object-cover border-2 border-white shadow-sm"
+                        onError={(e) => {
+                          const target = e.target as HTMLImageElement
+                          target.onerror = null
+                          target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(
+                            sender.fullName
+                          )}&background=random&color=fff&size=64`
+                        }}
+                      />
+                    ) : (
+                      <div className="w-8 h-8 rounded-full bg-gradient-to-r from-blue-500 to-indigo-600 flex items-center justify-center shadow-md mt-1">
+                        <span className="text-sm font-semibold text-white select-none">
+                          {sender.fullName?.charAt(0)?.toUpperCase() || 'U'}
+                        </span>
+                      </div>
+                    ))}
+                  {!isLeftAligned &&
+                    ((fullUserData || user).profilePicture ? (
+                      <img
+                        src={(fullUserData || user).profilePicture}
+                        alt={(fullUserData || user).fullName}
+                        className="w-8 h-8 rounded-full mt-1 object-cover border-2 border-white shadow-sm"
+                        onError={(e) => {
+                          const target = e.target as HTMLImageElement
+                          target.onerror = null
+                          target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(
+                            (fullUserData || user).fullName
+                          )}&background=random&color=fff&size=64`
+                        }}
+                      />
+                    ) : (
+                      <div className="w-8 h-8 rounded-full bg-gradient-to-r from-purple-500 to-indigo-600 flex items-center justify-center shadow-md mt-1">
+                        <span className="text-sm font-semibold text-white select-none">
+                          {(fullUserData || user)?.fullName
+                            ?.charAt(0)
+                            ?.toUpperCase() || 'U'}
+                        </span>
+                      </div>
+                    ))}
+                  <div
+                    className={`max-w-xs lg:max-w-md px-4 py-2 rounded-lg ${
+                      isSelected ? 'ring-2 ring-blue-500' : ''
+                    } ${
+                      isOwnMessage
+                        ? 'bg-gradient-to-r from-purple-500 to-indigo-600 text-white'
+                        : isLight
+                        ? 'bg-gray-200 text-gray-900'
+                        : 'bg-gray-700 text-gray-100'
+                    } relative ${!isOwnMessage ? 'pl-10' : ''}`}
+                  >
+                    <div
+                      className={`absolute top-1 ${
+                        isOwnMessage ? 'right-1' : 'left-1'
+                      } flex flex-col space-y-1 z-20`}
+                    >
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          setReplyTo(message)
+                        }}
+                        className="p-1 rounded hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+                        title="Reply"
+                      >
+                        <Reply className="w-4 h-4" />
+                      </button>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          navigator.clipboard.writeText(message.content)
+                        }}
+                        className="p-1 rounded hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+                        title="Copy"
+                      >
+                        <Copy className="w-4 h-4" />
+                      </button>
+                    </div>
+                    {message.replyTo && message.replyTo.sender ? (
+                      <div className="text-xs opacity-70 mb-1 border-l-2 border-current pl-2">
+                        Replying to: {message.replyTo.sender.fullName}:{' '}
+                        {renderMessageContent(
+                          (message.replyTo as Message).content
+                        )}
+                      </div>
+                    ) : null}
+                    {renderMessageContent(message.content)}
+                    <div className="flex justify-between mt-1">
+                      <span className="text-xs opacity-70">
+                        {new Date(message.timestamp).toLocaleTimeString()}
                       </span>
                     </div>
-                  ))}
-                <div
-                  className={`max-w-xs lg:max-w-md px-4 py-2 rounded-lg ${
-                    isSelected ? 'ring-2 ring-blue-500' : ''
-                  } ${
-                    isOwnMessage
-                      ? 'bg-gradient-to-r from-purple-500 to-indigo-600 text-white'
-                      : isLight
-                      ? 'bg-gray-200 text-gray-900'
-                      : 'bg-gray-700 text-gray-100'
-                  } relative ${!isOwnMessage ? 'pl-10' : ''}`}
-                >
-                  <div
-                    className={`absolute top-1 ${
-                      isOwnMessage ? 'right-1' : 'left-1'
-                    } flex flex-col space-y-1 z-20`}
-                  >
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation()
-                        setReplyTo(message)
-                      }}
-                      className="p-1 rounded hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
-                      title="Reply"
-                    >
-                      <Reply className="w-4 h-4" />
-                    </button>
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation()
-                        navigator.clipboard.writeText(message.content)
-                      }}
-                      className="p-1 rounded hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
-                      title="Copy"
-                    >
-                      <Copy className="w-4 h-4" />
-                    </button>
-                  </div>
-                  {message.replyTo && message.replyTo.sender ? (
-                    <div className="text-xs opacity-70 mb-1 border-l-2 border-current pl-2">
-                      Replying to: {message.replyTo.sender.fullName}:{' '}
-                      {renderMessageContent(
-                        (message.replyTo as Message).content
-                      )}
-                    </div>
-                  ) : null}
-                  {renderMessageContent(message.content)}
-                  <div className="flex justify-between mt-1">
-                    <span className="text-xs opacity-70">
-                      {new Date(message.timestamp).toLocaleTimeString()}
-                    </span>
                   </div>
                 </div>
-              </div>
-            )
-          })}
+              )
+            })
+          )}
           <div ref={messagesEndRef} />
           {scrollButtonVisible && (
             <button
