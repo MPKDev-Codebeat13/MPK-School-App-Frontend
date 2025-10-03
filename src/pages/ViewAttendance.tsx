@@ -34,7 +34,7 @@ interface AttendanceRecord {
 
 const ViewAttendance: React.FC = () => {
   const { id } = useParams<{ id: string }>()
-  const { accessToken, user } = useAuth()
+  const { accessToken } = useAuth()
   const navigate = useNavigate()
   const { theme, isLight } = useTheme()
   const [isSidebarOpen, setIsSidebarOpen] = useState(true)
@@ -60,11 +60,6 @@ const ViewAttendance: React.FC = () => {
       .catch((err) => setError(err.message))
       .finally(() => setLoading(false))
   }, [accessToken, id])
-
-  const handleEdit = (recordId: string) => {
-    // Navigate to edit page - you can create this later
-    console.log('Edit attendance:', recordId)
-  }
 
   if (loading) {
     return (
@@ -140,15 +135,6 @@ const ViewAttendance: React.FC = () => {
             Attendance Details
           </h1>
           <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
-            {user?.role === 'Babysitter' && (
-              <Button
-                onClick={() => handleEdit(record._id)}
-                variant="default"
-                className="w-full sm:w-auto text-sm sm:text-base"
-              >
-                Edit
-              </Button>
-            )}
             <Button
               onClick={() => navigate('/reports-attendance')}
               className="w-full sm:w-auto text-sm sm:text-base"
