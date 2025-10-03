@@ -941,7 +941,7 @@ const Chat: React.FC = () => {
   }
 
   const renderMessageContent = (content: string) => {
-    return <span>{content}</span>
+    return <div className="break-words">{content}</div>
   }
 
   // Removed file upload handler as per requirements
