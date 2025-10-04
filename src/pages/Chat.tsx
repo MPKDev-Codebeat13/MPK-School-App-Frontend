@@ -836,32 +836,18 @@ const Chat: React.FC = () => {
       condition: currentMessage.trim() && userId,
     })
 
-    if (currentMessage.trim() && userId && user) {
+    if (currentMessage.trim() && userId && user && socket) {
       const messageData: any = {
         content: currentMessage,
         room: 'public',
-        replyTo: replyTo,
+        replyTo: replyTo ? replyTo._id : null,
         timestamp: new Date(),
       }
-      console.log('[DEBUG] Sending message:', messageData)
-      try {
-        const response = await fetch(API_ENDPOINTS.CHAT_MESSAGES, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${accessToken}`,
-          },
-          body: JSON.stringify(messageData),
-        })
-        if (response.ok) {
-          const { message } = await response.json()
-          setMessages((prev) => [...prev, message])
-        } else {
-          console.error('Failed to send message')
-        }
-      } catch (error) {
-        console.error('Error sending message:', error)
-      }
+      console.log('[DEBUG] Sending message via socket:', messageData)
+
+      // Emit message via socket.io
+      socket.emit('chatMessage', messageData)
+
       setCurrentMessage('')
       setReplyTo(null)
       inputRef.current?.focus()
@@ -1216,7 +1202,9 @@ const Chat: React.FC = () => {
                   {!isLeftAligned && (
                     <div className="w-8 h-8 rounded-full bg-violet-600 flex items-center justify-center mt-1 relative">
                       <span className="text-sm font-bold text-white select-none">
-                        {(fullUserData || user)?.fullName?.slice(0, 2)?.toUpperCase() || 'U'}
+                        {(fullUserData || user)?.fullName
+                          ?.slice(0, 2)
+                          ?.toUpperCase() || 'U'}
                       </span>
                       {(fullUserData || user).profilePicture && (
                         <img
