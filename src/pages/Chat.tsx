@@ -875,9 +875,17 @@ const Chat: React.FC = () => {
       let url = `${API_ENDPOINTS.CHAT_MESSAGES}?room=${room}`
       if (before) url += `&before=${before}`
       console.log('[DEBUG] Fetching messages from:', url)
+
+      const controller = new AbortController()
+      const timeoutId = setTimeout(() => controller.abort(), 10000) // 10 second timeout
+
       const response = await fetch(url, {
         headers: { Authorization: `Bearer ${accessToken}` },
+        signal: controller.signal,
       })
+
+      clearTimeout(timeoutId)
+
       console.log(
         '[DEBUG] Response status:',
         response.status,
@@ -896,20 +904,36 @@ const Chat: React.FC = () => {
         }
 
         const text = await response.text()
-        if (!text) {
+        console.log('[DEBUG] Raw response text length:', text.length)
+
+        if (!text || text.trim() === '') {
           console.warn('[DEBUG] Empty response body received')
-          setMessages([])
-          setHasMore(false)
+          if (!before) {
+            setMessages([])
+            setHasMore(false)
+          }
           return
         }
 
-        const data = JSON.parse(text)
+        let data
+        try {
+          data = JSON.parse(text)
+          console.log('[DEBUG] Successfully parsed JSON data')
+        } catch (parseError) {
+          console.error('[DEBUG] JSON parse error:', parseError)
+          console.error('[DEBUG] Raw text that failed to parse:', text.substring(0, 200))
+          throw new Error('Failed to parse server response as JSON')
+        }
+
         console.log(
           '[DEBUG] Parsed data:',
           data.messages?.length || 0,
           'messages'
         )
-        const messagesArray = data.messages || []
+
+        const messagesArray = Array.isArray(data.messages) ? data.messages : []
+        console.log('[DEBUG] Messages array type check passed, length:', messagesArray.length)
+
         if (before) {
           setMessages((prev) => [...messagesArray, ...prev])
           if (messagesArray.length < 50) setHasMore(false)
@@ -917,9 +941,17 @@ const Chat: React.FC = () => {
           setMessages(messagesArray)
           setHasMore(messagesArray.length === 50)
         }
+
+        console.log('[DEBUG] Messages state updated successfully')
       } else {
-        const errorText = await response.text()
+        let errorText = ''
+        try {
+          errorText = await response.text()
+        } catch (e) {
+          errorText = 'Could not read error response'
+        }
         console.error('[DEBUG] HTTP error:', response.status, errorText)
+
         // On error, set messages to empty array to ensure UI updates
         if (!before) {
           setMessages([])
@@ -928,6 +960,16 @@ const Chat: React.FC = () => {
       }
     } catch (error) {
       console.error('Error fetching messages:', error)
+
+      // Handle specific error types
+      if (error instanceof Error) {
+        if (error.name === 'AbortError') {
+          console.warn('[DEBUG] Fetch request was aborted (timeout)')
+        } else if (error.message.includes('Failed to fetch') || error.message.includes('NetworkError')) {
+          console.error('[DEBUG] Network error occurred')
+        }
+      }
+
       // On network error, set messages to empty array to ensure UI updates
       if (!before) {
         setMessages([])
