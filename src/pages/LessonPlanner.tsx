@@ -79,6 +79,14 @@ const LessonPlanner: React.FC = () => {
   }, [accessToken])
 
   const handleSubmitLessonPlan = async (lessonPlanId: string) => {
+    const button = document.querySelector(
+      `button[data-id="${lessonPlanId}-submit"]`
+    ) as HTMLButtonElement
+    if (button) {
+      button.disabled = true
+      button.textContent = 'Submitting...'
+    }
+
     try {
       const response = await fetch(
         `${API_BASE_URL}/teacher/lesson-plans/${lessonPlanId}/submit`,
@@ -91,16 +99,38 @@ const LessonPlanner: React.FC = () => {
         }
       )
       if (response.ok) {
+        alert('Lesson plan submitted for review successfully!')
         await fetchLessonPlans()
       } else {
-        console.error('Failed to submit lesson plan for review')
+        alert('Failed to submit lesson plan for review')
       }
     } catch (error) {
-      console.error('Error submitting lesson plan:', error)
+      alert('Error submitting lesson plan')
+    } finally {
+      if (button) {
+        button.disabled = false
+        button.textContent = 'Submit for Review'
+      }
     }
   }
 
   const handleDeleteLessonPlan = async (lessonPlanId: string) => {
+    if (
+      !confirm(
+        'Are you sure you want to delete this lesson plan? This action cannot be undone.'
+      )
+    ) {
+      return
+    }
+
+    const button = document.querySelector(
+      `button[data-id="${lessonPlanId}-delete"]`
+    ) as HTMLButtonElement
+    if (button) {
+      button.disabled = true
+      button.textContent = 'Deleting...'
+    }
+
     try {
       const response = await fetch(
         `${API_BASE_URL}/teacher/lesson-plans/${lessonPlanId}`,
@@ -112,12 +142,18 @@ const LessonPlanner: React.FC = () => {
         }
       )
       if (response.ok) {
+        alert('Lesson plan deleted successfully!')
         await fetchLessonPlans()
       } else {
-        console.error('Failed to delete lesson plan')
+        alert('Failed to delete lesson plan')
       }
     } catch (error) {
-      console.error('Error deleting lesson plan:', error)
+      alert('Error deleting lesson plan')
+    } finally {
+      if (button) {
+        button.disabled = false
+        button.textContent = 'Delete'
+      }
     }
   }
 
@@ -157,8 +193,13 @@ const LessonPlanner: React.FC = () => {
             <p className="text-sm sm:text-base">Loading your lesson plans...</p>
           ) : lessonPlans.length === 0 ? (
             <div className="flex flex-col items-center justify-center space-y-4">
-              <p className="text-sm sm:text-base">You have no lesson plans yet.</p>
-              <Button onClick={() => navigate('/create-lesson-plan')} className="text-sm sm:text-base">
+              <p className="text-sm sm:text-base">
+                You have no lesson plans yet.
+              </p>
+              <Button
+                onClick={() => navigate('/create-lesson-plan')}
+                className="text-sm sm:text-base"
+              >
                 Create Your First Lesson Plan
               </Button>
             </div>
@@ -216,6 +257,7 @@ const LessonPlanner: React.FC = () => {
                     {plan.status === 'pending' && (
                       <Button
                         size="sm"
+                        data-id={`${plan._id}-submit`}
                         onClick={() => handleSubmitLessonPlan(plan._id)}
                         className="bg-blue-600 hover:bg-blue-700 text-sm sm:text-base"
                       >
@@ -225,6 +267,7 @@ const LessonPlanner: React.FC = () => {
 
                     <Button
                       size="sm"
+                      data-id={`${plan._id}-delete`}
                       onClick={() => handleDeleteLessonPlan(plan._id)}
                       className="bg-red-600 hover:bg-red-700 text-sm sm:text-base"
                     >
