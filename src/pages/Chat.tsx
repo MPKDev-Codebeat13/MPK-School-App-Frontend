@@ -1195,50 +1195,42 @@ const Chat: React.FC = () => {
                       />
                     </button>
                   )}
-                  {isLeftAligned &&
-                    (sender.profilePicture ? (
-                      <img
-                        src={sender.profilePicture}
-                        alt={sender.fullName}
-                        className="w-8 h-8 rounded-full mt-1 object-cover border-2 border-white shadow-sm"
-                        onError={(e) => {
-                          const target = e.target as HTMLImageElement
-                          target.onerror = null
-                          target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(
-                            sender.fullName
-                          )}&background=random&color=fff&size=64`
-                        }}
-                      />
-                    ) : (
-                      <div className="w-8 h-8 rounded-full bg-gradient-to-r from-blue-500 to-indigo-600 flex items-center justify-center shadow-md mt-1">
-                        <span className="text-sm font-semibold text-white select-none">
-                          {sender.fullName?.charAt(0)?.toUpperCase() || 'U'}
-                        </span>
-                      </div>
-                    ))}
-                  {!isLeftAligned &&
-                    ((fullUserData || user).profilePicture ? (
-                      <img
-                        src={(fullUserData || user).profilePicture}
-                        alt={(fullUserData || user).fullName}
-                        className="w-8 h-8 rounded-full mt-1 object-cover border-2 border-white shadow-sm"
-                        onError={(e) => {
-                          const target = e.target as HTMLImageElement
-                          target.onerror = null
-                          target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(
-                            (fullUserData || user).fullName
-                          )}&background=random&color=fff&size=64`
-                        }}
-                      />
-                    ) : (
-                      <div className="w-8 h-8 rounded-full bg-gradient-to-r from-purple-500 to-indigo-600 flex items-center justify-center shadow-md mt-1">
-                        <span className="text-sm font-semibold text-white select-none">
-                          {(fullUserData || user)?.fullName
-                            ?.charAt(0)
-                            ?.toUpperCase() || 'U'}
-                        </span>
-                      </div>
-                    ))}
+                  {isLeftAligned && (
+                    <div className="w-8 h-8 rounded-full bg-violet-600 flex items-center justify-center mt-1 relative">
+                      <span className="text-sm font-bold text-white select-none">
+                        {sender.fullName?.slice(0, 2)?.toUpperCase() || 'U'}
+                      </span>
+                      {sender.profilePicture && (
+                        <img
+                          src={sender.profilePicture}
+                          alt={sender.fullName}
+                          className="w-8 h-8 rounded-full object-cover border-2 border-white shadow-sm absolute top-0 left-0"
+                          onError={(e) => {
+                            const target = e.target as HTMLImageElement
+                            target.style.display = 'none'
+                          }}
+                        />
+                      )}
+                    </div>
+                  )}
+                  {!isLeftAligned && (
+                    <div className="w-8 h-8 rounded-full bg-violet-600 flex items-center justify-center mt-1 relative">
+                      <span className="text-sm font-bold text-white select-none">
+                        {(fullUserData || user)?.fullName?.slice(0, 2)?.toUpperCase() || 'U'}
+                      </span>
+                      {(fullUserData || user).profilePicture && (
+                        <img
+                          src={(fullUserData || user).profilePicture}
+                          alt={(fullUserData || user).fullName}
+                          className="w-8 h-8 rounded-full object-cover border-2 border-white shadow-sm absolute top-0 left-0"
+                          onError={(e) => {
+                            const target = e.target as HTMLImageElement
+                            target.style.display = 'none'
+                          }}
+                        />
+                      )}
+                    </div>
+                  )}
                   <div
                     className={`max-w-xs lg:max-w-md px-4 py-2 rounded-lg ${
                       isSelected ? 'ring-2 ring-blue-500' : ''
