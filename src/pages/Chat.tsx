@@ -1158,8 +1158,7 @@ const Chat: React.FC = () => {
               if (!message.sender) return null
               const sender = message.sender
               const isOwnMessage = sender._id === user?._id
-              const currentUserIsOAuth = (fullUserData || user)?.isOAuth
-              const isLeftAligned = currentUserIsOAuth ? true : !isOwnMessage
+              const isLeftAligned = !isOwnMessage
               const isSelected = message._id
                 ? selectedMessages.has(message._id)
                 : false
