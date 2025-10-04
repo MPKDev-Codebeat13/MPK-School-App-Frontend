@@ -96,6 +96,7 @@ const LessonPlanner: React.FC = () => {
             Authorization: `Bearer ${accessToken}`,
             'Content-Type': 'application/json',
           },
+          body: JSON.stringify({}),
         }
       )
       if (response.ok) {
