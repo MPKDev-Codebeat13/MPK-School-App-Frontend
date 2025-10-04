@@ -150,6 +150,8 @@ const CreateLessonPlan: React.FC = () => {
         ...formData,
         title: data.lessonPlan.title,
         lessonPlan: data.lessonPlan.description,
+        subject: data.lessonPlan.subject || formData.subject,
+        grade: data.lessonPlan.grade || formData.grade,
       })
     } catch (error: any) {
       let errorMessage = 'Failed to generate lesson plan'
