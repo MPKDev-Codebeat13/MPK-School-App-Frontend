@@ -79,22 +79,51 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
           createdAt: parsedUser.createdAt,
         }
 
-        setUser(convertedUser)
-        setAccessToken(storedAccess)
-        setRefreshToken(storedRefresh)
-        // console.log('[DEBUG] Loaded auth state from localStorage:', {
-        //   user: convertedUser,
-        //   accessToken: storedAccess,
-        //   refreshToken: storedRefresh,
-        // })
+        // Verify the token is still valid by making a request to profile endpoint
+        const verifyAuth = async () => {
+          try {
+            const response = await fetch(API_ENDPOINTS.PROFILE, {
+              headers: { Authorization: `Bearer ${storedAccess}` },
+            })
+            if (response.ok) {
+              setUser(convertedUser)
+              setAccessToken(storedAccess)
+              setRefreshToken(storedRefresh)
+              // console.log('[DEBUG] Loaded auth state from localStorage:', {
+              //   user: convertedUser,
+              //   accessToken: storedAccess,
+              //   refreshToken: storedRefresh,
+              // })
+            } else {
+              // Token invalid or user deleted, clear storage
+              localStorage.removeItem('user')
+              localStorage.removeItem('accessToken')
+              localStorage.removeItem('refreshToken')
+              console.log(
+                '[DEBUG] Auth verification failed, cleared stored data'
+              )
+            }
+          } catch (error) {
+            // Network error or other issue, clear storage to be safe
+            localStorage.removeItem('user')
+            localStorage.removeItem('accessToken')
+            localStorage.removeItem('refreshToken')
+            console.error('[DEBUG] Auth verification error:', error)
+          }
+          setLoading(false)
+        }
+
+        verifyAuth()
       } catch (error) {
         console.error('[DEBUG] Error parsing stored auth data:', error)
         localStorage.removeItem('user')
         localStorage.removeItem('accessToken')
         localStorage.removeItem('refreshToken')
+        setLoading(false)
       }
+    } else {
+      setLoading(false)
     }
-    setLoading(false)
   }, [])
 
   const login = useCallback((user: User, token: string, refresh?: string) => {
