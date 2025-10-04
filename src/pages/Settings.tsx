@@ -91,6 +91,30 @@ const themes = [
     name: 'Royal Velvet',
     class: 'bg-gradient-to-br from-purple-900 via-gold-600 to-black text-white',
   },
+  {
+    name: 'Electric Vibes',
+    class: 'bg-gradient-to-br from-purple-500 via-pink-500 to-yellow-400 text-white',
+  },
+  {
+    name: 'Tropical Sunset',
+    class: 'bg-gradient-to-br from-yellow-400 via-red-400 to-pink-500 text-white',
+  },
+  {
+    name: 'Mystic Forest',
+    class: 'bg-gradient-to-br from-green-700 via-green-900 to-black text-white',
+  },
+  {
+    name: 'Solar Flare',
+    class: 'bg-gradient-to-br from-red-600 via-orange-600 to-yellow-500 text-white',
+  },
+  {
+    name: 'Deep Ocean',
+    class: 'bg-gradient-to-br from-blue-800 via-blue-900 to-black text-white',
+  },
+  {
+    name: 'Lavender Dream',
+    class: 'bg-gradient-to-br from-purple-300 via-pink-300 to-white text-gray-900',
+  },
 ]
 
 const Settings: React.FC = () => {
