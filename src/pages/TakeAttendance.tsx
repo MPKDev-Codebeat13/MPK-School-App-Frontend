@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { Button } from '../components/ui/button'
 import Sidebar from '../components/Sidebar'
 import { useAuth } from '../context/AuthContext'
@@ -20,7 +20,9 @@ interface StudentAttendance {
 
 const TakeAttendance: React.FC = () => {
   const { count } = useParams<{ count: string }>()
-  const studentCount = parseInt(count || '0', 10)
+  const [searchParams] = useSearchParams()
+  const todayCount = parseInt(count || '0', 10)
+  const totalCount = parseInt(searchParams.get('total') || count || '0', 10)
   const { accessToken } = useAuth()
   const navigate = useNavigate()
   const { theme, isLight } = useTheme()
@@ -28,7 +30,7 @@ const TakeAttendance: React.FC = () => {
 
   // Initialize students with empty names and present false
   const [students, setStudents] = useState<StudentAttendance[]>(
-    Array(studentCount)
+    Array(todayCount)
       .fill(null)
       .map(() => ({
         name: '',
@@ -97,7 +99,7 @@ const TakeAttendance: React.FC = () => {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${accessToken}`,
         },
-        body: JSON.stringify({ studentCount, students }),
+        body: JSON.stringify({ studentCount: totalCount, students }),
       })
       if (!response.ok) {
         throw new Error('Failed to save attendance')

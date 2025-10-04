@@ -6,36 +6,60 @@ import { useTheme } from '../context/ThemeContext'
 import { Card } from '../components/ui/card'
 
 const CreateAttendance: React.FC = () => {
-  const [studentCount, setStudentCount] = useState(1)
+  const [totalStudents, setTotalStudents] = useState(1)
+  const [todayStudents, setTodayStudents] = useState(1)
   const [error, setError] = useState('')
   const navigate = useNavigate()
   const { theme, isLight } = useTheme()
   const [isSidebarOpen, setIsSidebarOpen] = useState(true)
 
-  const handleIncrement = () => {
-    setStudentCount((prev) => prev + 1)
+  const handleTotalIncrement = () => {
+    setTotalStudents((prev) => prev + 1)
   }
 
-  const handleDecrement = () => {
-    setStudentCount((prev) => Math.max(1, prev - 1))
+  const handleTotalDecrement = () => {
+    setTotalStudents((prev) => Math.max(1, prev - 1))
   }
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleTotalInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = parseInt(e.target.value, 10)
     if (!isNaN(value) && value > 0) {
-      setStudentCount(value)
+      setTotalStudents(value)
     } else if (e.target.value === '') {
-      setStudentCount(1)
+      setTotalStudents(1)
+    }
+  }
+
+  const handleTodayIncrement = () => {
+    setTodayStudents((prev) => prev + 1)
+  }
+
+  const handleTodayDecrement = () => {
+    setTodayStudents((prev) => Math.max(1, prev - 1))
+  }
+
+  const handleTodayInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = parseInt(e.target.value, 10)
+    if (!isNaN(value) && value > 0) {
+      setTodayStudents(value)
+    } else if (e.target.value === '') {
+      setTodayStudents(1)
     }
   }
 
   const handleCreate = () => {
-    if (studentCount <= 0) {
-      setError('Please enter a valid number of students')
+    if (totalStudents <= 0 || todayStudents <= 0) {
+      setError("Please enter valid numbers for both total and today's students")
+      return
+    }
+    if (todayStudents > totalStudents) {
+      setError("Today's students cannot exceed total students")
       return
     }
     setError('')
-    navigate(`/babysitter/attendance/take/${studentCount}`)
+    navigate(
+      `/babysitter/attendance/take/${todayStudents}?total=${totalStudents}`
+    )
   }
 
   const handleCancel = () => {
@@ -57,31 +81,70 @@ const CreateAttendance: React.FC = () => {
         >
           Create Attendance
         </h1>
-        <Card className={`${theme} max-w-md mx-auto shadow-lg rounded-lg border border-gray-300 dark:border-gray-700`}>
+        <Card
+          className={`${theme} max-w-md mx-auto shadow-lg rounded-lg border border-gray-300 dark:border-gray-700`}
+        >
           <div className="p-6 sm:p-8">
-            <h2 className={`text-lg sm:text-xl font-semibold mb-4 ${isLight ? 'text-gray-900' : 'text-white'}`}>
-              Total number of your students
+            <h2
+              className={`text-lg sm:text-xl font-semibold mb-4 ${
+                isLight ? 'text-gray-900' : 'text-white'
+              }`}
+            >
+              Total number of students
             </h2>
             <div className="flex items-center mb-6">
               <Button
-                onClick={handleDecrement}
+                onClick={handleTotalDecrement}
                 variant="outline"
                 className="px-3 py-2"
-                disabled={studentCount <= 1}
+                disabled={totalStudents <= 1}
               >
                 -
               </Button>
               <input
                 type="number"
-                value={studentCount}
-                onChange={handleInputChange}
+                value={totalStudents}
+                onChange={handleTotalInputChange}
                 className={`mx-2 p-3 border rounded bg-transparent border-gray-300 text-base text-center ${
                   isLight ? 'text-gray-900' : 'text-white'
                 }`}
                 min={1}
               />
               <Button
-                onClick={handleIncrement}
+                onClick={handleTotalIncrement}
+                variant="outline"
+                className="px-3 py-2"
+              >
+                +
+              </Button>
+            </div>
+            <h2
+              className={`text-lg sm:text-xl font-semibold mb-4 ${
+                isLight ? 'text-gray-900' : 'text-white'
+              }`}
+            >
+              Today's number of students
+            </h2>
+            <div className="flex items-center mb-6">
+              <Button
+                onClick={handleTodayDecrement}
+                variant="outline"
+                className="px-3 py-2"
+                disabled={todayStudents <= 1}
+              >
+                -
+              </Button>
+              <input
+                type="number"
+                value={todayStudents}
+                onChange={handleTodayInputChange}
+                className={`mx-2 p-3 border rounded bg-transparent border-gray-300 text-base text-center ${
+                  isLight ? 'text-gray-900' : 'text-white'
+                }`}
+                min={1}
+              />
+              <Button
+                onClick={handleTodayIncrement}
                 variant="outline"
                 className="px-3 py-2"
               >
@@ -92,7 +155,10 @@ const CreateAttendance: React.FC = () => {
               <p className="text-red-600 mb-6 text-base sm:text-lg">{error}</p>
             )}
             <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-6">
-              <Button onClick={handleCreate} className="w-full sm:w-auto text-lg font-semibold">
+              <Button
+                onClick={handleCreate}
+                className="w-full sm:w-auto text-lg font-semibold"
+              >
                 Create Attendance
               </Button>
               <Button
