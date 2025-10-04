@@ -40,6 +40,8 @@ const AttendanceList: React.FC = () => {
   const [attendanceRecords, setAttendanceRecords] = useState<
     AttendanceRecord[]
   >([])
+  const [filteredRecords, setFilteredRecords] = useState<AttendanceRecord[]>([])
+  const [searchTerm, setSearchTerm] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [deleteLoading, setDeleteLoading] = useState<string | null>(null)
@@ -58,10 +60,27 @@ const AttendanceList: React.FC = () => {
       })
       .then((data) => {
         setAttendanceRecords(data.records)
+        setFilteredRecords(data.records)
       })
       .catch((err) => setError(err.message))
       .finally(() => setLoading(false))
   }, [accessToken])
+
+  useEffect(() => {
+    if (!searchTerm) {
+      setFilteredRecords(attendanceRecords)
+      return
+    }
+    const lowerSearch = searchTerm.toLowerCase()
+    const filtered = attendanceRecords.filter((record) => {
+      const dateStr = new Date(record.date).toLocaleDateString('en-US')
+      const dayStr = new Date(record.date)
+        .toLocaleDateString('en-US', { weekday: 'long' })
+        .toLowerCase()
+      return dateStr.includes(lowerSearch) || dayStr.includes(lowerSearch)
+    })
+    setFilteredRecords(filtered)
+  }, [searchTerm, attendanceRecords])
 
   const handleDelete = async (recordId: string) => {
     if (
@@ -90,6 +109,9 @@ const AttendanceList: React.FC = () => {
 
       // Remove the record from the local state
       setAttendanceRecords((prev) =>
+        prev.filter((record) => record._id !== recordId)
+      )
+      setFilteredRecords((prev) =>
         prev.filter((record) => record._id !== recordId)
       )
     } catch (err: any) {
@@ -121,12 +143,23 @@ const AttendanceList: React.FC = () => {
         <Button onClick={() => navigate('/babysitter/attendance/create')}>
           Create Attendance
         </Button>
+        <div className="mt-4 mb-4">
+          <input
+            type="text"
+            placeholder="Search by date or day..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className={`w-full p-2 border rounded bg-transparent border-gray-300 text-sm sm:text-base ${
+              isLight ? 'text-gray-900' : 'text-white'
+            }`}
+          />
+        </div>
         {loading && (
           <p className={isLight ? 'text-gray-900' : 'text-white'}>Loading...</p>
         )}
         {error && <p className="text-red-600">{error}</p>}
         <div className="mt-6 space-y-4">
-          {attendanceRecords.map((record) => (
+          {filteredRecords.map((record) => (
             <div
               key={record._id}
               className="p-6 bg-transparent rounded shadow border"

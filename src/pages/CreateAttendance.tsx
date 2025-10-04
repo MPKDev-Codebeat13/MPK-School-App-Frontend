@@ -6,20 +6,36 @@ import { useTheme } from '../context/ThemeContext'
 import { Card } from '../components/ui/card'
 
 const CreateAttendance: React.FC = () => {
-  const [studentCount, setStudentCount] = useState('')
+  const [studentCount, setStudentCount] = useState(1)
   const [error, setError] = useState('')
   const navigate = useNavigate()
   const { theme, isLight } = useTheme()
   const [isSidebarOpen, setIsSidebarOpen] = useState(true)
 
+  const handleIncrement = () => {
+    setStudentCount((prev) => prev + 1)
+  }
+
+  const handleDecrement = () => {
+    setStudentCount((prev) => Math.max(1, prev - 1))
+  }
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = parseInt(e.target.value, 10)
+    if (!isNaN(value) && value > 0) {
+      setStudentCount(value)
+    } else if (e.target.value === '') {
+      setStudentCount(1)
+    }
+  }
+
   const handleCreate = () => {
-    const count = parseInt(studentCount, 10)
-    if (isNaN(count) || count <= 0) {
+    if (studentCount <= 0) {
       setError('Please enter a valid number of students')
       return
     }
     setError('')
-    navigate(`/babysitter/attendance/take/${count}`)
+    navigate(`/babysitter/attendance/take/${studentCount}`)
   }
 
   const handleCancel = () => {
@@ -41,26 +57,49 @@ const CreateAttendance: React.FC = () => {
         >
           Create Attendance
         </h1>
-        <Card className={`${theme} max-w-md mx-auto`}>
-          <div className="p-4 sm:p-6">
-            <label
-              className={`block mb-2 font-medium text-sm sm:text-base ${
-                isLight ? 'text-gray-900' : 'text-white'
-              }`}
-            >
-              Number of Students
-            </label>
-            <input
-              type="number"
-              value={studentCount}
-              onChange={(e) => setStudentCount(e.target.value)}
-              className={`w-full p-2 border rounded mb-4 bg-transparent border-gray-300 text-sm sm:text-base ${isLight ? 'text-gray-900' : 'text-white'}`}
-              min={1}
-            />
-            {error && <p className="text-red-600 mb-4 text-sm sm:text-base">{error}</p>}
-            <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4">
-              <Button onClick={handleCreate} className="w-full sm:w-auto">Create Attendance</Button>
-              <Button variant="outline" onClick={handleCancel} className="w-full sm:w-auto">
+        <Card className={`${theme} max-w-md mx-auto shadow-lg rounded-lg border border-gray-300 dark:border-gray-700`}>
+          <div className="p-6 sm:p-8">
+            <h2 className={`text-lg sm:text-xl font-semibold mb-4 ${isLight ? 'text-gray-900' : 'text-white'}`}>
+              Total number of your students
+            </h2>
+            <div className="flex items-center mb-6">
+              <Button
+                onClick={handleDecrement}
+                variant="outline"
+                className="px-3 py-2"
+                disabled={studentCount <= 1}
+              >
+                -
+              </Button>
+              <input
+                type="number"
+                value={studentCount}
+                onChange={handleInputChange}
+                className={`mx-2 p-3 border rounded bg-transparent border-gray-300 text-base text-center ${
+                  isLight ? 'text-gray-900' : 'text-white'
+                }`}
+                min={1}
+              />
+              <Button
+                onClick={handleIncrement}
+                variant="outline"
+                className="px-3 py-2"
+              >
+                +
+              </Button>
+            </div>
+            {error && (
+              <p className="text-red-600 mb-6 text-base sm:text-lg">{error}</p>
+            )}
+            <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-6">
+              <Button onClick={handleCreate} className="w-full sm:w-auto text-lg font-semibold">
+                Create Attendance
+              </Button>
+              <Button
+                variant="outline"
+                onClick={handleCancel}
+                className="w-full sm:w-auto text-lg font-semibold"
+              >
                 Cancel
               </Button>
             </div>
