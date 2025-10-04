@@ -845,6 +845,21 @@ const Chat: React.FC = () => {
       }
       console.log('[DEBUG] Sending message via socket:', messageData)
 
+      // Add message locally for immediate display
+      const localMessage: Message = {
+        sender: {
+          _id: user._id || '',
+          fullName: user.fullName || '',
+          email: user.email || '',
+          profilePicture: user.profilePicture,
+        },
+        content: currentMessage,
+        timestamp: new Date(),
+        room: 'public',
+        replyTo: replyTo,
+      }
+      setMessages((prev) => [...prev, localMessage])
+
       // Emit message via socket.io
       socket.emit('chatMessage', messageData)
 
