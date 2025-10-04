@@ -875,13 +875,9 @@ const Chat: React.FC = () => {
       let url = `${API_ENDPOINTS.CHAT_MESSAGES}?room=${room}`
       if (before) url += `&before=${before}`
       console.log('[DEBUG] Fetching messages from:', url)
-      const controller = new AbortController()
-      const timeoutId = setTimeout(() => controller.abort(), 30000) // 30 second timeout
       const response = await fetch(url, {
         headers: { Authorization: `Bearer ${accessToken}` },
-        signal: controller.signal,
       })
-      clearTimeout(timeoutId)
       console.log(
         '[DEBUG] Response status:',
         response.status,
@@ -924,9 +920,19 @@ const Chat: React.FC = () => {
       } else {
         const errorText = await response.text()
         console.error('[DEBUG] HTTP error:', response.status, errorText)
+        // On error, set messages to empty array to ensure UI updates
+        if (!before) {
+          setMessages([])
+          setHasMore(false)
+        }
       }
     } catch (error) {
       console.error('Error fetching messages:', error)
+      // On network error, set messages to empty array to ensure UI updates
+      if (!before) {
+        setMessages([])
+        setHasMore(false)
+      }
     }
   }
 
