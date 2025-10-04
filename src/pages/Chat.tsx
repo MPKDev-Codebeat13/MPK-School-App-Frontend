@@ -921,7 +921,10 @@ const Chat: React.FC = () => {
           console.log('[DEBUG] Successfully parsed JSON data')
         } catch (parseError) {
           console.error('[DEBUG] JSON parse error:', parseError)
-          console.error('[DEBUG] Raw text that failed to parse:', text.substring(0, 200))
+          console.error(
+            '[DEBUG] Raw text that failed to parse:',
+            text.substring(0, 200)
+          )
           throw new Error('Failed to parse server response as JSON')
         }
 
@@ -932,7 +935,10 @@ const Chat: React.FC = () => {
         )
 
         const messagesArray = Array.isArray(data.messages) ? data.messages : []
-        console.log('[DEBUG] Messages array type check passed, length:', messagesArray.length)
+        console.log(
+          '[DEBUG] Messages array type check passed, length:',
+          messagesArray.length
+        )
 
         if (before) {
           setMessages((prev) => [...messagesArray, ...prev])
@@ -965,7 +971,10 @@ const Chat: React.FC = () => {
       if (error instanceof Error) {
         if (error.name === 'AbortError') {
           console.warn('[DEBUG] Fetch request was aborted (timeout)')
-        } else if (error.message.includes('Failed to fetch') || error.message.includes('NetworkError')) {
+        } else if (
+          error.message.includes('Failed to fetch') ||
+          error.message.includes('NetworkError')
+        ) {
           console.error('[DEBUG] Network error occurred')
         }
       }
@@ -1149,16 +1158,19 @@ const Chat: React.FC = () => {
               if (!message.sender) return null
               const sender = message.sender
               const isOwnMessage = sender._id === user?._id
-              const isLeftAligned = !isOwnMessage
+              const currentUserIsOAuth = (fullUserData || user)?.isOAuth
+              const isLeftAligned = currentUserIsOAuth ? true : !isOwnMessage
               const isSelected = message._id
                 ? selectedMessages.has(message._id)
                 : false
               return (
                 <div
                   key={message._id || index}
-                  className={`flex gap-3 ${isLeftAligned ? 'justify-start' : 'justify-end'} relative`}
+                  className={`flex gap-3 ${
+                    isLeftAligned ? 'justify-start' : 'justify-end'
+                  } relative`}
                 >
-                  {isSelectionMode && (
+                  {isSelectionMode && isOwnMessage && (
                     <button
                       onClick={(e) => {
                         e.stopPropagation()
