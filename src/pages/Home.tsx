@@ -61,32 +61,43 @@ const Home: React.FC = () => {
           <h2 className="text-2xl font-bold mb-4 text-yellow-400">Features</h2>
           <ul className="list-none p-0">
             <li className="p-2 rounded-lg mb-2 transition transform hover:scale-105 hover:bg-white/10 cursor-pointer">
-              🔒 Secure User Authentication and Management
+              🔒 Secure User Authentication (Signup, Login, Password Reset,
+              Email Verification)
             </li>
             <li className="p-2 rounded-lg mb-2 transition transform hover:scale-105 hover:bg-white/10 cursor-pointer">
-              📊 Dashboard Overview
+              📊 Dashboard Overview (Personalized for each user role)
             </li>
             <li className="p-2 rounded-lg mb-2 transition transform hover:scale-105 hover:bg-white/10 cursor-pointer">
-              ✅ Attendance Management (Create, Take, List, View, Delete,
-              Reports)
+              ✅ Attendance Management (Create Sessions, Take Attendance, List
+              Records, View Details, Delete, Reports)
             </li>
             <li className="p-2 rounded-lg mb-2 transition transform hover:scale-105 hover:bg-white/10 cursor-pointer">
-              📚 Lesson Planning (Create, Manage, Check, Details, Reports)
+              📚 Lesson Planning (AI-Generated or Manual Creation, Manage Plans,
+              Check Details, Reports)
             </li>
             <li className="p-2 rounded-lg mb-2 transition transform hover:scale-105 hover:bg-white/10 cursor-pointer">
-              🤖 Homework Helper (AI Assistant)
+              🤖 Homework Helper (AI-Powered Assistance for Students and
+              Teachers)
             </li>
             <li className="p-2 rounded-lg mb-2 transition transform hover:scale-105 hover:bg-white/10 cursor-pointer">
-              💬 Chat System (Public and Private)
+              💬 Real-Time Chat (Public School Discussions)
             </li>
             <li className="p-2 rounded-lg mb-2 transition transform hover:scale-105 hover:bg-white/10 cursor-pointer">
-              📈 Reports (Attendance and Lesson Plans)
+              📈 Comprehensive Reports (Attendance Analytics and Lesson Plan
+              Insights)
             </li>
             <li className="p-2 rounded-lg mb-2 transition transform hover:scale-105 hover:bg-white/10 cursor-pointer">
-              👤 User Profile and Settings
+              👤 User Profile Management (Update Info, Settings, Complete
+              Profile)
             </li>
             <li className="p-2 rounded-lg mb-2 transition transform hover:scale-105 hover:bg-white/10 cursor-pointer">
-              🏫 Department Management
+              🏫 Department Management (Organize School Departments)
+            </li>
+            <li className="p-2 rounded-lg mb-2 transition transform hover:scale-105 hover:bg-white/10 cursor-pointer">
+              👨‍💼 Admin Panel (Manage Users, Oversee Operations)
+            </li>
+            <li className="p-2 rounded-lg mb-2 transition transform hover:scale-105 hover:bg-white/10 cursor-pointer">
+              📧 Email Notifications and OAuth Integration
             </li>
           </ul>
         </section>

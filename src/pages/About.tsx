@@ -21,11 +21,41 @@ const About: React.FC = () => {
 
       {/* Details Section */}
       <section className="max-w-4xl w-11/12 bg-white/10 backdrop-blur-md rounded-2xl shadow-xl p-6 sm:p-8 md:p-10 my-8 sm:my-10 md:my-12 text-indigo-100">
+        <h2 className="text-3xl font-bold mb-4 text-yellow-400">
+          What is MYM Nexus?
+        </h2>
+        <p className="text-lg leading-relaxed mb-8 text-justify">
+          MYM Nexus is a comprehensive school management platform that
+          integrates all aspects of educational administration into a single,
+          user-friendly application.
+        </p>
+
+        <h2 className="text-3xl font-bold mb-4 text-yellow-400">
+          Why Choose MYM Nexus?
+        </h2>
+        <p className="text-lg leading-relaxed mb-8 text-justify">
+          It eliminates the need for multiple disconnected tools, reduces
+          administrative workload, improves communication, and enhances the
+          overall educational experience for all stakeholders.
+        </p>
+
+        <h2 className="text-3xl font-bold mb-4 text-yellow-400">
+          How Does It Work?
+        </h2>
+        <p className="text-lg leading-relaxed mb-8 text-justify">
+          Through a centralized dashboard, users can access features like
+          attendance tracking, lesson planning, homework assistance, real-time
+          chat, and detailed reports, all seamlessly integrated and accessible
+          from any device.
+        </p>
+
+        <h2 className="text-3xl font-bold mb-4 text-yellow-400">
+          Who Is It For?
+        </h2>
         <p className="text-lg leading-relaxed text-justify">
-          MYM Nexus is a comprehensive school management app that simplifies
-          teaching, learning, and communication. It connects teachers, students,
-          and parents in one platform for efficient lesson planning, attendance
-          tracking, homework assistance, and real-time chat.
+          Designed for teachers, students, parents, and school administrators
+          who want to streamline school operations, improve communication, and
+          focus more on education rather than paperwork.
         </p>
       </section>
 
