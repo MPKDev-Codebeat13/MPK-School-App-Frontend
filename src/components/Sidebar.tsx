@@ -82,7 +82,7 @@ export default function Sidebar({
       )}
 
       <aside
-        className={`${sidebarBg} ${sidebarText} h-screen shadow-lg rounded-r-2xl flex flex-col transition-all duration-300 sticky top-0 overflow-x-hidden ${
+        className={`${sidebarBg} ${sidebarText} h-screen shadow-lg rounded-r-2xl flex flex-col transition-all duration-300 sticky bottom-0 top-0 overflow-x-hidden ${
           isOpen
             ? 'w-full sm:w-64 p-2 sm:p-4 mr-0 sm:mr-4'
             : 'w-0 overflow-hidden'
@@ -122,7 +122,7 @@ export default function Sidebar({
                           ? profilePic
                           : `${(
                               import.meta.env.VITE_API_BASE_URL ||
-                              'http://localhost:4000/api'
+                              'https://mym-nexus.onrender.com/api'
                             ).replace('/api', '')}${profilePic}`
                       }
                       alt="Profile"

@@ -1157,7 +1157,8 @@ const Chat: React.FC = () => {
             messages.map((message, index) => {
               if (!message.sender) return null
               const sender = message.sender
-              const isOwnMessage = sender._id === user?._id
+              const isOwnMessage =
+                sender._id === user?._id || sender.email === user?.email
               const isLeftAligned = !isOwnMessage
               const isSelected = message._id
                 ? selectedMessages.has(message._id)
