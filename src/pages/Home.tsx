@@ -33,8 +33,8 @@ const Home: React.FC = () => {
         <section className="p-6 rounded-2xl text-center transition-transform duration-300 transform hover:scale-105 bg-indigo-800/20 shadow-lg">
           <h2 className="text-2xl font-bold mb-2 text-indigo-200">About</h2>
           <p className="mb-4 leading-relaxed">
-            MYM Nexus keeps school life organized and fun. Plan lessons,
-            track progress, and stay connected with parents and students easily.
+            MYM Nexus keeps school life organized and fun. Plan lessons, track
+            progress, and stay connected with parents and students easily.
           </p>
           <p className="mb-4 leading-relaxed">
             Teachers can upload homework, manage attendance, and generate
@@ -61,28 +61,32 @@ const Home: React.FC = () => {
           <h2 className="text-2xl font-bold mb-4 text-yellow-400">Features</h2>
           <ul className="list-none p-0">
             <li className="p-2 rounded-lg mb-2 transition transform hover:scale-105 hover:bg-white/10 cursor-pointer">
-              📚 Lesson Planner – write manually or use AI to generate lessons
+              🔒 Secure User Authentication and Management
             </li>
             <li className="p-2 rounded-lg mb-2 transition transform hover:scale-105 hover:bg-white/10 cursor-pointer">
-              ✅ Attendance Tracker – quick and easy updates
+              📊 Dashboard Overview
             </li>
             <li className="p-2 rounded-lg mb-2 transition transform hover:scale-105 hover:bg-white/10 cursor-pointer">
-              🔒 Secure User Authentication
+              ✅ Attendance Management (Create, Take, List, View, Delete,
+              Reports)
             </li>
             <li className="p-2 rounded-lg mb-2 transition transform hover:scale-105 hover:bg-white/10 cursor-pointer">
-              🤖 AI Student Helper – answers questions and assists learning
+              📚 Lesson Planning (Create, Manage, Check, Details, Reports)
             </li>
             <li className="p-2 rounded-lg mb-2 transition transform hover:scale-105 hover:bg-white/10 cursor-pointer">
-              📈 Student Performance Notifications for Parents
+              🤖 Homework Helper (AI Assistant)
             </li>
             <li className="p-2 rounded-lg mb-2 transition transform hover:scale-105 hover:bg-white/10 cursor-pointer">
-              💬 Public Chat – for school-wide discussions
+              💬 Chat System (Public and Private)
             </li>
             <li className="p-2 rounded-lg mb-2 transition transform hover:scale-105 hover:bg-white/10 cursor-pointer">
-              🔐 Private Chat – for teachers, students, or parents
+              📈 Reports (Attendance and Lesson Plans)
             </li>
             <li className="p-2 rounded-lg mb-2 transition transform hover:scale-105 hover:bg-white/10 cursor-pointer">
-              🔍 Admin Dashboard – monitor everything in one place
+              👤 User Profile and Settings
+            </li>
+            <li className="p-2 rounded-lg mb-2 transition transform hover:scale-105 hover:bg-white/10 cursor-pointer">
+              🏫 Department Management
             </li>
           </ul>
         </section>

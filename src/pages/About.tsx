@@ -21,33 +21,11 @@ const About: React.FC = () => {
 
       {/* Details Section */}
       <section className="max-w-4xl w-11/12 bg-white/10 backdrop-blur-md rounded-2xl shadow-xl p-6 sm:p-8 md:p-10 my-8 sm:my-10 md:my-12 text-indigo-100">
-        <h2 className="text-3xl font-bold mb-4 text-yellow-400">
-          What We Offer
-        </h2>
-        <p className="text-lg leading-relaxed mb-8 text-justify">
-          Our platform allows teachers to plan lessons efficiently, track
-          attendance, and communicate with students and parents in real-time.
-          Students can follow tasks and stay on top of assignments, while
-          parents can monitor progress and receive updates.
-        </p>
-
-        <h2 className="text-3xl font-bold mb-4 text-yellow-400">
-          How It Works
-        </h2>
-        <p className="text-lg leading-relaxed mb-8 text-justify">
-          Everything is streamlined into a single app. Teachers create lesson
-          plans, students access tasks and notes, and parents get notifications.
-          Communication is smooth and centralized.
-        </p>
-
-        <h2 className="text-3xl font-bold mb-4 text-yellow-400">
-          Why Choose MYM?
-        </h2>
         <p className="text-lg leading-relaxed text-justify">
-          By reducing chaos and improving organization, MYM Nexus saves
-          time, increases engagement, and makes school management fun. Our goal
-          is to connect all school stakeholders effortlessly while keeping the
-          experience stylish and intuitive.
+          MYM Nexus is a comprehensive school management app that simplifies
+          teaching, learning, and communication. It connects teachers, students,
+          and parents in one platform for efficient lesson planning, attendance
+          tracking, homework assistance, and real-time chat.
         </p>
       </section>
 
