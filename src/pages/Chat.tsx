@@ -1060,7 +1060,7 @@ const Chat: React.FC = () => {
               : 'border-gray-700 bg-gray-800/50'
           } backdrop-blur-xl shadow-sm`}
         >
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-start">
             <div className="flex items-center gap-3">
               <Globe className="w-6 h-6 text-violet-500" />
               <h2 className="text-xl font-bold">
@@ -1073,7 +1073,7 @@ const Chat: React.FC = () => {
               )}
             </div>
 
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 ml-auto">
               {isSelectionMode ? (
                 <>
                   <button
