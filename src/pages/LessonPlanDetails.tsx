@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useTheme } from '../context/ThemeContext'
 import Sidebar from '../components/Sidebar'
-import { API_BASE_URL } from '../lib/api'
 
 interface LessonPlan {
   _id: string
@@ -31,13 +30,17 @@ const LessonPlanDetails: React.FC = () => {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [retryCount, setRetryCount] = useState(0)
+  const isFetchingRef = useRef(false)
 
   useEffect(() => {
+    if (isFetchingRef.current) return
+    isFetchingRef.current = true
     setRetryCount(0) // Reset retry count on new fetch
     const fetchLessonPlan = async () => {
       if (!id || !accessToken) {
         setError('Invalid lesson plan ID or not authenticated')
         setLoading(false)
+        isFetchingRef.current = false
         return
       }
       try {
@@ -51,7 +54,6 @@ const LessonPlanDetails: React.FC = () => {
         const response = await fetch(endpoint, {
           headers: {
             Authorization: `Bearer ${accessToken}`,
-            'Accept-Encoding': 'identity',
           },
           signal: controller.signal,
         })
@@ -60,27 +62,14 @@ const LessonPlanDetails: React.FC = () => {
         if (!response.ok) {
           throw new Error('Failed to fetch lesson plan')
         }
-        try {
-          const text = await response.text()
-          const data = JSON.parse(text)
-          const lessonPlanData =
-            user?.role === 'Teacher' ? data.lessonPlan : data
-          setLessonPlan(lessonPlanData)
-        } catch (parseError) {
-          if (retryCount < 2) {
-            setRetryCount((prev) => prev + 1)
-            setTimeout(() => fetchLessonPlan(), 1000)
-            return
-          } else {
-            throw new Error(
-              'Failed to parse lesson plan data. The response may have been interrupted. Please try again.'
-            )
-          }
-        }
+        const data = await response.json()
+        const lessonPlanData = user?.role === 'Teacher' ? data.lessonPlan : data
+        setLessonPlan(lessonPlanData)
       } catch (err) {
         setError(err instanceof Error ? err.message : 'An error occurred')
       } finally {
         setLoading(false)
+        isFetchingRef.current = false
       }
     }
     fetchLessonPlan()
