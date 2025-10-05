@@ -62,7 +62,12 @@ const LessonPlanDetails: React.FC = () => {
         if (!response.ok) {
           throw new Error('Failed to fetch lesson plan')
         }
-        const data = await response.json()
+        let data
+        try {
+          data = await response.json()
+        } catch (parseError) {
+          throw new Error('Failed to parse response data')
+        }
         const lessonPlanData = user?.role === 'Teacher' ? data.lessonPlan : data
         setLessonPlan(lessonPlanData)
       } catch (err) {
