@@ -4,6 +4,7 @@ import { useAuth } from '../context/AuthContext'
 import type { User } from '../context/AuthContext'
 import { useTheme } from '../context/ThemeContext'
 import Sidebar from '../components/Sidebar'
+import Scrollbar from '../components/ui/Scrollbar'
 import { API_ENDPOINTS, API_BASE_URL } from '../lib/api'
 
 import {
@@ -1124,21 +1125,22 @@ const Chat: React.FC = () => {
         </div>
 
         {/* Messages Area */}
-        <div
-          className="flex-1 overflow-y-auto p-4 space-y-4 relative"
-          ref={messagesContainerRef}
-          onScroll={() => {
-            if (messagesContainerRef.current) {
-              const { scrollTop, scrollHeight, clientHeight } =
-                messagesContainerRef.current
-              if (scrollTop + clientHeight < scrollHeight - 100) {
-                setScrollButtonVisible(true)
-              } else {
-                setScrollButtonVisible(false)
+        <Scrollbar className="flex-1">
+          <div
+            className="p-4 space-y-4 relative"
+            ref={messagesContainerRef}
+            onScroll={() => {
+              if (messagesContainerRef.current) {
+                const { scrollTop, scrollHeight, clientHeight } =
+                  messagesContainerRef.current
+                if (scrollTop + clientHeight < scrollHeight - 100) {
+                  setScrollButtonVisible(true)
+                } else {
+                  setScrollButtonVisible(false)
+                }
               }
-            }
-          }}
-        >
+            }}
+          >
           {hasMore && !loadingMore && (
             <div ref={loadMoreRef} className="text-center py-2 text-gray-500">
               Loading more messages...
@@ -1318,7 +1320,8 @@ const Chat: React.FC = () => {
               </svg>
             </button>
           )}
-        </div>
+          </div>
+        </Scrollbar>
 
         {/* Input Area */}
         <div

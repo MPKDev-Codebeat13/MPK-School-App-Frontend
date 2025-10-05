@@ -159,7 +159,7 @@ export default function Sidebar({
           </div>
         </Link>
 
-        <nav className="flex flex-col gap-3">
+        <nav className="flex flex-col gap-3 overflow-y-auto max-h-full">
           {links.map((link) => (
             <Link
               key={link.to}

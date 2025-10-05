@@ -27,16 +27,30 @@ const About: React.FC = () => {
         <p className="text-lg leading-relaxed mb-8 text-justify">
           MYM Nexus is a comprehensive school management platform that
           integrates all aspects of educational administration into a single,
-          user-friendly application.
+          user-friendly application. It serves as a centralized hub where
+          teachers, students, parents, and administrators can access tools for
+          attendance tracking, lesson planning, homework assistance, real-time
+          communication, and detailed reporting. By consolidating these
+          functionalities, MYM Nexus eliminates the fragmentation often found
+          in traditional school systems, allowing users to manage their
+          educational responsibilities more efficiently and effectively.
         </p>
 
         <h2 className="text-3xl font-bold mb-4 text-yellow-400">
           Why Choose MYM Nexus?
         </h2>
         <p className="text-lg leading-relaxed mb-8 text-justify">
-          It eliminates the need for multiple disconnected tools, reduces
-          administrative workload, improves communication, and enhances the
-          overall educational experience for all stakeholders.
+          Choosing MYM Nexus means opting for a streamlined, efficient approach
+          to school management. It eliminates the need for multiple disconnected
+          tools, which often lead to confusion and inefficiencies. By reducing
+          administrative workload, teachers can dedicate more time to teaching
+          and student interaction. Enhanced communication features foster better
+          collaboration between parents, teachers, and students, ensuring
+          everyone stays informed and engaged. Overall, MYM Nexus enhances the
+          educational experience by providing a cohesive platform that supports
+          personalized learning, timely feedback, and data-driven insights,
+          ultimately leading to better academic outcomes and a more connected
+          school community.
         </p>
 
         <h2 className="text-3xl font-bold mb-4 text-yellow-400">
