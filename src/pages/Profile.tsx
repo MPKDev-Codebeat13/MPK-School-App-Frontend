@@ -160,8 +160,9 @@ export default function Profile() {
 
       if (response.ok) {
         setMsg('Account deleted successfully. Redirecting...')
-        logout()
-        goTo('/')
+        setTimeout(() => {
+          logout('/')
+        }, 2000)
       } else {
         const error = await response.json()
         setMsg(error.error || 'Failed to delete account ❌')

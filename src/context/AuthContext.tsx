@@ -31,7 +31,7 @@ interface AuthContextType {
   refreshToken: string | null
   loading: boolean
   login: (user: User, accessToken: string, refreshToken?: string) => void
-  logout: () => void
+  logout: (redirectPath?: string) => void
   refreshAuth: () => Promise<boolean>
   updateUser: (updates: Partial<User>) => Promise<void>
   setUser: (user: User) => void
@@ -136,13 +136,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     // console.log('[DEBUG] Login called:', { user, token, refresh })
   }, [])
 
-  const logout = useCallback(() => {
+  const logout = useCallback((redirectPath: string = '/login') => {
     setUser(null)
     setAccessToken(null)
     setRefreshToken(null)
     localStorage.removeItem('user')
     localStorage.removeItem('accessToken')
     localStorage.removeItem('refreshToken')
+    window.location.href = redirectPath
   }, [])
 
   const refreshAuth = async (): Promise<boolean> => {
