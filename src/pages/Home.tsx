@@ -2,7 +2,6 @@ import React, { useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
-import Scrollbar from '../components/ui/Scrollbar'
 import { useAuth } from '../context/AuthContext'
 
 const Home: React.FC = () => {
@@ -17,7 +16,7 @@ const Home: React.FC = () => {
     <div className="flex flex-col items-center min-h-screen w-full text-white bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 overflow-x-hidden">
       <Header />
 
-      <Scrollbar className="flex-1">
+      <div className="flex-1 overflow-y-auto">
         {/* Hero / Welcome */}
         <section className="w-full text-center py-12 sm:py-16 md:py-24 px-4 bg-gradient-radial from-purple-600 via-indigo-700 to-indigo-800 text-white shadow-xl">
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold mb-4">
@@ -126,7 +125,7 @@ const Home: React.FC = () => {
           </Link>
         </section>
         </div>
-      </Scrollbar>
+      </div>
 
       <Footer />
     </div>
