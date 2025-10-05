@@ -1,6 +1,7 @@
 import React from 'react'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
+import Scrollbar from '../components/ui/Scrollbar'
 import { Link } from 'react-router-dom'
 
 const About: React.FC = () => {
@@ -8,8 +9,9 @@ const About: React.FC = () => {
     <div className="flex flex-col items-center min-h-screen w-full bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-indigo-100 font-sans overflow-x-hidden">
       <Header />
 
-      {/* Hero Section */}
-      <section className="w-full text-center py-12 sm:py-16 md:py-20 px-4 sm:px-6 bg-gradient-to-tr from-indigo-500 to-indigo-700 rounded-2xl shadow-2xl mt-4 sm:mt-6 md:mt-8 mx-2 sm:mx-4 md:mx-12">
+      <Scrollbar className="flex-1">
+        {/* Hero Section */}
+        <section className="w-full text-center py-12 sm:py-16 md:py-20 px-4 sm:px-6 bg-gradient-to-tr from-indigo-500 to-indigo-700 rounded-2xl shadow-2xl mt-4 sm:mt-6 md:mt-8 mx-2 sm:mx-4 md:mx-12">
         <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold mb-4 text-white drop-shadow-lg">
           About MYM Nexus
         </h1>
@@ -85,6 +87,7 @@ const About: React.FC = () => {
           Get Started
         </Link>
       </section>
+      </Scrollbar>
 
       <Footer />
     </div>

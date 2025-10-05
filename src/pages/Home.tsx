@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
+import Scrollbar from '../components/ui/Scrollbar'
 import { useAuth } from '../context/AuthContext'
 
 const Home: React.FC = () => {
@@ -16,19 +17,20 @@ const Home: React.FC = () => {
     <div className="flex flex-col items-center min-h-screen w-full text-white bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 overflow-x-hidden">
       <Header />
 
-      {/* Hero / Welcome */}
-      <section className="w-full text-center py-12 sm:py-16 md:py-24 px-4 bg-gradient-radial from-purple-600 via-indigo-700 to-indigo-800 text-white shadow-xl">
-        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold mb-4">
-          Welcome to MYM Nexus
-        </h1>
-        <p className="text-base sm:text-lg md:text-xl max-w-2xl mx-auto">
-          Smarter learning, easier teaching, and smooth school management – all
-          in one place.
-        </p>
-      </section>
+      <Scrollbar className="flex-1">
+        {/* Hero / Welcome */}
+        <section className="w-full text-center py-12 sm:py-16 md:py-24 px-4 bg-gradient-radial from-purple-600 via-indigo-700 to-indigo-800 text-white shadow-xl">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold mb-4">
+            Welcome to MYM Nexus
+          </h1>
+          <p className="text-base sm:text-lg md:text-xl max-w-2xl mx-auto">
+            Smarter learning, easier teaching, and smooth school management – all
+            in one place.
+          </p>
+        </section>
 
-      {/* Main 3-column layout */}
-      <div className="grid gap-4 sm:gap-6 md:gap-8 max-w-[1300px] w-full my-8 sm:my-12 md:my-16 px-4 md:grid-cols-3">
+        {/* Main 3-column layout */}
+        <div className="grid gap-4 sm:gap-6 md:gap-8 max-w-[1300px] w-full my-8 sm:my-12 md:my-16 px-4 md:grid-cols-3">
         {/* About */}
         <section className="p-6 rounded-2xl text-center transition-transform duration-300 transform hover:scale-105 bg-indigo-800/20 shadow-lg">
           <h2 className="text-2xl font-bold mb-2 text-indigo-200">About</h2>
@@ -123,7 +125,8 @@ const Home: React.FC = () => {
             </button>
           </Link>
         </section>
-      </div>
+        </div>
+      </Scrollbar>
 
       <Footer />
     </div>
