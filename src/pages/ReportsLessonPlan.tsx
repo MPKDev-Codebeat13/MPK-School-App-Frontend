@@ -115,10 +115,10 @@ export default function ReportsLessonPlan() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
+      <div className={`min-h-screen flex items-center justify-center ${isLight ? 'bg-white' : 'bg-gray-900'}`}>
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-violet-600 mx-auto"></div>
-          <p className="text-gray-600 dark:text-gray-400 mt-4">
+          <div className={`animate-spin rounded-full h-12 w-12 border-b-2 mx-auto ${isLight ? 'border-violet-600' : 'border-violet-400'}`}></div>
+          <p className={`${isLight ? 'text-gray-600' : 'text-gray-400'} mt-4`}>
             Loading lesson plans...
           </p>
         </div>
