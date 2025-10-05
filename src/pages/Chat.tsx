@@ -4,7 +4,7 @@ import { useAuth } from '../context/AuthContext'
 import type { User } from '../context/AuthContext'
 import { useTheme } from '../context/ThemeContext'
 import Sidebar from '../components/Sidebar'
-import Scrollbar from '../components/ui/Scrollbar'
+
 import { API_ENDPOINTS, API_BASE_URL } from '../lib/api'
 
 import {
@@ -1125,7 +1125,7 @@ const Chat: React.FC = () => {
         </div>
 
         {/* Messages Area */}
-        <Scrollbar className="flex-1">
+        <div className="flex-1 overflow-y-auto">
           <div
             className="p-4 space-y-4 relative"
             ref={messagesContainerRef}
@@ -1141,187 +1141,187 @@ const Chat: React.FC = () => {
               }
             }}
           >
-          {hasMore && !loadingMore && (
-            <div ref={loadMoreRef} className="text-center py-2 text-gray-500">
-              Loading more messages...
-            </div>
-          )}
-          {messages.length === 0 && !loadingMore ? (
-            <div className="flex flex-col items-center justify-center h-full text-center">
-              <Globe className="w-16 h-16 text-gray-400 mb-4" />
-              <h3 className="text-lg font-semibold text-gray-600 dark:text-gray-400 mb-2">
-                No messages yet
-              </h3>
-              <p className="text-gray-500 dark:text-gray-500">
-                Start the conversation by sending a message!
-              </p>
-            </div>
-          ) : (
-            messages.map((message, index) => {
-              if (!message.sender) return null
-              const sender = message.sender
-              const isOwnMessage =
-                sender._id === user?._id || sender.email === user?.email
-              const isLeftAligned = !isOwnMessage
-              const isSelected = message._id
-                ? selectedMessages.has(message._id)
-                : false
-              return (
-                <div
-                  key={message._id || index}
-                  className={`flex gap-3 ${
-                    isLeftAligned ? 'justify-start' : 'justify-end'
-                  } relative`}
-                >
-                  {isSelectionMode && isOwnMessage && (
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation()
-                        const newSelected = new Set(selectedMessages)
-                        if (message._id) {
-                          if (newSelected.has(message._id)) {
-                            newSelected.delete(message._id)
-                          } else {
-                            newSelected.add(message._id)
-                          }
-                          setSelectedMessages(newSelected)
-                        }
-                      }}
-                      className="mt-2 p-1 rounded hover:bg-gray-200 dark:hover:bg-gray-600"
-                    >
-                      <CheckCircle
-                        className={`w-5 h-5 ${
-                          message._id && selectedMessages.has(message._id)
-                            ? 'text-green-500'
-                            : 'text-gray-400'
-                        }`}
-                      />
-                    </button>
-                  )}
-                  {isLeftAligned && (
-                    <div className="w-8 h-8 rounded-full bg-violet-600 flex items-center justify-center mt-1 relative">
-                      <span className="text-sm font-bold text-white select-none">
-                        {sender.fullName?.slice(0, 2)?.toUpperCase() || 'U'}
-                      </span>
-                      {sender.profilePicture && (
-                        <img
-                          src={sender.profilePicture}
-                          alt={sender.fullName}
-                          className="w-8 h-8 rounded-full object-cover border-2 border-white shadow-sm absolute top-0 left-0"
-                          onError={(e) => {
-                            const target = e.target as HTMLImageElement
-                            target.style.display = 'none'
-                          }}
-                        />
-                      )}
-                    </div>
-                  )}
-                  {!isLeftAligned && (
-                    <div className="w-8 h-8 rounded-full bg-violet-600 flex items-center justify-center mt-1 relative">
-                      <span className="text-sm font-bold text-white select-none">
-                        {(fullUserData || user)?.fullName
-                          ?.slice(0, 2)
-                          ?.toUpperCase() || 'U'}
-                      </span>
-                      {(fullUserData || user).profilePicture && (
-                        <img
-                          src={(fullUserData || user).profilePicture}
-                          alt={(fullUserData || user).fullName}
-                          className="w-8 h-8 rounded-full object-cover border-2 border-white shadow-sm absolute top-0 left-0"
-                          onError={(e) => {
-                            const target = e.target as HTMLImageElement
-                            target.style.display = 'none'
-                          }}
-                        />
-                      )}
-                    </div>
-                  )}
+            {hasMore && !loadingMore && (
+              <div ref={loadMoreRef} className="text-center py-2 text-gray-500">
+                Loading more messages...
+              </div>
+            )}
+            {messages.length === 0 && !loadingMore ? (
+              <div className="flex flex-col items-center justify-center h-full text-center">
+                <Globe className="w-16 h-16 text-gray-400 mb-4" />
+                <h3 className="text-lg font-semibold text-gray-600 dark:text-gray-400 mb-2">
+                  No messages yet
+                </h3>
+                <p className="text-gray-500 dark:text-gray-500">
+                  Start the conversation by sending a message!
+                </p>
+              </div>
+            ) : (
+              messages.map((message, index) => {
+                if (!message.sender) return null
+                const sender = message.sender
+                const isOwnMessage =
+                  sender._id === user?._id || sender.email === user?.email
+                const isLeftAligned = !isOwnMessage
+                const isSelected = message._id
+                  ? selectedMessages.has(message._id)
+                  : false
+                return (
                   <div
-                    className={`max-w-xs lg:max-w-md px-4 py-2 rounded-lg ${
-                      isSelected ? 'ring-2 ring-blue-500' : ''
-                    } ${
-                      isOwnMessage
-                        ? 'bg-gradient-to-r from-purple-500 to-indigo-600 text-white'
-                        : isLight
-                        ? 'bg-gray-200 text-gray-900'
-                        : 'bg-gray-700 text-gray-100'
-                    } relative ${!isOwnMessage ? 'pl-10' : ''}`}
+                    key={message._id || index}
+                    className={`flex gap-3 ${
+                      isLeftAligned ? 'justify-start' : 'justify-end'
+                    } relative`}
                   >
-                    <div
-                      className={`absolute top-1 ${
-                        isOwnMessage ? 'right-1' : 'left-1'
-                      } flex flex-col space-y-1 z-20`}
-                    >
+                    {isSelectionMode && isOwnMessage && (
                       <button
                         onClick={(e) => {
                           e.stopPropagation()
-                          setReplyTo(message)
+                          const newSelected = new Set(selectedMessages)
+                          if (message._id) {
+                            if (newSelected.has(message._id)) {
+                              newSelected.delete(message._id)
+                            } else {
+                              newSelected.add(message._id)
+                            }
+                            setSelectedMessages(newSelected)
+                          }
                         }}
-                        className="p-1 rounded hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
-                        title="Reply"
+                        className="mt-2 p-1 rounded hover:bg-gray-200 dark:hover:bg-gray-600"
                       >
-                        <Reply className="w-4 h-4" />
+                        <CheckCircle
+                          className={`w-5 h-5 ${
+                            message._id && selectedMessages.has(message._id)
+                              ? 'text-green-500'
+                              : 'text-gray-400'
+                          }`}
+                        />
                       </button>
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation()
-                          navigator.clipboard.writeText(message.content)
-                        }}
-                        className="p-1 rounded hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
-                        title="Copy"
-                      >
-                        <Copy className="w-4 h-4" />
-                      </button>
-                    </div>
-                    {message.replyTo && message.replyTo.sender ? (
-                      <div className="text-xs opacity-70 mb-1 border-l-2 border-current pl-2">
-                        Replying to: {message.replyTo.sender.fullName}:{' '}
-                        {renderMessageContent(
-                          (message.replyTo as Message).content
+                    )}
+                    {isLeftAligned && (
+                      <div className="w-8 h-8 rounded-full bg-violet-600 flex items-center justify-center mt-1 relative">
+                        <span className="text-sm font-bold text-white select-none">
+                          {sender.fullName?.slice(0, 2)?.toUpperCase() || 'U'}
+                        </span>
+                        {sender.profilePicture && (
+                          <img
+                            src={sender.profilePicture}
+                            alt={sender.fullName}
+                            className="w-8 h-8 rounded-full object-cover border-2 border-white shadow-sm absolute top-0 left-0"
+                            onError={(e) => {
+                              const target = e.target as HTMLImageElement
+                              target.style.display = 'none'
+                            }}
+                          />
                         )}
                       </div>
-                    ) : null}
-                    {renderMessageContent(message.content)}
-                    <div className="flex justify-between mt-1">
-                      <span className="text-xs opacity-70">
-                        {new Date(message.timestamp).toLocaleTimeString()}
-                      </span>
+                    )}
+                    {!isLeftAligned && (
+                      <div className="w-8 h-8 rounded-full bg-violet-600 flex items-center justify-center mt-1 relative">
+                        <span className="text-sm font-bold text-white select-none">
+                          {(fullUserData || user)?.fullName
+                            ?.slice(0, 2)
+                            ?.toUpperCase() || 'U'}
+                        </span>
+                        {(fullUserData || user).profilePicture && (
+                          <img
+                            src={(fullUserData || user).profilePicture}
+                            alt={(fullUserData || user).fullName}
+                            className="w-8 h-8 rounded-full object-cover border-2 border-white shadow-sm absolute top-0 left-0"
+                            onError={(e) => {
+                              const target = e.target as HTMLImageElement
+                              target.style.display = 'none'
+                            }}
+                          />
+                        )}
+                      </div>
+                    )}
+                    <div
+                      className={`max-w-xs lg:max-w-md px-4 py-2 rounded-lg ${
+                        isSelected ? 'ring-2 ring-blue-500' : ''
+                      } ${
+                        isOwnMessage
+                          ? 'bg-gradient-to-r from-purple-500 to-indigo-600 text-white'
+                          : isLight
+                          ? 'bg-gray-200 text-gray-900'
+                          : 'bg-gray-700 text-gray-100'
+                      } relative ${!isOwnMessage ? 'pl-10' : ''}`}
+                    >
+                      <div
+                        className={`absolute top-1 ${
+                          isOwnMessage ? 'right-1' : 'left-1'
+                        } flex flex-col space-y-1 z-20`}
+                      >
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation()
+                            setReplyTo(message)
+                          }}
+                          className="p-1 rounded hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+                          title="Reply"
+                        >
+                          <Reply className="w-4 h-4" />
+                        </button>
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation()
+                            navigator.clipboard.writeText(message.content)
+                          }}
+                          className="p-1 rounded hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+                          title="Copy"
+                        >
+                          <Copy className="w-4 h-4" />
+                        </button>
+                      </div>
+                      {message.replyTo && message.replyTo.sender ? (
+                        <div className="text-xs opacity-70 mb-1 border-l-2 border-current pl-2">
+                          Replying to: {message.replyTo.sender.fullName}:{' '}
+                          {renderMessageContent(
+                            (message.replyTo as Message).content
+                          )}
+                        </div>
+                      ) : null}
+                      {renderMessageContent(message.content)}
+                      <div className="flex justify-between mt-1">
+                        <span className="text-xs opacity-70">
+                          {new Date(message.timestamp).toLocaleTimeString()}
+                        </span>
+                      </div>
                     </div>
                   </div>
-                </div>
-              )
-            })
-          )}
-          <div ref={messagesEndRef} />
-          {scrollButtonVisible && (
-            <button
-              onClick={() => {
-                messagesContainerRef.current?.scrollTo({
-                  top: messagesContainerRef.current.scrollHeight,
-                  behavior: 'smooth',
-                })
-              }}
-              className="fixed bottom-20 left-1/2 transform -translate-x-1/2 bg-violet-500 text-white rounded-full p-2 shadow-lg hover:bg-violet-600 z-50"
-              title="Scroll to latest message"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
+                )
+              })
+            )}
+            <div ref={messagesEndRef} />
+            {scrollButtonVisible && (
+              <button
+                onClick={() => {
+                  messagesContainerRef.current?.scrollTo({
+                    top: messagesContainerRef.current.scrollHeight,
+                    behavior: 'smooth',
+                  })
+                }}
+                className="fixed bottom-20 left-1/2 transform -translate-x-1/2 bg-violet-500 text-white rounded-full p-2 shadow-lg hover:bg-violet-600 z-50"
+                title="Scroll to latest message"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M19 15l-7-7-7 7"
-                />
-              </svg>
-            </button>
-          )}
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M19 15l-7-7-7 7"
+                  />
+                </svg>
+              </button>
+            )}
           </div>
-        </Scrollbar>
+        </div>
 
         {/* Input Area */}
         <div
