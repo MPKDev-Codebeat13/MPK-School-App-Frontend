@@ -45,12 +45,15 @@ const CheckLessonPlans: React.FC = () => {
     setLoading(true)
     setError(null)
     try {
-      if (!accessToken || !user?.subject) {
-        setError('Not authenticated or subject missing')
+      if (!accessToken) {
+        setError('Not authenticated')
         setLoading(false)
         return
       }
-      const data = await getDepartmentLessonPlans(accessToken, user.subject)
+      const data = await getDepartmentLessonPlans(
+        accessToken,
+        user?.subject || ''
+      )
       setLessonPlans(data.lessonPlans)
     } catch (err) {
       setError('Failed to load lesson plans')
