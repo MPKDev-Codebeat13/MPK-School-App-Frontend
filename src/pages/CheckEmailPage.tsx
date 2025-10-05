@@ -40,7 +40,7 @@ const CheckEmailPage: React.FC = () => {
         const data = await response.json()
         if (data.isVerified) {
           setIsVerified(true)
-          setTimeout(() => navigate('/login?verified=true'), 2000)
+          setTimeout(() => navigate('/login?verified=true'), 500)
         }
       }
     } catch (err) {
