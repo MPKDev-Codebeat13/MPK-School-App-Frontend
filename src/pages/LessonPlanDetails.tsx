@@ -43,11 +43,18 @@ const LessonPlanDetails: React.FC = () => {
           user?.role === 'Teacher'
             ? `${API_BASE_URL}/teacher/lesson-plans/${id}`
             : `${API_BASE_URL}/department/lesson-plans/${id}`
+        const controller = new AbortController()
+        const timeoutId = setTimeout(() => controller.abort(), 15000) // 15 second timeout
+
         const response = await fetch(endpoint, {
           headers: {
             Authorization: `Bearer ${accessToken}`,
+            'Accept-Encoding': 'identity',
           },
+          signal: controller.signal,
         })
+
+        clearTimeout(timeoutId)
         if (!response.ok) {
           throw new Error('Failed to fetch lesson plan')
         }
@@ -126,7 +133,9 @@ const LessonPlanDetails: React.FC = () => {
             : 'bg-gradient-to-r from-indigo-100 via-purple-100 to-pink-100 text-gray-900'
         }`}
       >
-        <h1 className="text-2xl sm:text-3xl font-bold mb-4 sm:mb-6">{lessonPlan.title}</h1>
+        <h1 className="text-2xl sm:text-3xl font-bold mb-4 sm:mb-6">
+          {lessonPlan.title}
+        </h1>
         <p className="mb-2">
           <strong>Teacher:</strong>{' '}
           {lessonPlan.teacher ? lessonPlan.teacher.fullName : 'Unknown'}
