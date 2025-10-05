@@ -5,7 +5,6 @@ import React, {
   useState,
   useCallback,
 } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { API_ENDPOINTS } from '../lib/api'
 
 export interface User {
@@ -50,7 +49,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   const [accessToken, setAccessToken] = useState<string | null>(null)
   const [refreshToken, setRefreshToken] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
-  const navigate = useNavigate()
 
   // Load auth state from localStorage on mount
   useEffect(() => {
