@@ -167,7 +167,7 @@ const LessonPlanDetails: React.FC = () => {
           <strong>Updated At:</strong>{' '}
           {new Date(lessonPlan.updatedAt).toLocaleString()}
         </p>
-        <div className="mt-4 sm:mt-6 whitespace-pre-wrap bg-gray-50 p-4 sm:p-6 rounded-lg shadow-inner text-sm sm:text-base">
+        <div className="mt-4 sm:mt-6 whitespace-pre-wrap bg-transparent p-4 sm:p-6 rounded-lg shadow-inner text-sm sm:text-base max-h-64 overflow-y-auto">
           {lessonPlan.description}
         </div>
         {user?.role === 'Department' && (
