@@ -173,7 +173,7 @@ const Signup: React.FC = () => {
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-4" autoComplete="off">
           <div className="text-center mb-4">
             <div className="relative inline-block">
               <img
