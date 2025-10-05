@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useTheme } from '../context/ThemeContext'
 import Sidebar from '../components/Sidebar'
-
+import { API_BASE_URL } from '../lib/api'
 interface LessonPlan {
   _id: string
   title: string
@@ -15,7 +15,7 @@ interface LessonPlan {
     email: string
   } | null
   status: 'pending' | 'accepted' | 'rejected'
-  type: 'manual' | 'ai' | 'uploaded'
+  type: 'manual' | 'ai'
   createdAt: string
   updatedAt: string
 }
