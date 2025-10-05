@@ -1129,9 +1129,9 @@ const Chat: React.FC = () => {
         </div>
 
         {/* Messages Area */}
-        <div className="flex-1 overflow-y-auto">
+        <div className="flex-1 overflow-y-auto pt-12">
           <div
-            className="p-4 pl-8 space-y-4 relative"
+            className="p-4 pl-8 space-y-4 relative pb-16 bg-white/30 dark:bg-gray-800/30 backdrop-blur-sm"
             ref={messagesContainerRef}
             onScroll={() => {
               if (messagesContainerRef.current) {
