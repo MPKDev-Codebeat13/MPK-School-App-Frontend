@@ -364,7 +364,7 @@ const CreateLessonPlan: React.FC = () => {
               {generatedPlan && (
                 <div className="mt-6 transition-opacity duration-500 ease-in-out opacity-100">
                   <Card
-                    className={`${isLight ? 'bg-gray-50 border-gray-200' : ''}`}
+                    className={`${isLight ? 'bg-white/10 backdrop-blur-xl border-white/20' : 'bg-white/10 backdrop-blur-xl border-white/20'}`}
                   >
                     <CardHeader>
                       <CardTitle
