@@ -14,8 +14,8 @@ interface LessonPlan {
     fullName: string
     email: string
   } | null
-  status: 'pending' | 'accepted' | 'rejected'
-  type: 'manual' | 'ai'
+  status: 'draft' | 'pending' | 'accepted' | 'rejected'
+  type: 'manual' | 'ai' | 'uploaded'
   createdAt: string
   updatedAt: string
 }
