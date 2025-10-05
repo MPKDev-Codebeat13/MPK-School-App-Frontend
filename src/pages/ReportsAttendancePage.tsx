@@ -61,7 +61,7 @@ export default function ReportsAttendancePage() {
         const timeoutId = setTimeout(() => controller.abort(), 30000)
 
         const response = await fetch(
-          `${API_BASE_URL}/babysitter/attendance?page=${page}&limit=${limit}`,
+          `${API_ENDPOINTS.GET_ALL_ATTENDANCES}?page=${page}&limit=${limit}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -82,7 +82,7 @@ export default function ReportsAttendancePage() {
         } catch (parseError) {
           throw new Error('Failed to parse server response. Please try again.')
         }
-        const attendancesPage = data.records || []
+        const attendancesPage = data.attendances || []
         allAttendances.push(...attendancesPage)
 
         const pagination = data.pagination
