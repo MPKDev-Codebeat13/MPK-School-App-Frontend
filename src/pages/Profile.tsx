@@ -161,8 +161,9 @@ export default function Profile() {
       if (response.ok) {
         setMsg('Account deleted successfully. Redirecting...')
         setTimeout(() => {
-          logout('/')
-        }, 2000)
+          logout('/', true) // skip auto redirect
+          navigate('/') // smooth SPA navigation to homepage
+        }, 1500)
       } else {
         const error = await response.json()
         setMsg(error.error || 'Failed to delete account ❌')

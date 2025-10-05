@@ -5,7 +5,7 @@ import React, {
   useState,
   useCallback,
 } from 'react'
-
+import { useNavigate } from 'react-router-dom'
 import { API_ENDPOINTS } from '../lib/api'
 
 export interface User {
@@ -15,7 +15,6 @@ export interface User {
   fullName?: string
   email: string
   role: string
-
   avatar?: string
   profilePicture?: string
   grade?: string
@@ -31,7 +30,7 @@ interface AuthContextType {
   refreshToken: string | null
   loading: boolean
   login: (user: User, accessToken: string, refreshToken?: string) => void
-  logout: (redirectPath?: string) => void
+  logout: (redirectPath?: string, skipRedirect?: boolean) => void
   refreshAuth: () => Promise<boolean>
   updateUser: (updates: Partial<User>) => Promise<void>
   setUser: (user: User) => void
@@ -51,6 +50,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   const [accessToken, setAccessToken] = useState<string | null>(null)
   const [refreshToken, setRefreshToken] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
+  const navigate = useNavigate()
 
   // Load auth state from localStorage on mount
   useEffect(() => {
@@ -62,7 +62,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       try {
         const parsedUser = JSON.parse(storedUser)
 
-        // Convert field names for OAuth users
         const convertedUser: User = {
           _id: parsedUser._id,
           id: parsedUser.id,
@@ -79,7 +78,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
           createdAt: parsedUser.createdAt,
         }
 
-        // Verify the token is still valid by making a request to profile endpoint
         const verifyAuth = async () => {
           try {
             const response = await fetch(API_ENDPOINTS.PROFILE, {
@@ -89,13 +87,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
               setUser(convertedUser)
               setAccessToken(storedAccess)
               setRefreshToken(storedRefresh)
-              // console.log('[DEBUG] Loaded auth state from localStorage:', {
-              //   user: convertedUser,
-              //   accessToken: storedAccess,
-              //   refreshToken: storedRefresh,
-              // })
             } else {
-              // Token invalid or user deleted, clear storage
               localStorage.removeItem('user')
               localStorage.removeItem('accessToken')
               localStorage.removeItem('refreshToken')
@@ -104,7 +96,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
               )
             }
           } catch (error) {
-            // Network error or other issue, clear storage to be safe
             localStorage.removeItem('user')
             localStorage.removeItem('accessToken')
             localStorage.removeItem('refreshToken')
@@ -133,18 +124,24 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     localStorage.setItem('user', JSON.stringify(user))
     localStorage.setItem('accessToken', token)
     if (refresh) localStorage.setItem('refreshToken', refresh)
-    // console.log('[DEBUG] Login called:', { user, token, refresh })
   }, [])
 
-  const logout = useCallback((redirectPath: string = '/login') => {
-    setUser(null)
-    setAccessToken(null)
-    setRefreshToken(null)
-    localStorage.removeItem('user')
-    localStorage.removeItem('accessToken')
-    localStorage.removeItem('refreshToken')
-    window.location.href = redirectPath
-  }, [])
+  // 💡 Updated logout with optional skipRedirect
+  const logout = useCallback(
+    (redirectPath: string = '/login', skipRedirect: boolean = false) => {
+      setUser(null)
+      setAccessToken(null)
+      setRefreshToken(null)
+      localStorage.removeItem('user')
+      localStorage.removeItem('accessToken')
+      localStorage.removeItem('refreshToken')
+
+      if (!skipRedirect) {
+        navigate(redirectPath)
+      }
+    },
+    [navigate]
+  )
 
   const refreshAuth = async (): Promise<boolean> => {
     if (!refreshToken) {
@@ -153,7 +150,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     }
 
     try {
-      // console.log('[DEBUG] Attempting token refresh with:', refreshToken)
       const response = await fetch(API_ENDPOINTS.REFRESH, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -175,7 +171,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         localStorage.setItem('refreshToken', data.refreshToken)
       }
 
-      // console.log('[DEBUG] Token refresh successful:', data)
       return true
     } catch (error) {
       console.error('[DEBUG] Token refresh failed:', error)
@@ -188,7 +183,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     if (!accessToken) throw new Error('Not authenticated')
 
     try {
-      // console.log('[DEBUG] updateUser called:', updates)
       const response = await fetch(API_ENDPOINTS.UPDATE_USER, {
         method: 'PUT',
         headers: {
@@ -220,10 +214,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     if (!accessToken) throw new Error('Not authenticated')
 
     try {
-      // console.log('[DEBUG] changePassword called:', {
-      //   currentPassword,
-      //   newPassword,
-      // })
       const response = await fetch(API_ENDPOINTS.CHANGE_PASSWORD, {
         method: 'POST',
         headers: {
@@ -238,7 +228,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         console.error('[DEBUG] changePassword failed. Response:', error)
         throw new Error('Failed to change password')
       }
-      // console.log('[DEBUG] changePassword successful')
     } catch (err) {
       console.error('[DEBUG] changePassword error:', err)
       throw err
