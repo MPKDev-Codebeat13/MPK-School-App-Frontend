@@ -161,6 +161,7 @@ export default function Profile() {
       if (response.ok) {
         setMsg('Account deleted successfully. Redirecting...')
         setTimeout(() => {
+          logout()
           goTo('/')
         }, 2000)
       } else {
