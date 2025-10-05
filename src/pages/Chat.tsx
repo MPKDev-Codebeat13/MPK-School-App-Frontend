@@ -1049,10 +1049,12 @@ const Chat: React.FC = () => {
       <Sidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
 
       {/* Main Chat Area */}
-      <div className="flex-1 flex flex-col pt-16">
+      <div className="flex-1 flex flex-col">
         {/* Chat Header */}
         <div
-          className={`p-4 border-b sticky top-0 z-10 ${
+          className={`pt-2 pb-4 px-4 border-b fixed top-0 z-10 w-full ${
+            isSidebarOpen ? 'left-64' : 'left-0'
+          } ${
             isLight
               ? 'border-gray-200 bg-white'
               : 'border-gray-700 bg-gray-800/50'
