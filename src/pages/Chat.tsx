@@ -837,7 +837,8 @@ const Chat: React.FC = () => {
       condition: currentMessage.trim() && userId,
     })
 
-    if (currentMessage.trim() && userId && user && socket) {
+    if (currentMessage.trim() && userId && user && socket && !isSending) {
+      setIsSending(true)
       const messageData: any = {
         content: currentMessage,
         room: 'public',
@@ -867,6 +868,7 @@ const Chat: React.FC = () => {
       setCurrentMessage('')
       setReplyTo(null)
       inputRef.current?.focus()
+      setIsSending(false)
     } else {
       console.log('[DEBUG] Message not sent - condition not met')
     }
@@ -1353,8 +1355,8 @@ const Chat: React.FC = () => {
             {/* Removed Paperclip and Mic buttons as per user request */}
             <button
               onClick={sendMessage}
-              disabled={!currentMessage.trim()}
-              className="p-2 bg-violet-500 text-white rounded-lg hover:bg-violet-600 disabled:opacity-50 transform hover:scale-110 transition-all duration-200 shadow-md hover:shadow-lg"
+              disabled={!currentMessage.trim() || isSending}
+              className="p-2 bg-violet-500 text-white rounded-lg hover:bg-violet-600 disabled:opacity-50 shadow-md hover:shadow-lg"
             >
               <Send className="w-5 h-5" />
             </button>

@@ -30,8 +30,10 @@ const LessonPlanDetails: React.FC = () => {
   const [lessonPlan, setLessonPlan] = useState<LessonPlan | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [retryCount, setRetryCount] = useState(0)
 
   useEffect(() => {
+    setRetryCount(0) // Reset retry count on new fetch
     const fetchLessonPlan = async () => {
       if (!id || !accessToken) {
         setError('Invalid lesson plan ID or not authenticated')
@@ -59,14 +61,21 @@ const LessonPlanDetails: React.FC = () => {
           throw new Error('Failed to fetch lesson plan')
         }
         try {
-          const data = await response.json()
+          const text = await response.text()
+          const data = JSON.parse(text)
           const lessonPlanData =
             user?.role === 'Teacher' ? data.lessonPlan : data
           setLessonPlan(lessonPlanData)
         } catch (parseError) {
-          throw new Error(
-            'Failed to parse lesson plan data. The response may have been interrupted. Please try again.'
-          )
+          if (retryCount < 2) {
+            setRetryCount((prev) => prev + 1)
+            setTimeout(() => fetchLessonPlan(), 1000)
+            return
+          } else {
+            throw new Error(
+              'Failed to parse lesson plan data. The response may have been interrupted. Please try again.'
+            )
+          }
         }
       } catch (err) {
         setError(err instanceof Error ? err.message : 'An error occurred')
