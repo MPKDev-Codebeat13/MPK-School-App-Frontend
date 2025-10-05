@@ -49,7 +49,7 @@ const LessonPlanDetails: React.FC = () => {
             ? `${API_BASE_URL}/teacher/lesson-plans/${id}`
             : `${API_BASE_URL}/department/lesson-plans/${id}`
         const controller = new AbortController()
-        const timeoutId = setTimeout(() => controller.abort(), 15000) // 15 second timeout
+        const timeoutId = setTimeout(() => controller.abort(), 30000) // 30 second timeout
 
         const response = await fetch(endpoint, {
           headers: {
