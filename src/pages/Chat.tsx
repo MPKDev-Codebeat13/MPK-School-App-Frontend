@@ -1104,7 +1104,7 @@ const Chat: React.FC = () => {
                 <div className="relative">
                   <button
                     onClick={() => setShowMenuDropdown(!showMenuDropdown)}
-                    className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                    className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-gray-900 dark:text-gray-100"
                   >
                     <MoreVertical className="w-5 h-5" />
                   </button>
