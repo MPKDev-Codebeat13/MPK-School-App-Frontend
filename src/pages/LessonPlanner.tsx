@@ -13,7 +13,7 @@ interface LessonPlan {
   subject: string
   grade: string
   type: string
-  status: 'pending' | 'accepted' | 'rejected'
+  status: 'draft' | 'pending' | 'accepted' | 'rejected'
   createdAt: string
 }
 
@@ -231,6 +231,8 @@ const LessonPlanner: React.FC = () => {
                           ? 'text-green-600'
                           : plan.status === 'rejected'
                           ? 'text-red-600'
+                          : plan.status === 'draft'
+                          ? 'text-blue-600'
                           : 'text-yellow-600'
                       }`}
                     >
@@ -253,7 +255,7 @@ const LessonPlanner: React.FC = () => {
                     >
                       View
                     </Button>
-                    {plan.status === 'pending' && (
+                    {plan.status === 'draft' && (
                       <Button
                         size="sm"
                         data-id={`${plan._id}-submit`}
