@@ -49,7 +49,7 @@ const LessonPlanDetails: React.FC = () => {
             ? `${API_BASE_URL}/teacher/lesson-plans/${id}`
             : `${API_BASE_URL}/department/lesson-plans/${id}`
         const controller = new AbortController()
-        const timeoutId = setTimeout(() => controller.abort(), 30000) // 30 second timeout
+        const timeoutId = setTimeout(() => controller.abort(), 60000) // 60 second timeout
 
         const response = await fetch(endpoint, {
           headers: {
@@ -130,10 +130,8 @@ const LessonPlanDetails: React.FC = () => {
     >
       <Sidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
       <main
-        className={`flex-1 p-4 sm:p-6 lg:p-8 max-w-4xl mx-auto rounded-lg shadow-md text-gray-900 backdrop-blur-md bg-opacity-80 text-sm sm:text-base ${
-          !isLight
-            ? 'bg-gradient-to-r from-purple-900 via-pink-900 to-red-900 text-white'
-            : 'bg-gradient-to-r from-indigo-100 via-purple-100 to-pink-100 text-gray-900'
+        className={`flex-1 p-4 sm:p-6 lg:p-8 max-w-4xl mx-auto rounded-lg shadow-md text-gray-900 backdrop-blur-md bg-transparent text-sm sm:text-base ${
+          !isLight ? 'text-white' : 'text-gray-900'
         }`}
       >
         <h1 className="text-2xl sm:text-3xl font-bold mb-4 sm:mb-6">
