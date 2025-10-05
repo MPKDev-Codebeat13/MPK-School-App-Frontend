@@ -33,9 +33,30 @@ const CheckLessonPlans: React.FC = () => {
   const [successMessage, setSuccessMessage] = useState<string | null>(null)
   const [processingIds, setProcessingIds] = useState<string[]>([])
 
+  const getDashboardPath = (role: string) => {
+    switch (role) {
+      case 'Teacher':
+        return '/lesson-planner'
+      case 'Department':
+        return '/check-lesson-plans'
+      case 'Admin':
+        return '/manage-users-page'
+      case 'Parent':
+        return '/check-child'
+      case 'Student':
+        return '/homework-helper'
+      default:
+        return '/'
+    }
+  }
+
   useEffect(() => {
     if (!user) {
       navigate('/login')
+      return
+    }
+    if (user.role !== 'Department') {
+      navigate(getDashboardPath(user.role))
       return
     }
     fetchLessonPlans()

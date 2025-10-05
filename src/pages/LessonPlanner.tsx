@@ -25,6 +25,23 @@ const LessonPlanner: React.FC = () => {
   const [lessonPlans, setLessonPlans] = useState<LessonPlan[]>([])
   const [loading, setLoading] = useState(true)
 
+  const getDashboardPath = (role: string) => {
+    switch (role) {
+      case 'Teacher':
+        return '/lesson-planner'
+      case 'Department':
+        return '/check-lesson-plans'
+      case 'Admin':
+        return '/manage-users-page'
+      case 'Parent':
+        return '/check-child'
+      case 'Student':
+        return '/homework-helper'
+      default:
+        return '/'
+    }
+  }
+
   const fetchLessonPlans = async () => {
     if (!accessToken) {
       setLessonPlans([])
@@ -75,8 +92,16 @@ const LessonPlanner: React.FC = () => {
   }
 
   useEffect(() => {
+    if (!user) {
+      navigate('/login')
+      return
+    }
+    if (user.role !== 'Teacher') {
+      navigate(getDashboardPath(user.role))
+      return
+    }
     fetchLessonPlans()
-  }, [accessToken])
+  }, [accessToken, user])
 
   const handleSubmitLessonPlan = async (lessonPlanId: string) => {
     const button = document.querySelector(

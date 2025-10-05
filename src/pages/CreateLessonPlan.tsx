@@ -58,6 +58,34 @@ const CreateLessonPlan: React.FC = () => {
   const [isSaving, setIsSaving] = useState(false)
   const [generatedPlan, setGeneratedPlan] = useState<any>(null)
 
+  const getDashboardPath = (role: string) => {
+    switch (role) {
+      case 'Teacher':
+        return '/lesson-planner'
+      case 'Department':
+        return '/check-lesson-plans'
+      case 'Admin':
+        return '/manage-users-page'
+      case 'Parent':
+        return '/check-child'
+      case 'Student':
+        return '/homework-helper'
+      default:
+        return '/'
+    }
+  }
+
+  useEffect(() => {
+    if (!user) {
+      navigate('/login')
+      return
+    }
+    if (user.role !== 'Teacher') {
+      navigate(getDashboardPath(user.role))
+      return
+    }
+  }, [user])
+
   const handleInputChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
@@ -364,7 +392,11 @@ const CreateLessonPlan: React.FC = () => {
               {generatedPlan && (
                 <div className="mt-6 transition-opacity duration-500 ease-in-out opacity-100">
                   <Card
-                    className={`${isLight ? 'bg-white/10 backdrop-blur-xl border-white/20' : 'bg-white/10 backdrop-blur-xl border-white/20'}`}
+                    className={`${
+                      isLight
+                        ? 'bg-white/10 backdrop-blur-xl border-white/20'
+                        : 'bg-white/10 backdrop-blur-xl border-white/20'
+                    }`}
                   >
                     <CardHeader>
                       <CardTitle
