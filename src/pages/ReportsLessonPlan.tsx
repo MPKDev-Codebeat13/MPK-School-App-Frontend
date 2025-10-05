@@ -17,7 +17,7 @@ interface LessonPlan {
   }
   status: 'pending' | 'accepted' | 'rejected'
   type: 'manual' | 'ai' | 'uploaded'
-  createdAt: stringw
+  createdAt: string
   updatedAt: string
 }
 
