@@ -167,9 +167,9 @@ export default function ReportsLessonPlan() {
 
   return (
     <div
-      className={`flex min-h-screen ${theme} ${
-        isSidebarOpen ? 'flex-col sm:flex-row' : 'flex-row'
-      } overflow-x-hidden`}
+      className={`flex min-h-screen ${theme} overflow-x-hidden ${
+        isSidebarOpen ? 'sm:ml-64' : ''
+      }`}
     >
       <Sidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
       <main className="flex-1 p-4 sm:p-6 lg:p-8">

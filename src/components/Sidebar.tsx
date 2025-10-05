@@ -26,41 +26,41 @@ export default function Sidebar({
 
   // role-based links
   const roleLinks: Record<string, { to: string; label: string }[]> = {
-    Parent: [
+    parent: [
       { to: '/check-child', label: 'AI Assistant' },
       { to: '/chat', label: 'Chat' },
       { to: '/settings', label: 'Settings' },
     ],
-    Teacher: [
+    teacher: [
       { to: '/lesson-planner', label: 'Lesson Planner' },
       { to: '/chat', label: 'Chat' },
       { to: '/settings', label: 'Settings' },
     ],
-    Babysitter: [
+    babysitter: [
       { to: '/babysitter/attendance/', label: 'Take Attendance' },
       { to: '/chat', label: 'Chat' },
       { to: '/settings', label: 'Settings' },
     ],
-    Student: [
+    student: [
       { to: '/homework', label: 'Homework Helper' },
       { to: '/chat', label: 'Chat' },
       { to: '/settings', label: 'Settings' },
     ],
-    Admin: [
+    admin: [
       { to: '/manage-users', label: 'Manage Users' },
       { to: '/chat', label: 'Chat' },
       { to: '/reports-lesson', label: 'Reports of the Lesson Plan' },
       { to: '/reports-attendance', label: 'Reports of the Attendance' },
       { to: '/settings', label: 'Settings' },
     ],
-    Department: [
+    department: [
       { to: '/chat', label: 'Chat' },
       { to: '/settings', label: 'Settings' },
       { to: '/check-lesson-plans', label: 'Check Lesson Plans' },
     ],
   }
 
-  const links = roleLinks[user?.role || 'Student']
+  const links = roleLinks[user?.role?.toLowerCase() || 'student']
 
   const sidebarBg = isLight ? 'bg-gray-100' : 'bg-gray-900'
   const sidebarText = isLight ? 'text-gray-900' : 'text-white'
@@ -82,10 +82,8 @@ export default function Sidebar({
       )}
 
       <aside
-        className={`${sidebarBg} ${sidebarText} h-64 sm:h-screen shadow-lg rounded-r-2xl flex flex-col transition-all duration-300 sticky bottom-0 top-0 overflow-x-hidden ${
-          isOpen
-            ? 'w-full sm:w-64 p-2 sm:p-4 mr-0 sm:mr-4'
-            : 'w-0 overflow-hidden'
+        className={`${sidebarBg} ${sidebarText} h-screen shadow-lg rounded-r-2xl flex flex-col transition-all duration-300 fixed top-0 left-0 z-40 overflow-x-hidden ${
+          isOpen ? 'w-64 p-4' : 'w-0 overflow-hidden'
         }`}
       >
         {isOpen && (

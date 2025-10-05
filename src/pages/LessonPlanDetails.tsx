@@ -124,9 +124,9 @@ const LessonPlanDetails: React.FC = () => {
 
   return (
     <div
-      className={`flex min-h-screen bg-transparent ${theme.class} ${
-        isSidebarOpen ? 'flex-col sm:flex-row' : 'flex-row'
-      } overflow-x-hidden`}
+      className={`flex min-h-screen bg-transparent ${
+        theme.class
+      } overflow-x-hidden ${isSidebarOpen ? 'sm:ml-64' : ''}`}
     >
       <Sidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
       <main
