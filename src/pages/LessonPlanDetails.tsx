@@ -15,7 +15,7 @@ interface LessonPlan {
     email: string
   } | null
   status: 'draft' | 'pending' | 'accepted' | 'rejected'
-  type: 'manual' | 'ai' | 'uploaded'
+  type: 'manual' | 'ai'
   createdAt: string
   updatedAt: string
 }
@@ -168,6 +168,35 @@ const LessonPlanDetails: React.FC = () => {
         <div className="mt-4 sm:mt-6 whitespace-pre-wrap bg-transparent p-4 sm:p-6 rounded-lg shadow-inner text-sm sm:text-base max-h-64 overflow-y-auto">
           {lessonPlan.description}
         </div>
+        {user?.role === 'Teacher' && lessonPlan.status === 'draft' && (
+          <div className="mt-4 sm:mt-6">
+            <button
+              onClick={async () => {
+                try {
+                  const response = await fetch(
+                    `${API_BASE_URL}/teacher/lesson-plans/${lessonPlan._id}/submit`,
+                    {
+                      method: 'POST',
+                      headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                      },
+                    }
+                  )
+                  if (!response.ok) {
+                    throw new Error('Failed to submit lesson plan')
+                  }
+                  setLessonPlan({ ...lessonPlan, status: 'pending' })
+                  alert('Lesson plan submitted for review')
+                } catch (error) {
+                  alert(error instanceof Error ? error.message : 'Error')
+                }
+              }}
+              className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors text-sm sm:text-base"
+            >
+              Submit for Review
+            </button>
+          </div>
+        )}
         {user?.role === 'Department' && (
           <div className="mt-4 sm:mt-6 flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4">
             <button
@@ -185,8 +214,8 @@ const LessonPlanDetails: React.FC = () => {
                   if (!response.ok) {
                     throw new Error('Failed to accept lesson plan')
                   }
+                  setLessonPlan({ ...lessonPlan, status: 'accepted' })
                   alert('Lesson plan accepted')
-                  navigate(-1)
                 } catch (error) {
                   alert(error instanceof Error ? error.message : 'Error')
                 }
@@ -210,8 +239,8 @@ const LessonPlanDetails: React.FC = () => {
                   if (!response.ok) {
                     throw new Error('Failed to reject lesson plan')
                   }
+                  setLessonPlan({ ...lessonPlan, status: 'rejected' })
                   alert('Lesson plan rejected')
-                  navigate(-1)
                 } catch (error) {
                   alert(error instanceof Error ? error.message : 'Error')
                 }
