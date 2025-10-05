@@ -130,17 +130,29 @@ export const getDepartmentLessonPlans = async (
 ) => {
   const url = new URL(API_ENDPOINTS.DEPARTMENT_LESSON_PLANS)
   url.searchParams.append('subject', subject)
-  const response = await fetch(url.toString(), {
-    method: 'GET',
-    headers: {
-      Authorization: `Bearer ${token}`,
-      'Content-Type': 'application/json',
-    },
-  })
-  if (!response.ok) {
-    throw new Error('Failed to fetch lesson plans')
+  const controller = new AbortController()
+  const timeoutId = setTimeout(() => controller.abort(), 30000) // 30 second timeout
+
+  try {
+    const response = await fetch(url.toString(), {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      signal: controller.signal,
+    })
+    clearTimeout(timeoutId)
+    if (!response.ok) {
+      throw new Error('Failed to fetch lesson plans')
+    }
+    return response.json()
+  } catch (error: any) {
+    if (error.name === 'AbortError') {
+      throw new Error('Request timed out. Please try again.')
+    }
+    throw error
   }
-  return response.json()
 }
 
 // Get teacher lesson plan by ID
