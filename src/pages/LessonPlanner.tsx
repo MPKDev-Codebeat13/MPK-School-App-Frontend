@@ -209,9 +209,7 @@ const LessonPlanner: React.FC = () => {
               {lessonPlans.map((plan) => (
                 <li
                   key={plan._id}
-                  className={`border rounded p-3 sm:p-4 hover:shadow-md transition-shadow cursor-pointer text-sm sm:text-base ${
-                    isLight ? 'border-gray-200' : 'border-gray-700'
-                  }`}
+                  className={`border rounded p-3 sm:p-4 hover:shadow-md transition-shadow cursor-pointer text-sm sm:text-base border-white/20`}
                 >
                   <h2
                     className={`text-lg sm:text-xl font-semibold ${
