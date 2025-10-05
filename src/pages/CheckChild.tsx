@@ -6,7 +6,7 @@ import Sidebar from '../components/Sidebar'
 import { Bot, Send } from 'lucide-react'
 
 const CheckChild: React.FC = () => {
-  const { accessToken: token } = useAuth()
+  const { user, accessToken: token } = useAuth()
   const { theme } = useTheme()
   const [isSidebarOpen, setIsSidebarOpen] = useState(true)
 
@@ -15,6 +15,14 @@ const CheckChild: React.FC = () => {
   const [loadingAi, setLoadingAi] = useState(false)
 
   const handleAiQuerySubmit = async () => {
+    if (!user) {
+      alert('Access denied. You do not have permission to access this page.')
+      return
+    }
+    if (user.role !== 'Parent') {
+      alert('Access denied. You do not have permission to access this page.')
+      return
+    }
     if (!aiQuery.trim()) return
     setLoadingAi(true)
     setAiResponse(null)
@@ -132,7 +140,9 @@ const CheckChild: React.FC = () => {
                     <Bot className="w-4 h-4 sm:w-5 sm:h-5 text-violet-500" />
                     AI Response:
                   </h3>
-                  <p className="leading-relaxed text-sm sm:text-base">{aiResponse}</p>
+                  <p className="leading-relaxed text-sm sm:text-base">
+                    {aiResponse}
+                  </p>
                 </div>
               </div>
             )}

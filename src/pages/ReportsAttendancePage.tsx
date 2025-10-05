@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useTheme } from '../context/ThemeContext'
 import { API_ENDPOINTS, API_BASE_URL } from '../lib/api'
@@ -34,14 +35,41 @@ interface AttendanceRecord {
 export default function ReportsAttendancePage() {
   const { user } = useAuth()
   const { theme, isLight } = useTheme()
+  const navigate = useNavigate()
   const [isSidebarOpen, setIsSidebarOpen] = useState(true)
   const [attendances, setAttendances] = useState<AttendanceRecord[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
+  const getDashboardPath = (role: string) => {
+    switch (role) {
+      case 'Teacher':
+        return '/lesson-planner'
+      case 'Department':
+        return '/check-lesson-plans'
+      case 'Admin':
+        return '/manage-users-page'
+      case 'Parent':
+        return '/check-child'
+      case 'Student':
+        return '/homework-helper'
+      default:
+        return '/'
+    }
+  }
+
   useEffect(() => {
+    if (!user) {
+      navigate('/login')
+      return
+    }
+    if (user.role !== 'Admin') {
+      alert('Access denied. You do not have permission to access this page.')
+      navigate(getDashboardPath(user.role))
+      return
+    }
     fetchAttendances()
-  }, [])
+  }, [user, navigate])
 
   const fetchAttendances = async () => {
     try {
@@ -105,21 +133,6 @@ export default function ReportsAttendancePage() {
     window.location.href = `/babysitter/attendance/view/${attendanceId}`
   }
 
-  if (user?.role !== 'Admin') {
-    return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
-            Access Denied
-          </h1>
-          <p className="text-gray-600 dark:text-gray-400">
-            You don't have permission to access this page.
-          </p>
-        </div>
-      </div>
-    )
-  }
-
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
@@ -169,7 +182,9 @@ export default function ReportsAttendancePage() {
       <Sidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
       <main className="flex-1 p-4 sm:p-6 lg:p-8">
         <div className="max-w-7xl mx-auto">
-          <h1 className={`text-2xl sm:text-3xl font-bold mb-4 sm:mb-6 ${cardTitle}`}>
+          <h1
+            className={`text-2xl sm:text-3xl font-bold mb-4 sm:mb-6 ${cardTitle}`}
+          >
             Reports of the Attendance
           </h1>
 
@@ -258,7 +273,9 @@ export default function ReportsAttendancePage() {
 
           {attendances.length === 0 && (
             <div className="text-center py-8 sm:py-12">
-              <p className={`${cardText} text-sm sm:text-base`}>No attendances found.</p>
+              <p className={`${cardText} text-sm sm:text-base`}>
+                No attendances found.
+              </p>
             </div>
           )}
         </div>

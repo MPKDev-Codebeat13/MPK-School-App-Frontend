@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useTheme } from '../context/ThemeContext'
 import { API_ENDPOINTS } from '../lib/api'
@@ -31,14 +32,41 @@ interface Pagination {
 export default function ReportsLessonPlan() {
   const { user } = useAuth()
   const { theme, isLight } = useTheme()
+  const navigate = useNavigate()
   const [isSidebarOpen, setIsSidebarOpen] = useState(true)
   const [lessonPlans, setLessonPlans] = useState<LessonPlan[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
+  const getDashboardPath = (role: string) => {
+    switch (role) {
+      case 'Teacher':
+        return '/lesson-planner'
+      case 'Department':
+        return '/check-lesson-plans'
+      case 'Admin':
+        return '/manage-users-page'
+      case 'Parent':
+        return '/check-child'
+      case 'Student':
+        return '/homework-helper'
+      default:
+        return '/'
+    }
+  }
+
   useEffect(() => {
+    if (!user) {
+      navigate('/login')
+      return
+    }
+    if (user.role !== 'Admin') {
+      alert('Access denied. You do not have permission to access this page.')
+      navigate(getDashboardPath(user.role))
+      return
+    }
     fetchLessonPlans()
-  }, [])
+  }, [user, navigate])
 
   const fetchLessonPlans = async () => {
     try {
@@ -96,21 +124,6 @@ export default function ReportsLessonPlan() {
     } finally {
       setLoading(false)
     }
-  }
-
-  if (user?.role !== 'Admin') {
-    return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
-            Access Denied
-          </h1>
-          <p className="text-gray-600 dark:text-gray-400">
-            You don't have permission to access this page.
-          </p>
-        </div>
-      </div>
-    )
   }
 
   if (loading) {

@@ -97,6 +97,7 @@ const LessonPlanner: React.FC = () => {
       return
     }
     if (user.role !== 'Teacher') {
+      alert('Access denied. You do not have permission to access this page.')
       navigate(getDashboardPath(user.role))
       return
     }

@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
+import { useNavigate } from 'react-router-dom'
 import Sidebar from '../components/Sidebar'
 import { useAuth } from '../context/AuthContext'
 import { useTheme } from '../context/ThemeContext'
@@ -11,14 +12,44 @@ interface Message {
 }
 
 const HomeworkHelper: React.FC = () => {
-  const { accessToken } = useAuth()
+  const { user, accessToken } = useAuth()
   const { theme, isLight } = useTheme()
+  const navigate = useNavigate()
   const [isSidebarOpen, setIsSidebarOpen] = useState(true)
 
   const [messages, setMessages] = useState<Message[]>([])
   const [input, setInput] = useState('')
   const [loading, setLoading] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)
+
+  const getDashboardPath = (role: string) => {
+    switch (role) {
+      case 'Teacher':
+        return '/lesson-planner'
+      case 'Department':
+        return '/check-lesson-plans'
+      case 'Admin':
+        return '/manage-users-page'
+      case 'Parent':
+        return '/check-child'
+      case 'Student':
+        return '/homework-helper'
+      default:
+        return '/'
+    }
+  }
+
+  useEffect(() => {
+    if (!user) {
+      navigate('/login')
+      return
+    }
+    if (user.role !== 'Student') {
+      alert('Access denied. You do not have permission to access this page.')
+      navigate(getDashboardPath(user.role))
+      return
+    }
+  }, [user, navigate])
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -77,7 +108,9 @@ const HomeworkHelper: React.FC = () => {
     >
       <Sidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
       <div className="flex-1 flex flex-col p-4 sm:p-6 bg-white/10 backdrop-blur-xl rounded-2xl shadow-lg">
-        <h1 className="text-2xl sm:text-3xl font-bold mb-4 sm:mb-6">Homework Helper</h1>
+        <h1 className="text-2xl sm:text-3xl font-bold mb-4 sm:mb-6">
+          Homework Helper
+        </h1>
         <div
           className="flex-1 overflow-y-auto mb-4 p-3 sm:p-4 border rounded-lg shadow-inner"
           style={{ maxHeight: '70vh' }}

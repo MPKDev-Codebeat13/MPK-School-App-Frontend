@@ -44,6 +44,7 @@ export default function ManageUsersPage() {
       return
     }
     if (user.role !== 'Admin') {
+      alert('Access denied. You do not have permission to access this page.')
       navigate(getDashboardPath(user.role))
       return
     }
