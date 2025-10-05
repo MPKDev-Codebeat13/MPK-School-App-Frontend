@@ -51,18 +51,49 @@ export default function ReportsAttendancePage() {
         return
       }
 
-      const response = await fetch(`${API_BASE_URL}/babysitter/attendance`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+      const allAttendances: AttendanceRecord[] = []
+      let page = 1
+      const limit = 50
+      let hasMore = true
 
-      if (!response.ok) {
-        throw new Error('Failed to fetch attendances')
+      while (hasMore) {
+        const controller = new AbortController()
+        const timeoutId = setTimeout(() => controller.abort(), 30000)
+
+        const response = await fetch(
+          `${API_BASE_URL}/babysitter/attendance?page=${page}&limit=${limit}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+            signal: controller.signal,
+          }
+        )
+
+        clearTimeout(timeoutId)
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch attendances')
+        }
+
+        let data
+        try {
+          data = await response.json()
+        } catch (parseError) {
+          throw new Error('Failed to parse server response. Please try again.')
+        }
+        const attendancesPage = data.records || []
+        allAttendances.push(...attendancesPage)
+
+        const pagination = data.pagination
+        if (page >= pagination.pages) {
+          hasMore = false
+        } else {
+          page++
+        }
       }
 
-      const data = await response.json()
-      setAttendances(data.records || data || [])
+      setAttendances(allAttendances)
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred')
     } finally {
