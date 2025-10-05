@@ -1042,14 +1042,14 @@ const Chat: React.FC = () => {
 
   return (
     <div
-      className={`flex min-h-screen ${theme} ${
-        isSidebarOpen ? 'flex-col sm:flex-row' : 'flex-row'
-      } overflow-x-hidden`}
+      className={`flex min-h-screen ${theme} overflow-x-hidden ${
+        isSidebarOpen ? 'sm:ml-64' : ''
+      }`}
     >
       <Sidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
 
       {/* Main Chat Area */}
-      <div className="flex-1 flex flex-col">
+      <div className="flex-1 flex flex-col pt-16">
         {/* Chat Header */}
         <div
           className={`p-4 border-b sticky top-0 z-10 ${
@@ -1129,7 +1129,7 @@ const Chat: React.FC = () => {
         {/* Messages Area */}
         <div className="flex-1 overflow-y-auto">
           <div
-            className="p-4 space-y-4 relative"
+            className="p-4 pl-8 space-y-4 relative"
             ref={messagesContainerRef}
             onScroll={() => {
               if (messagesContainerRef.current) {
