@@ -161,8 +161,8 @@ export default function Profile() {
       if (response.ok) {
         setMsg('Account deleted successfully. Redirecting...')
         setTimeout(() => {
-          logout('/', true) // skip auto redirect
-          navigate('/') // smooth SPA navigation to homepage
+          logout()
+          window.location.href = '/'
         }, 1500)
       } else {
         const error = await response.json()

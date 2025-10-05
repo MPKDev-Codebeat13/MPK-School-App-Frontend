@@ -30,7 +30,7 @@ interface AuthContextType {
   refreshToken: string | null
   loading: boolean
   login: (user: User, accessToken: string, refreshToken?: string) => void
-  logout: (redirectPath?: string, skipRedirect?: boolean) => void
+  logout: () => void
   refreshAuth: () => Promise<boolean>
   updateUser: (updates: Partial<User>) => Promise<void>
   setUser: (user: User) => void
@@ -126,22 +126,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     if (refresh) localStorage.setItem('refreshToken', refresh)
   }, [])
 
-  // 💡 Updated logout with optional skipRedirect
-  const logout = useCallback(
-    (redirectPath: string = '/login', skipRedirect: boolean = false) => {
-      setUser(null)
-      setAccessToken(null)
-      setRefreshToken(null)
-      localStorage.removeItem('user')
-      localStorage.removeItem('accessToken')
-      localStorage.removeItem('refreshToken')
-
-      if (!skipRedirect) {
-        navigate(redirectPath)
-      }
-    },
-    [navigate]
-  )
+  const logout = useCallback(() => {
+    setUser(null)
+    setAccessToken(null)
+    setRefreshToken(null)
+    localStorage.removeItem('user')
+    localStorage.removeItem('accessToken')
+    localStorage.removeItem('refreshToken')
+  }, [])
 
   const refreshAuth = async (): Promise<boolean> => {
     if (!refreshToken) {
