@@ -183,14 +183,12 @@ export default function Profile() {
   }
 
   return (
-    <div
-      className={`flex min-h-screen ${theme} ${
-        isSidebarOpen ? 'flex-col sm:flex-row' : 'flex-row'
-      } overflow-x-hidden`}
-    >
+    <div className={`min-h-screen ${theme} overflow-x-hidden`}>
       <Sidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
       <main
-        className={`flex-1 flex justify-center items-start min-h-[calc(100vh-4rem)] p-2 sm:p-4 lg:p-6`}
+        className={`flex justify-center items-start min-h-[calc(100vh-4rem)] p-2 sm:p-4 lg:p-6 ${
+          isSidebarOpen ? 'sm:ml-64' : ''
+        }`}
       >
         <Card
           className={`w-full max-w-5xl ${cardSkin} border shadow-xl rounded-3xl`}

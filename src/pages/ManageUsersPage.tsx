@@ -130,13 +130,9 @@ export default function ManageUsersPage() {
   const tableDivider = isLight ? 'divide-gray-200' : 'divide-gray-700'
 
   return (
-    <div
-      className={`flex min-h-screen ${
-        isSidebarOpen ? 'flex-col sm:flex-row' : 'flex-row'
-      } overflow-x-hidden ${theme.class}`}
-    >
+    <div className={`min-h-screen overflow-x-hidden ${theme.class}`}>
       <Sidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
-      <main className="flex-1 p-4 sm:p-6 lg:p-8">
+      <main className={`p-4 sm:p-6 lg:p-8 ${isSidebarOpen ? 'sm:ml-64' : ''}`}>
         <div className="max-w-7xl mx-auto">
           <div className={`${cardBase} ${cardSkin}`}>
             <h1

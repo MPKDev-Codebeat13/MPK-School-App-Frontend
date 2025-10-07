@@ -218,13 +218,9 @@ const CreateLessonPlan: React.FC = () => {
   }
 
   return (
-    <div
-      className={`flex min-h-screen ${
-        isSidebarOpen ? 'flex-col sm:flex-row' : 'flex-row'
-      } overflow-x-hidden`}
-    >
+    <div className={`min-h-screen overflow-x-hidden`}>
       <Sidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
-      <main className="flex-1 p-4 sm:p-6 md:p-8">
+      <main className={`p-4 sm:p-6 md:p-8 ${isSidebarOpen ? 'sm:ml-64' : ''}`}>
         <h1
           className={`text-3xl font-bold mb-6 ${
             isLight ? 'text-gray-900' : 'text-white'

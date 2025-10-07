@@ -65,13 +65,11 @@ const ViewAttendance: React.FC = () => {
 
   if (loading) {
     return (
-      <div
-        className={`flex min-h-screen ${theme} ${
-          isSidebarOpen ? 'flex-col sm:flex-row' : 'flex-row'
-        } overflow-x-hidden`}
-      >
+      <div className={`min-h-screen ${theme} overflow-x-hidden`}>
         <Sidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
-        <main className="flex-1 p-4 sm:p-6 lg:p-8">
+        <main
+          className={`p-4 sm:p-6 lg:p-8 ${isSidebarOpen ? 'sm:ml-64' : ''}`}
+        >
           <p
             className={`${
               isLight ? 'text-gray-900' : 'text-white'
@@ -86,13 +84,11 @@ const ViewAttendance: React.FC = () => {
 
   if (error) {
     return (
-      <div
-        className={`flex min-h-screen ${theme} ${
-          isSidebarOpen ? 'flex-col sm:flex-row' : 'flex-row'
-        } overflow-x-hidden`}
-      >
+      <div className={`min-h-screen ${theme} overflow-x-hidden`}>
         <Sidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
-        <main className="flex-1 p-4 sm:p-6 lg:p-8">
+        <main
+          className={`p-4 sm:p-6 lg:p-8 ${isSidebarOpen ? 'sm:ml-64' : ''}`}
+        >
           <p className="text-red-600 text-sm sm:text-base">{error}</p>
         </main>
       </div>
@@ -101,13 +97,11 @@ const ViewAttendance: React.FC = () => {
 
   if (!record) {
     return (
-      <div
-        className={`flex min-h-screen ${theme} ${
-          isSidebarOpen ? 'flex-col sm:flex-row' : 'flex-row'
-        } overflow-x-hidden`}
-      >
+      <div className={`min-h-screen ${theme} overflow-x-hidden`}>
         <Sidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
-        <main className="flex-1 p-4 sm:p-6 lg:p-8">
+        <main
+          className={`p-4 sm:p-6 lg:p-8 ${isSidebarOpen ? 'sm:ml-64' : ''}`}
+        >
           <p
             className={`${
               isLight ? 'text-gray-900' : 'text-white'
@@ -121,13 +115,9 @@ const ViewAttendance: React.FC = () => {
   }
 
   return (
-    <div
-      className={`flex min-h-screen ${theme} ${
-        isSidebarOpen ? 'flex-col sm:flex-row' : 'flex-row'
-      } overflow-x-hidden`}
-    >
+    <div className={`min-h-screen ${theme} overflow-x-hidden`}>
       <Sidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
-      <main className="flex-1 p-4 sm:p-6 lg:p-8">
+      <main className={`p-4 sm:p-6 lg:p-8 ${isSidebarOpen ? 'sm:ml-64' : ''}`}>
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 sm:mb-6 gap-4">
           <h1
             className={`text-2xl sm:text-3xl font-bold ${

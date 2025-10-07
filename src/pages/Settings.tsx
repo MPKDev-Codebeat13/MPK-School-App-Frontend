@@ -93,11 +93,13 @@ const themes = [
   },
   {
     name: 'Electric Vibes',
-    class: 'bg-gradient-to-br from-purple-500 via-pink-500 to-yellow-400 text-white',
+    class:
+      'bg-gradient-to-br from-purple-500 via-pink-500 to-yellow-400 text-white',
   },
   {
     name: 'Tropical Sunset',
-    class: 'bg-gradient-to-br from-yellow-400 via-red-400 to-pink-500 text-white',
+    class:
+      'bg-gradient-to-br from-yellow-400 via-red-400 to-pink-500 text-white',
   },
   {
     name: 'Mystic Forest',
@@ -105,7 +107,8 @@ const themes = [
   },
   {
     name: 'Solar Flare',
-    class: 'bg-gradient-to-br from-red-600 via-orange-600 to-yellow-500 text-white',
+    class:
+      'bg-gradient-to-br from-red-600 via-orange-600 to-yellow-500 text-white',
   },
   {
     name: 'Deep Ocean',
@@ -113,7 +116,8 @@ const themes = [
   },
   {
     name: 'Lavender Dream',
-    class: 'bg-gradient-to-br from-purple-300 via-pink-300 to-white text-gray-900',
+    class:
+      'bg-gradient-to-br from-purple-300 via-pink-300 to-white text-gray-900',
   },
 ]
 
@@ -128,13 +132,9 @@ const Settings: React.FC = () => {
   const [privacy, setPrivacy] = useState({ visible: true, showPhone: false })
 
   return (
-    <div
-      className={`flex min-h-screen ${
-        isSidebarOpen ? 'flex-col sm:flex-row' : 'flex-row'
-      } overflow-x-hidden ${theme.class}`}
-    >
+    <div className={`min-h-screen overflow-x-hidden ${theme.class}`}>
       <Sidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
-      <main className="flex-1 p-4 sm:p-6 lg:p-8">
+      <main className={`p-4 sm:p-6 lg:p-8 ${isSidebarOpen ? 'sm:ml-64' : ''}`}>
         <h1 className="text-2xl sm:text-3xl font-bold mb-4 sm:mb-6 text-violet-300">
           Settings ⚙️
         </h1>

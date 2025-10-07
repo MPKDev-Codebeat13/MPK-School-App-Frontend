@@ -1212,6 +1212,7 @@ const Chat: React.FC = () => {
                             src={sender.profilePicture}
                             alt={sender.fullName}
                             className="w-8 h-8 rounded-full object-cover border-2 border-white shadow-sm absolute top-0 left-0"
+                            loading="lazy"
                             onError={(e) => {
                               const target = e.target as HTMLImageElement
                               target.style.display = 'none'
@@ -1232,6 +1233,7 @@ const Chat: React.FC = () => {
                             src={(fullUserData || user).profilePicture}
                             alt={(fullUserData || user).fullName}
                             className="w-8 h-8 rounded-full object-cover border-2 border-white shadow-sm absolute top-0 left-0"
+                            loading="lazy"
                             onError={(e) => {
                               const target = e.target as HTMLImageElement
                               target.style.display = 'none'

@@ -185,13 +185,9 @@ const LessonPlanner: React.FC = () => {
   }
 
   return (
-    <div
-      className={`flex min-h-screen ${
-        isSidebarOpen ? 'flex-col sm:flex-row' : 'flex-row'
-      } overflow-x-hidden ${theme.class}`}
-    >
+    <div className={`min-h-screen overflow-x-hidden ${theme.class}`}>
       <Sidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
-      <main className="flex-1 p-4 sm:p-6 lg:p-8">
+      <main className={`p-4 sm:p-6 lg:p-8 ${isSidebarOpen ? 'sm:ml-64' : ''}`}>
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 sm:mb-6 gap-4">
           <h1
             className={`text-2xl sm:text-3xl font-bold ${

@@ -122,13 +122,9 @@ const TakeAttendance: React.FC = () => {
   }
 
   return (
-    <div
-      className={`flex min-h-screen ${theme.class} ${
-        isSidebarOpen ? 'flex-col sm:flex-row' : 'flex-row'
-      } overflow-x-hidden`}
-    >
+    <div className={`min-h-screen ${theme.class} overflow-x-hidden`}>
       <Sidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
-      <main className={`flex-1 p-4 sm:p-6 lg:p-8`}>
+      <main className={`p-4 sm:p-6 lg:p-8 ${isSidebarOpen ? 'sm:ml-64' : ''}`}>
         <h1
           className={`text-2xl sm:text-3xl font-bold mb-4 sm:mb-6 ${
             isLight ? 'text-gray-900' : 'text-white'

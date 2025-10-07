@@ -75,13 +75,13 @@ const CheckChild: React.FC = () => {
   }
 
   return (
-    <div
-      className={`flex min-h-screen ${theme.class} ${
-        isSidebarOpen ? 'flex-col sm:flex-row' : 'flex-row'
-      } overflow-x-hidden`}
-    >
+    <div className={`min-h-screen ${theme.class} overflow-x-hidden`}>
       <Sidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
-      <div className="flex-1 flex flex-col items-center justify-center p-4 sm:p-6">
+      <div
+        className={`flex flex-col items-center justify-center p-4 sm:p-6 ${
+          isSidebarOpen ? 'sm:ml-64' : ''
+        }`}
+      >
         <div className="w-full max-w-4xl">
           <div className="text-center mb-6 sm:mb-8">
             <Bot className="w-12 h-12 sm:w-16 sm:h-16 mx-auto mb-4 text-violet-500" />

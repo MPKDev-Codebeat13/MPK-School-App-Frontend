@@ -16,7 +16,7 @@ const Header: React.FC = () => {
         <img
           src="/logo.png"
           alt="MYM Nexus Logo"
-          className="h-12 w-100 object-contain"
+          className="h-12 w-12 object-contain"
         />
         <span className="text-3xl font-bold tracking-wide">MYM Nexus</span>
       </div>

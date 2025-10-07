@@ -125,6 +125,7 @@ export default function Sidebar({
                       }
                       alt="Profile"
                       className="w-8 h-8 sm:w-10 sm:h-10 rounded-full border-2 border-violet-400 object-cover"
+                      loading="lazy"
                       onError={(e) => {
                         e.currentTarget.style.display = 'none'
                         const fallback = e.currentTarget

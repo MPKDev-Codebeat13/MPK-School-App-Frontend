@@ -101,13 +101,13 @@ const HomeworkHelper: React.FC = () => {
   }
 
   return (
-    <div
-      className={`flex min-h-screen ${
-        isSidebarOpen ? 'flex-col sm:flex-row' : 'flex-row'
-      } overflow-x-hidden ${theme}`}
-    >
+    <div className={`min-h-screen overflow-x-hidden ${theme}`}>
       <Sidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
-      <div className="flex-1 flex flex-col p-4 sm:p-6 bg-white/10 backdrop-blur-xl rounded-2xl shadow-lg">
+      <div
+        className={`flex flex-col p-4 sm:p-6 bg-white/10 backdrop-blur-xl rounded-2xl shadow-lg ${
+          isSidebarOpen ? 'sm:ml-64' : ''
+        }`}
+      >
         <h1 className="text-2xl sm:text-3xl font-bold mb-4 sm:mb-6">
           Homework Helper
         </h1>

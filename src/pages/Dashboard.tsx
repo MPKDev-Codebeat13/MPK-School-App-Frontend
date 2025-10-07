@@ -195,12 +195,16 @@ export default function Dashboard() {
   }
 
   return (
-    <div className={`flex min-h-screen ${theme} ${isSidebarOpen ? 'flex-col sm:flex-row' : 'flex-row'} overflow-x-hidden`}>
+    <div className={`min-h-screen ${theme} overflow-x-hidden`}>
       {/* Sidebar */}
       <Sidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
 
       {/* Main Content */}
-      <main className="flex-1 p-4 sm:p-6 md:p-8 space-y-4 sm:space-y-6 md:space-y-8 relative">
+      <main
+        className={`p-4 sm:p-6 md:p-8 space-y-4 sm:space-y-6 md:space-y-8 ${
+          isSidebarOpen ? 'sm:ml-64' : ''
+        }`}
+      >
         {/* Topbar */}
         <div className="flex justify-between items-center mb-6">
           <WelcomeBanner />
