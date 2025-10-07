@@ -36,7 +36,7 @@ interface AttendanceRecord {
 
 const ViewAttendance: React.FC = () => {
   const { id } = useParams<{ id: string }>()
-  const { accessToken } = useAuth()
+  const { accessToken, user } = useAuth()
   const navigate = useNavigate()
   const { theme, isLight } = useTheme()
   const [isSidebarOpen, setIsSidebarOpen] = useState(true)
@@ -138,7 +138,14 @@ const ViewAttendance: React.FC = () => {
           </h1>
           <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
             <Button
-              onClick={() => navigate('/reports-attendance')}
+              onClick={() => {
+                const { user } = useAuth()
+                if (user?.role === 'Babysitter') {
+                  navigate('/babysitter/attendance/')
+                } else {
+                  navigate('/reports-attendance')
+                }
+              }}
               className="w-full sm:w-auto text-sm sm:text-base"
             >
               Back to List
