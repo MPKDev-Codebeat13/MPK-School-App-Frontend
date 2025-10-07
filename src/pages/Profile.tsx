@@ -305,9 +305,14 @@ export default function Profile() {
                     if (profilePic.startsWith('http')) {
                       profilePictureUrl = profilePic
                     } else {
-                      profilePictureUrl = `${(
-                        import.meta.env.VITE_API_BASE_URL || '/api'
-                      ).replace('/api', '')}${profilePic}`
+                      const baseUrl =
+                        window.location.hostname === 'localhost'
+                          ? 'http://localhost:4000'
+                          : (
+                              import.meta.env.VITE_API_BASE_URL ||
+                              'https://mym-nexus.onrender.com/api'
+                            ).replace('/api', '')
+                      profilePictureUrl = `${baseUrl}${profilePic}`
                     }
                   }
                   return profilePictureUrl ? (
