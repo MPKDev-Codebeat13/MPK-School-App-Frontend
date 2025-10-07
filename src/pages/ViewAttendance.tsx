@@ -139,7 +139,6 @@ const ViewAttendance: React.FC = () => {
           <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
             <Button
               onClick={() => {
-                const { user } = useAuth()
                 if (user?.role === 'Babysitter') {
                   navigate('/babysitter/attendance/')
                 } else {
