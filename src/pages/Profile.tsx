@@ -24,12 +24,6 @@ export default function Profile() {
   const [section, setSection] = useState(user?.section || '')
   const [subject, setSubject] = useState(user?.subject || '')
 
-  // Profile picture preview state
-  const [profilePicturePreview, setProfilePicturePreview] = useState<
-    string | null
-  >(null)
-  const [selectedFile, setSelectedFile] = useState<File | null>(null)
-
   // Password state
   const [currentPassword, setCurrentPassword] = useState('')
   const [newPassword, setNewPassword] = useState('')
@@ -84,15 +78,6 @@ export default function Profile() {
     fetchProfile()
   }, [accessToken])
 
-  // Cleanup preview URL to prevent memory leaks
-  useEffect(() => {
-    return () => {
-      if (profilePicturePreview) {
-        URL.revokeObjectURL(profilePicturePreview)
-      }
-    }
-  }, [profilePicturePreview])
-
   const cardSkin = useMemo(
     () =>
       isLight
@@ -108,64 +93,30 @@ export default function Profile() {
       setSaving(true)
       setMsg(null)
 
-      if (selectedFile) {
-        // Upload profile picture
-        const formData = new FormData()
-        formData.append('profilePicture', selectedFile)
-        formData.append('fullName', name)
+      // Only update name
+      const response = await fetch(API_ENDPOINTS.UPDATE_USER, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify({ fullName: name }),
+      })
 
-        const response = await fetch(API_ENDPOINTS.UPDATE_USER, {
-          method: 'PUT',
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-          body: formData,
-        })
-
-        if (response.ok) {
-          const updatedUser = await response.json()
-          // Update the user context with the new data
-          const userData = updatedUser.user
-          // Update global user context
-          setUser(userData)
-          // Update localStorage
-          localStorage.setItem('user', JSON.stringify(userData))
-          // Update local user state to reflect changes immediately
-          setLocalUser(userData)
-          // Clear preview state
-          setProfilePicturePreview(null)
-          setSelectedFile(null)
-          setMsg('Profile updated ✅')
-        } else {
-          const error = await response.json()
-          setMsg(error.error || 'Update failed ❌')
-        }
+      if (response.ok) {
+        const updatedUser = await response.json()
+        // Update the user context with the new data
+        const userData = updatedUser.user
+        // Update global user context
+        setUser(userData)
+        // Update localStorage
+        localStorage.setItem('user', JSON.stringify(userData))
+        // Update local user state to reflect changes immediately
+        setLocalUser(userData)
+        setMsg('Profile updated ✅')
       } else {
-        // Only update name
-        const response = await fetch(API_ENDPOINTS.UPDATE_USER, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${accessToken}`,
-          },
-          body: JSON.stringify({ fullName: name }),
-        })
-
-        if (response.ok) {
-          const updatedUser = await response.json()
-          // Update the user context with the new data
-          const userData = updatedUser.user
-          // Update global user context
-          setUser(userData)
-          // Update localStorage
-          localStorage.setItem('user', JSON.stringify(userData))
-          // Update local user state to reflect changes immediately
-          setLocalUser(userData)
-          setMsg('Profile updated ✅')
-        } else {
-          const error = await response.json()
-          setMsg(error.error || 'Update failed ❌')
-        }
+        const error = await response.json()
+        setMsg(error.error || 'Update failed ❌')
       }
     } catch (e: any) {
       setMsg(e?.message || 'Update failed ❌')
@@ -202,7 +153,7 @@ export default function Profile() {
     }
   }
 
-  const handleProfilePictureUpload = (
+  const handleProfilePictureUpload = async (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     const file = event.target.files?.[0]
@@ -220,11 +171,38 @@ export default function Profile() {
       return
     }
 
-    // Create preview URL
-    const previewUrl = URL.createObjectURL(file)
-    setProfilePicturePreview(previewUrl)
-    setSelectedFile(file)
-    setMsg(null)
+    try {
+      setMsg(null)
+      // Upload profile picture immediately
+      const formData = new FormData()
+      formData.append('profilePicture', file)
+
+      const response = await fetch(API_ENDPOINTS.UPDATE_USER, {
+        method: 'PUT',
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+        body: formData,
+      })
+
+      if (response.ok) {
+        const updatedUser = await response.json()
+        // Update the user context with the new data
+        const userData = updatedUser.user
+        // Update global user context
+        setUser(userData)
+        // Update localStorage
+        localStorage.setItem('user', JSON.stringify(userData))
+        // Update local user state to reflect changes immediately
+        setLocalUser(userData)
+        setMsg('Profile picture updated ✅')
+      } else {
+        const error = await response.json()
+        setMsg(error.error || 'Upload failed ❌')
+      }
+    } catch (e: any) {
+      setMsg(e?.message || 'Upload failed ❌')
+    }
   }
 
   const handleDeleteAccount = async () => {
@@ -287,17 +265,6 @@ export default function Profile() {
             <div className="flex flex-col items-center space-y-4">
               <div className="relative">
                 {(() => {
-                  // Show preview if available, otherwise show actual profile picture
-                  if (profilePicturePreview) {
-                    return (
-                      <img
-                        src={profilePicturePreview}
-                        alt="Profile Picture Preview"
-                        className="w-24 h-24 sm:w-32 sm:h-32 rounded-full object-cover border-4 border-violet-500"
-                      />
-                    )
-                  }
-
                   const profilePic =
                     localUser?.profilePicture || localUser?.avatar
                   let profilePictureUrl = undefined
