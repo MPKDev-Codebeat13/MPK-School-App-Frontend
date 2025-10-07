@@ -20,6 +20,9 @@ export default function Profile() {
   const [name, setName] = useState(user?.name || user?.fullName || '')
   const [email, setEmail] = useState(user?.email || '')
   const [role, setRole] = useState(user?.role || '')
+  const [grade, setGrade] = useState(user?.grade || '')
+  const [section, setSection] = useState(user?.section || '')
+  const [subject, setSubject] = useState(user?.subject || '')
 
   // Password state
   const [currentPassword, setCurrentPassword] = useState('')
@@ -45,6 +48,9 @@ export default function Profile() {
     setName(localUser?.name || localUser?.fullName || '')
     setEmail(localUser?.email || '')
     setRole(localUser?.role || '')
+    setGrade(localUser?.grade || '')
+    setSection(localUser?.section || '')
+    setSubject(localUser?.subject || '')
   }, [localUser])
 
   // Sync localUser with global user when it changes
@@ -297,6 +303,59 @@ export default function Profile() {
                 />
               </div>
 
+              {(role === 'Student' ||
+                role === 'Teacher' ||
+                role === 'Babysitter') && (
+                <div className="space-y-2">
+                  <label className={`${textMuted} text-sm sm:text-base`}>
+                    Grade
+                  </label>
+                  <Input
+                    value={grade}
+                    readOnly
+                    className={`${
+                      isLight
+                        ? 'bg-gray-100 opacity-60'
+                        : 'bg-white/10 text-white opacity-60'
+                    } cursor-not-allowed text-sm sm:text-base`}
+                  />
+                </div>
+              )}
+
+              {role === 'Babysitter' && (
+                <div className="space-y-2">
+                  <label className={`${textMuted} text-sm sm:text-base`}>
+                    Section
+                  </label>
+                  <Input
+                    value={section}
+                    readOnly
+                    className={`${
+                      isLight
+                        ? 'bg-gray-100 opacity-60'
+                        : 'bg-white/10 text-white opacity-60'
+                    } cursor-not-allowed text-sm sm:text-base`}
+                  />
+                </div>
+              )}
+
+              {(role === 'Teacher' || role === 'Department') && (
+                <div className="space-y-2">
+                  <label className={`${textMuted} text-sm sm:text-base`}>
+                    Subject
+                  </label>
+                  <Input
+                    value={subject}
+                    readOnly
+                    className={`${
+                      isLight
+                        ? 'bg-gray-100 opacity-60'
+                        : 'bg-white/10 text-white opacity-60'
+                    } cursor-not-allowed text-sm sm:text-base`}
+                  />
+                </div>
+              )}
+
               <div className="flex flex-col sm:flex-row items-start sm:items-end gap-3">
                 <Button
                   onClick={handleSaveProfile}
@@ -313,6 +372,9 @@ export default function Profile() {
                     setName(localUser?.name || localUser?.fullName || '')
                     setEmail(localUser?.email || '')
                     setRole(localUser?.role || '')
+                    setGrade(localUser?.grade || '')
+                    setSection(localUser?.section || '')
+                    setSubject(localUser?.subject || '')
                     setMsg(null)
                   }}
                 >

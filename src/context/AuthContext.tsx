@@ -17,6 +17,7 @@ export interface User {
   avatar?: string
   profilePicture?: string
   grade?: string
+  section?: string
   subject?: string
   isVerified?: boolean
   isOAuth?: boolean
@@ -70,6 +71,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
           profilePicture: parsedUser.profilePicture || parsedUser.avatar || '',
           fullName: parsedUser.fullName || parsedUser.name || '',
           grade: parsedUser.grade,
+          section: parsedUser.section,
           subject: parsedUser.subject,
           isVerified: parsedUser.isVerified,
           isOAuth: parsedUser.isOAuth,

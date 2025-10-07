@@ -28,6 +28,7 @@ const CompleteProfile: React.FC = () => {
   const [formData, setFormData] = useState({
     role: '',
     grade: '',
+    section: '',
     subject: '',
   })
   const [loading, setLoading] = useState(false)
@@ -194,7 +195,12 @@ const CompleteProfile: React.FC = () => {
       user.grade
     ) {
       navigate('/dashboard')
-    } else if (currentRole === 'Babysitter' && user && user.grade) {
+    } else if (
+      currentRole === 'Babysitter' &&
+      user &&
+      user.grade &&
+      user.section
+    ) {
       navigate('/dashboard')
     } else if (currentRole === 'Admin') {
       navigate('/dashboard')
@@ -227,6 +233,12 @@ const CompleteProfile: React.FC = () => {
     value: (i + 1).toString(),
     label: `Grade ${i + 1}`,
   }))
+
+  const sectionOptions = [
+    { value: 'A', label: 'Section A' },
+    { value: 'B', label: 'Section B' },
+    { value: 'C', label: 'Section C' },
+  ]
 
   const subjectOptions = [
     { value: 'Mathematics', label: 'Mathematics' },
@@ -274,6 +286,9 @@ const CompleteProfile: React.FC = () => {
       }
       if (currentRole === 'Babysitter' && !formData.grade) {
         throw new Error('Grade is required for babysitters')
+      }
+      if (currentRole === 'Babysitter' && !formData.section) {
+        throw new Error('Section is required for babysitters')
       }
       if (currentRole === 'Department' && !formData.subject) {
         throw new Error('Subject is required for department')
@@ -493,15 +508,26 @@ const CompleteProfile: React.FC = () => {
           {((profileData?.role || user?.role || oauthUser?.role) ===
             'Babysitter' ||
             formData.role === 'Babysitter') && (
-            <div>
-              <Dropdown
-                options={gradeOptions}
-                value={formData.grade}
-                onChange={handleDropdownChange('grade')}
-                placeholder="Select Grade"
-                className="bg-white/20 text-white border-white/20"
-              />
-            </div>
+            <>
+              <div>
+                <Dropdown
+                  options={gradeOptions}
+                  value={formData.grade}
+                  onChange={handleDropdownChange('grade')}
+                  placeholder="Select Grade"
+                  className="bg-white/20 text-white border-white/20"
+                />
+              </div>
+              <div>
+                <Dropdown
+                  options={sectionOptions}
+                  value={formData.section}
+                  onChange={handleDropdownChange('section')}
+                  placeholder="Select Section"
+                  className="bg-white/20 text-white border-white/20"
+                />
+              </div>
+            </>
           )}
 
           {((profileData?.role || user?.role || oauthUser?.role) ===

@@ -9,6 +9,8 @@ import { API_BASE_URL } from '../lib/api'
 interface AttendanceRecord {
   _id: string
   date: string
+  grade: string
+  section: string
   studentCount: number
   students: {
     name: string
@@ -162,7 +164,8 @@ const ViewAttendance: React.FC = () => {
               isLight ? 'text-gray-700' : 'text-gray-300'
             }`}
           >
-            Total Students: {record.stats.totalStudents}
+            Total Students: {record.stats.totalStudents} | Grade: {record.grade}{' '}
+            | Section: {record.section}
           </p>
         </div>
 

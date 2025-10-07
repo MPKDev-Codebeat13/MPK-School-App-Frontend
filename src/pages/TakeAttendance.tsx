@@ -23,7 +23,7 @@ const TakeAttendance: React.FC = () => {
   const [searchParams] = useSearchParams()
   const todayCount = parseInt(count || '0', 10)
   const totalCount = parseInt(searchParams.get('total') || count || '0', 10)
-  const { accessToken } = useAuth()
+  const { accessToken, user } = useAuth()
   const navigate = useNavigate()
   const { theme, isLight } = useTheme()
   const [isSidebarOpen, setIsSidebarOpen] = useState(true)
@@ -99,7 +99,12 @@ const TakeAttendance: React.FC = () => {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${accessToken}`,
         },
-        body: JSON.stringify({ studentCount: totalCount, students }),
+        body: JSON.stringify({
+          studentCount: totalCount,
+          students,
+          grade: user?.grade,
+          section: user?.section,
+        }),
       })
       if (!response.ok) {
         throw new Error('Failed to save attendance')

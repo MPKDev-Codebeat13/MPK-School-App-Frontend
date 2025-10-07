@@ -22,6 +22,7 @@ const Signup: React.FC = () => {
     password: '',
     role: '',
     grade: '',
+    section: '',
     subject: '',
   })
   const [profilePic, setProfilePic] = useState<File | null>(null)
@@ -69,10 +70,16 @@ const Signup: React.FC = () => {
     label: `Grade ${i + 1}`,
   }))
 
+  const sectionOptions = [
+    { value: 'A', label: 'Section A' },
+    { value: 'B', label: 'Section B' },
+    { value: 'C', label: 'Section C' },
+  ]
+
   const subjectOptions = subjects.map((subj) => ({ value: subj, label: subj }))
 
   useEffect(() => {
-    setFormData((prev) => ({ ...prev, grade: '', subject: '' }))
+    setFormData((prev) => ({ ...prev, grade: '', section: '', subject: '' }))
   }, [formData.role])
 
   const handleChange = (
@@ -131,6 +138,7 @@ const Signup: React.FC = () => {
           password: '',
           role: '',
           grade: '',
+          section: '',
           subject: '',
         })
         setProfilePic(null)
@@ -264,15 +272,28 @@ const Signup: React.FC = () => {
           {(formData.role === 'Student' ||
             formData.role === 'Teacher' ||
             formData.role === 'Babysitter') && (
-            <div>
-              <Dropdown
-                options={gradeOptions}
-                value={formData.grade}
-                onChange={handleDropdownChange('grade')}
-                placeholder="Select Grade"
-                className="bg-white/20 text-white border-white/20"
-              />
-            </div>
+            <>
+              <div>
+                <Dropdown
+                  options={gradeOptions}
+                  value={formData.grade}
+                  onChange={handleDropdownChange('grade')}
+                  placeholder="Select Grade"
+                  className="bg-white/20 text-white border-white/20"
+                />
+              </div>
+              {formData.role === 'Babysitter' && (
+                <div>
+                  <Dropdown
+                    options={sectionOptions}
+                    value={formData.section}
+                    onChange={handleDropdownChange('section')}
+                    placeholder="Select Section"
+                    className="bg-white/20 text-white border-white/20"
+                  />
+                </div>
+              )}
+            </>
           )}
 
           {(formData.role === 'Teacher' || formData.role === 'Department') && (
