@@ -10,15 +10,8 @@ interface AttendanceRecord {
   _id: string
   date: string
   studentCount: number
-  students: {
-    name: string
-    gender: string
-    present: boolean
-    absent: boolean
-    uniform: boolean
-    noHW: boolean
-    noCW: boolean
-  }[]
+  grade: string
+  section: string
   stats: {
     totalStudents: number
     presentCount: number
@@ -183,7 +176,8 @@ const AttendanceList: React.FC = () => {
                       isLight ? 'text-gray-700' : 'text-gray-300'
                     }`}
                   >
-                    Total Students: {record.stats.totalStudents}
+                    Total Students: {record.stats.totalStudents} | Grade:{' '}
+                    {record.grade} | Section: {record.section}
                   </p>
                 </div>
                 <div className="flex gap-2">
