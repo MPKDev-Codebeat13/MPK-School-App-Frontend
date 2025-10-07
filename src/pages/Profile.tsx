@@ -152,6 +152,57 @@ export default function Profile() {
     }
   }
 
+  const handleProfilePictureUpload = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const file = event.target.files?.[0]
+    if (!file) return
+
+    // Validate file type
+    if (!file.type.startsWith('image/')) {
+      setMsg('Please select a valid image file ❌')
+      return
+    }
+
+    // Validate file size (5MB limit)
+    if (file.size > 5 * 1024 * 1024) {
+      setMsg('Image size must be less than 5MB ❌')
+      return
+    }
+
+    try {
+      setMsg(null)
+      const formData = new FormData()
+      formData.append('profilePicture', file)
+
+      const response = await fetch(API_ENDPOINTS.UPDATE_USER, {
+        method: 'PUT',
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+        body: formData,
+      })
+
+      if (response.ok) {
+        const updatedUser = await response.json()
+        // Update the user context with the new data
+        const userData = updatedUser.user
+        // Update global user context
+        setUser(userData)
+        // Update localStorage
+        localStorage.setItem('user', JSON.stringify(userData))
+        // Update local user state to reflect changes immediately
+        setLocalUser(userData)
+        setMsg('Profile picture updated ✅')
+      } else {
+        const error = await response.json()
+        setMsg(error.error || 'Failed to update profile picture ❌')
+      }
+    } catch (error: any) {
+      setMsg(error?.message || 'Failed to update profile picture ❌')
+    }
+  }
+
   const handleDeleteAccount = async () => {
     try {
       setDeleting(true)
@@ -252,6 +303,20 @@ export default function Profile() {
                     </div>
                   )
                 })()}
+                {/* Upload Button */}
+                <label
+                  htmlFor="profile-picture-upload"
+                  className="absolute bottom-0 right-0 bg-violet-600 hover:bg-violet-500 text-white p-2 rounded-full cursor-pointer transition-colors duration-200 shadow-lg"
+                >
+                  <Camera className="w-4 h-4" />
+                  <input
+                    id="profile-picture-upload"
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    onChange={handleProfilePictureUpload}
+                  />
+                </label>
               </div>
             </div>
 
