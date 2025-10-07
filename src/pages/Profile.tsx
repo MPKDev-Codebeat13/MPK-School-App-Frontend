@@ -3,7 +3,7 @@ import { useAuth } from '../context/AuthContext'
 import { Button } from '../components/ui/button'
 import { Input } from '../components/ui/input'
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card'
-import { Camera, Save, Lock, X, Trash2, AlertTriangle } from 'lucide-react'
+import { Camera, Save, Lock, Trash2, AlertTriangle } from 'lucide-react'
 import { useTheme } from '../context/ThemeContext'
 import Sidebar from '../components/Sidebar'
 import { useNavigate } from 'react-router-dom'
@@ -364,21 +364,6 @@ export default function Profile() {
                 >
                   <Save className="w-4 h-4" />{' '}
                   {saving ? 'Saving…' : 'Save Profile'}
-                </Button>
-                <Button
-                  variant="outline"
-                  className="rounded-xl flex items-center gap-2 px-4 sm:px-5 w-full sm:w-auto text-sm sm:text-base"
-                  onClick={() => {
-                    setName(localUser?.name || localUser?.fullName || '')
-                    setEmail(localUser?.email || '')
-                    setRole(localUser?.role || '')
-                    setGrade(localUser?.grade || '')
-                    setSection(localUser?.section || '')
-                    setSubject(localUser?.subject || '')
-                    setMsg(null)
-                  }}
-                >
-                  <X className="w-4 h-4" /> Reset
                 </Button>
               </div>
             </div>
