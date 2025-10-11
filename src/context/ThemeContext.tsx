@@ -84,12 +84,6 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     const key = getStorageKey(user?._id || user?.id)
     localStorage.setItem(key, JSON.stringify(theme))
-    console.log(
-      '[ThemeProvider] theme updated:',
-      theme,
-      'for user:',
-      user?.email
-    )
   }, [theme, user])
 
   // Reload theme when user changes
