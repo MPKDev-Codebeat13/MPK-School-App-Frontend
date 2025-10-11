@@ -8,6 +8,9 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.ico', 'logo.png', 'robots.txt'],
+      devOptions: {
+        enabled: true,
+      },
       manifest: {
         name: 'MYM Nexus',
         short_name: 'MYMNexus',

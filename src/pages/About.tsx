@@ -9,7 +9,7 @@ const About: React.FC = () => {
     <div className="flex flex-col items-center min-h-screen w-full bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-indigo-100 font-sans">
       <Header />
 
-      <div className="flex-1 overflow-y-auto">
+      <div className="flex-1">
         {/* Hero Section */}
         <section className="w-full text-center py-12 sm:py-16 md:py-20 px-4 sm:px-6 bg-gradient-to-tr from-indigo-500 to-indigo-700 rounded-2xl shadow-2xl mt-4 sm:mt-6 md:mt-8 mx-2 sm:mx-4 md:mx-12">
           <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold mb-4 text-white drop-shadow-lg">
@@ -22,11 +22,11 @@ const About: React.FC = () => {
         </section>
 
         {/* Details Section */}
-        <section className="max-w-4xl w-11/12 bg-white/10 backdrop-blur-md rounded-2xl shadow-xl p-6 sm:p-8 md:p-10 my-8 sm:my-10 md:my-12 text-indigo-100">
+        <section className="max-w-4xl w-11/12 bg-white/10 backdrop-blur-md rounded-2xl shadow-xl p-6 sm:p-8 md:p-10 my-8 sm:my-10 md:my-12 text-indigo-100 text-center">
           <h2 className="text-3xl font-bold mb-4 text-yellow-400">
             What is MYM Nexus?
           </h2>
-          <p className="text-lg leading-relaxed mb-8 text-justify">
+          <p className="text-lg leading-relaxed mb-8 mx-auto max-w-3xl">
             MYM Nexus is a comprehensive school management platform that
             integrates all aspects of educational administration into a single,
             user-friendly application. It serves as a centralized hub where
@@ -41,7 +41,7 @@ const About: React.FC = () => {
           <h2 className="text-3xl font-bold mb-4 text-yellow-400">
             Why Choose MYM Nexus?
           </h2>
-          <p className="text-lg leading-relaxed mb-8 text-justify">
+          <p className="text-lg leading-relaxed mb-8 mx-auto max-w-3xl">
             Choosing MYM Nexus means opting for a streamlined, efficient
             approach to school management. It eliminates the need for multiple
             disconnected tools, which often lead to confusion and
@@ -58,7 +58,7 @@ const About: React.FC = () => {
           <h2 className="text-3xl font-bold mb-4 text-yellow-400">
             How Does It Work?
           </h2>
-          <p className="text-lg leading-relaxed mb-8 text-justify">
+          <p className="text-lg leading-relaxed mb-8 mx-auto max-w-3xl">
             Through a centralized dashboard, users can access features like
             attendance tracking, lesson planning, homework assistance, real-time
             chat, and detailed reports, all seamlessly integrated and accessible
@@ -68,7 +68,7 @@ const About: React.FC = () => {
           <h2 className="text-3xl font-bold mb-4 text-yellow-400">
             Who Is It For?
           </h2>
-          <p className="text-lg leading-relaxed text-justify">
+          <p className="text-lg leading-relaxed mx-auto max-w-3xl">
             Designed for teachers, students, parents, and school administrators
             who want to streamline school operations, improve communication, and
             focus more on education rather than paperwork.
