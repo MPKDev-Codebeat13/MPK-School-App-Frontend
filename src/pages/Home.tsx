@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
-import PWAInstallButton from '../components/PWAInstallButton'
+
 import { useAuth } from '../context/AuthContext'
 
 const Home: React.FC = () => {
@@ -121,7 +121,6 @@ const Home: React.FC = () => {
               day efficient. Whether it’s lesson planning, attendance, or
               communication – MYM has you covered.
             </p>
-            <PWAInstallButton />
             <Link to="/signup">
               <button className="py-3 px-8 rounded-full font-bold bg-yellow-400 text-gray-900 hover:bg-yellow-300 hover:scale-105 transition cursor-pointer mt-2">
                 Get Started

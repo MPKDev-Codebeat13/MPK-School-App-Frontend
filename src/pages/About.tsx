@@ -1,7 +1,7 @@
 import React from 'react'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
-import PWAInstallButton from '../components/PWAInstallButton'
+
 import { Link } from 'react-router-dom'
 
 const About: React.FC = () => {
@@ -80,7 +80,6 @@ const About: React.FC = () => {
           <h2 className="text-3xl md:text-4xl font-bold mb-6 text-indigo-200">
             Ready to Enjoy the Adventure?
           </h2>
-          <PWAInstallButton />
           <Link
             to="/signup"
             className="inline-block bg-yellow-400 text-slate-900 px-8 py-3 rounded-full font-bold text-lg shadow-md hover:bg-yellow-500 hover:scale-105 transition-transform mt-4"
