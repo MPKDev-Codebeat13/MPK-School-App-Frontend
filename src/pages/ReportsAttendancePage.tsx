@@ -9,6 +9,9 @@ import { Button } from '../components/ui/button'
 interface AttendanceRecord {
   _id: string
   date: string
+  email: string
+  grade: string
+  section: string
   studentCount: number
   students: {
     name: string
@@ -130,7 +133,7 @@ export default function ReportsAttendancePage() {
   }
 
   const handleViewDetails = (attendanceId: string) => {
-    window.location.href = `/babysitter/attendance/view/${attendanceId}`
+    window.location.href = `/attendance/view/${attendanceId}`
   }
 
   if (loading) {
@@ -193,6 +196,7 @@ export default function ReportsAttendancePage() {
               <div key={attendance._id} className={`${cardBase} ${cardSkin}`}>
                 <div className="mb-3 sm:mb-4">
                   <h3 className={`text-lg font-semibold ${cardTitle}`}>
+                    Grade {attendance.grade} Section {attendance.section} -{' '}
                     {new Date(attendance.date).toLocaleDateString('en-US', {
                       weekday: 'long',
                       year: 'numeric',

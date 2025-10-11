@@ -68,22 +68,13 @@ export default function App() {
                 path="/create-lesson-plan"
                 element={<CreateLessonPlan />}
               />
+              <Route path="/attendance/" element={<AttendanceList />} />
+              <Route path="/attendance/create" element={<CreateAttendance />} />
               <Route
-                path="/babysitter/attendance/"
-                element={<AttendanceList />}
-              />
-              <Route
-                path="/babysitter/attendance/create"
-                element={<CreateAttendance />}
-              />
-              <Route
-                path="/babysitter/attendance/take/:count"
+                path="/attendance/take/:count"
                 element={<TakeAttendance />}
               />
-              <Route
-                path="/babysitter/attendance/view/:id"
-                element={<ViewAttendance />}
-              />
+              <Route path="/attendance/view/:id" element={<ViewAttendance />} />
               <Route path="/check-child" element={<CheckChild />} />
               <Route path="/homework" element={<HomeworkHelper />} />
             </Route>
