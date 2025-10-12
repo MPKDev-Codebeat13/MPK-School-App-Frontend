@@ -3,6 +3,7 @@ import { useNavigate, Link, useLocation } from 'react-router-dom'
 import { API_ENDPOINTS, OAUTH_GOOGLE_START } from '../lib/api'
 import { useAuth } from '../hooks/useAuth'
 import { Eye, EyeOff } from 'lucide-react'
+import InstallButton from '../components/InstallButton'
 
 const Login: React.FC = () => {
   const navigate = useNavigate()
@@ -198,6 +199,7 @@ const Login: React.FC = () => {
           </Link>
         </p>
       </div>
+      <InstallButton />
     </div>
   )
 }

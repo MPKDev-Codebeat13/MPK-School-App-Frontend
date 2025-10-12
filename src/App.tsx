@@ -29,7 +29,6 @@ import TakeAttendance from './pages/TakeAttendance'
 import ViewAttendance from './pages/ViewAttendance'
 import LessonPlanDetails from './pages/LessonPlanDetails'
 import HomeworkHelper from './pages/HomeworkHelper'
-import InstallButton from './components/InstallButton'
 
 export default function App() {
   return (
@@ -88,7 +87,6 @@ export default function App() {
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/forgot-password/:token" element={<ResetPassword />} />
           </Routes>
-          <InstallButton />
         </ThemeProvider>
       </BrowserRouter>
     </AuthProvider>

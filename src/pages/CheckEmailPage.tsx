@@ -2,6 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { API_ENDPOINTS } from '../lib/api'
 import { useAuth } from '../hooks/useAuth'
+import InstallButton from '../components/InstallButton'
 
 const CheckEmailPage: React.FC = () => {
   const navigate = useNavigate()
@@ -212,6 +213,7 @@ const CheckEmailPage: React.FC = () => {
           </div>
         )}
       </div>
+      <InstallButton />
     </div>
   )
 }

@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
+import InstallButton from '../components/InstallButton'
 
 import { useAuth } from '../context/AuthContext'
 
@@ -131,6 +132,7 @@ const Home: React.FC = () => {
       </div>
 
       <Footer />
+      <InstallButton />
     </div>
   )
 }

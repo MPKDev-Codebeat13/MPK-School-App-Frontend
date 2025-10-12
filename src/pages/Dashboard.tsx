@@ -16,6 +16,7 @@ import {
 } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
 import { useTheme } from '../context/ThemeContext'
+import InstallButton from '../components/InstallButton'
 
 export default function Dashboard() {
   const navigate = useNavigate()
@@ -272,6 +273,7 @@ export default function Dashboard() {
           {renderRoleTools()}
         </section>
       </main>
+      <InstallButton />
     </div>
   )
 }

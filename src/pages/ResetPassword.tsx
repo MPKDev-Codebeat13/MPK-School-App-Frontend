@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate, useSearchParams, Link } from 'react-router-dom'
 import { API_ENDPOINTS } from '../lib/api'
+import InstallButton from '../components/InstallButton'
 
 const ResetPassword: React.FC = () => {
   const navigate = useNavigate()
@@ -94,6 +95,7 @@ const ResetPassword: React.FC = () => {
             Go to Login
           </Link>
         </div>
+        <InstallButton />
       </div>
     )
   }
@@ -145,6 +147,7 @@ const ResetPassword: React.FC = () => {
           </button>
         </form>
       </div>
+      <InstallButton />
     </div>
   )
 }

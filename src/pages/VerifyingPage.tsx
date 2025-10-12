@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useParams, useNavigate, useSearchParams } from 'react-router-dom'
 import { API_ENDPOINTS } from '../lib/api'
+import InstallButton from '../components/InstallButton'
 
 const VerifyingPage: React.FC = () => {
   const { token: urlToken } = useParams<{ token: string }>()
@@ -62,9 +63,9 @@ const VerifyingPage: React.FC = () => {
   }
 
   if (success) {
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-800 p-4 sm:p-6 overflow-x-hidden">
-      <div className="w-full max-w-md bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl shadow-2xl p-6 sm:p-8 text-center">
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-800 p-4 sm:p-6 overflow-x-hidden">
+        <div className="w-full max-w-md bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl shadow-2xl p-6 sm:p-8 text-center">
           <div className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
             <svg
               className="w-8 h-8 text-white"
@@ -87,6 +88,7 @@ const VerifyingPage: React.FC = () => {
             Your email has been successfully verified. Redirecting...
           </p>
         </div>
+        <InstallButton />
       </div>
     )
   }
@@ -153,6 +155,7 @@ const VerifyingPage: React.FC = () => {
           </div>
         )}
       </div>
+      <InstallButton />
     </div>
   )
 }

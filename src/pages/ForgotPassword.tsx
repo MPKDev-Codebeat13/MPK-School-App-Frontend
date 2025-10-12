@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { API_ENDPOINTS } from '../lib/api'
+import InstallButton from '../components/InstallButton'
 
 const ForgotPassword: React.FC = () => {
   const navigate = useNavigate()
@@ -41,13 +42,26 @@ const ForgotPassword: React.FC = () => {
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-800 p-4 sm:p-6 overflow-x-hidden">
         <div className="w-full max-w-md bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl shadow-2xl p-6 sm:p-8 text-center">
           <div className="w-12 h-12 sm:w-16 sm:h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
-            <svg className="w-6 h-6 sm:w-8 sm:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+            <svg
+              className="w-6 h-6 sm:w-8 sm:h-8 text-white"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+              />
             </svg>
           </div>
-          <h1 className="text-xl sm:text-2xl font-bold text-white mb-4">Check Your Email</h1>
+          <h1 className="text-xl sm:text-2xl font-bold text-white mb-4">
+            Check Your Email
+          </h1>
           <p className="text-gray-300 mb-6 text-sm sm:text-base">
-            If an account with this email exists, we've sent you a password reset link.
+            If an account with this email exists, we've sent you a password
+            reset link.
           </p>
           <button
             onClick={() => navigate('/login')}
@@ -56,6 +70,7 @@ const ForgotPassword: React.FC = () => {
             Back to Login
           </button>
         </div>
+        <InstallButton />
       </div>
     )
   }
@@ -65,13 +80,26 @@ const ForgotPassword: React.FC = () => {
       <div className="w-full max-w-md bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl shadow-2xl p-6 sm:p-8">
         <div className="text-center mb-6">
           <div className="w-12 h-12 sm:w-16 sm:h-16 bg-blue-500 rounded-full flex items-center justify-center mx-auto mb-4">
-            <svg className="w-6 h-6 sm:w-8 sm:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
+            <svg
+              className="w-6 h-6 sm:w-8 sm:h-8 text-white"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"
+              />
             </svg>
           </div>
-          <h1 className="text-xl sm:text-2xl font-bold text-white mb-2">Forgot Password?</h1>
+          <h1 className="text-xl sm:text-2xl font-bold text-white mb-2">
+            Forgot Password?
+          </h1>
           <p className="text-gray-300 text-sm sm:text-base">
-            Enter your email address and we'll send you a link to reset your password.
+            Enter your email address and we'll send you a link to reset your
+            password.
           </p>
         </div>
 
@@ -111,6 +139,7 @@ const ForgotPassword: React.FC = () => {
           </Link>
         </div>
       </div>
+      <InstallButton />
     </div>
   )
 }

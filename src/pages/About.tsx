@@ -1,6 +1,7 @@
 import React from 'react'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
+import InstallButton from '../components/InstallButton'
 
 import { Link } from 'react-router-dom'
 
@@ -90,6 +91,7 @@ const About: React.FC = () => {
       </div>
 
       <Footer />
+      <InstallButton />
     </div>
   )
 }
