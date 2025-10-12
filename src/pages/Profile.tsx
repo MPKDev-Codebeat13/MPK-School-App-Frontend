@@ -294,6 +294,21 @@ export default function Profile() {
 
               <div className="space-y-2">
                 <label className={`${textMuted} text-sm sm:text-base`}>
+                  Password
+                </label>
+                <Input
+                  value="••••••••"
+                  readOnly
+                  className={`${
+                    isLight
+                      ? 'bg-gray-100 opacity-60'
+                      : 'bg-white/10 text-white opacity-60'
+                  } cursor-not-allowed text-sm sm:text-base`}
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className={`${textMuted} text-sm sm:text-base`}>
                   Role
                 </label>
                 <Input
