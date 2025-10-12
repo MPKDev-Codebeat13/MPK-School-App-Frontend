@@ -182,7 +182,7 @@ export default function ReportsLessonPlan() {
 
           <div className={`${tableBg} shadow overflow-hidden sm:rounded-md`}>
             <div className="px-3 sm:px-4 py-4 sm:py-5 lg:p-6">
-              <div className="overflow-x-auto">
+              <div className="overflow-x-auto scrollbar-thin scrollbar-thumb-indigo-500 scrollbar-track-indigo-100 hover:scrollbar-thumb-indigo-600">
                 <table className="min-w-full divide-y divide-gray-200 text-sm sm:text-base">
                   <thead className={tableBg}>
                     <tr>

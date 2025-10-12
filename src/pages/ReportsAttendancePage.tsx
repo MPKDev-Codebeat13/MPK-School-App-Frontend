@@ -109,9 +109,20 @@ export default function ReportsAttendancePage() {
 
         let data
         try {
+          const contentType = response.headers.get('content-type')
+          if (!contentType || !contentType.includes('application/json')) {
+            const text = await response.text()
+            throw new Error(
+              `Server returned non-JSON response: ${text.substring(0, 200)}...`
+            )
+          }
           data = await response.json()
         } catch (parseError) {
-          throw new Error('Failed to parse server response. Please try again.')
+          throw new Error(
+            `Failed to parse server response: ${
+              parseError instanceof Error ? parseError.message : 'Unknown error'
+            }`
+          )
         }
         const attendancesPage = data.attendances || []
         allAttendances.push(...attendancesPage)
