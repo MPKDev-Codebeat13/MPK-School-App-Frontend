@@ -19,6 +19,7 @@ const InstallButton: React.FC = () => {
     useState<BeforeInstallPromptEvent | null>(null)
   const [isInstallable, setIsInstallable] = useState(false)
   const [isInstalled, setIsInstalled] = useState(false)
+  const isDev = import.meta.env.DEV
 
   useEffect(() => {
     // Check if already installed (standalone mode)
@@ -55,6 +56,14 @@ const InstallButton: React.FC = () => {
     window.addEventListener('appinstalled', handleAppInstalled)
     console.log('InstallButton: Event listeners added')
 
+    // Force show in dev mode for testing
+    if (isDev) {
+      console.log(
+        'InstallButton: Dev mode - forcing button visibility for testing'
+      )
+      setIsInstallable(true)
+    }
+
     return () => {
       window.removeEventListener(
         'beforeinstallprompt',
@@ -63,12 +72,21 @@ const InstallButton: React.FC = () => {
       window.removeEventListener('appinstalled', handleAppInstalled)
       console.log('InstallButton: Event listeners removed')
     }
-  }, [])
+  }, [isDev])
 
   const handleInstallClick = async () => {
     console.log('InstallButton: Install button clicked')
     if (!deferredPrompt) {
-      console.log('InstallButton: No deferredPrompt available')
+      if (isDev) {
+        console.log('InstallButton: Dev mode - simulating install')
+        alert(
+          'In development mode: PWA install simulation. In production (HTTPS), this would trigger the real install prompt.'
+        )
+        setIsInstalled(true)
+        setIsInstallable(false)
+      } else {
+        console.log('InstallButton: No deferredPrompt available')
+      }
       return
     }
 
