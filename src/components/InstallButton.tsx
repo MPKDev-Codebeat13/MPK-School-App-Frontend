@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 
-const PWAInstallButton: React.FC = () => {
+const InstallButton: React.FC = () => {
   const [deferredPrompt, setDeferredPrompt] = useState<any>(null)
   const [isInstallable, setIsInstallable] = useState(false)
   const [isInstalled, setIsInstalled] = useState(false)
@@ -56,11 +56,11 @@ const PWAInstallButton: React.FC = () => {
   return (
     <button
       onClick={handleInstallClick}
-      className="bg-yellow-400 text-gray-900 px-6 py-3 rounded-full font-bold hover:bg-yellow-300 transition transform hover:scale-105"
+      className="fixed bottom-4 left-4 z-50 bg-yellow-400 text-indigo-900 px-4 py-2 rounded-full font-bold text-sm sm:text-base hover:bg-yellow-300 hover:scale-105 transition-all duration-200 shadow-lg border-2 border-indigo-600"
     >
-      Install MYM Nexus 📲
+      Install MYM Nexus 📱
     </button>
   )
 }
 
-export default PWAInstallButton
+export default InstallButton
