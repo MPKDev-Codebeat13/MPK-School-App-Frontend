@@ -29,12 +29,18 @@ export default function OAuthCallback() {
 
         login(user, accessToken, undefined)
 
-        // Always go to complete profile for OAuth users
-        setStatus('Login successful! Redirecting to complete profile...')
-        setTimeout(
-          () => navigate('/complete-profile', { replace: true }),
-          1000
-        )
+        // Check if user has password set
+        if (!user.hasPassword) {
+          setStatus('Login successful! Redirecting to set password...')
+          setTimeout(() => navigate('/set-password', { replace: true }), 1000)
+        } else {
+          // Always go to complete profile for OAuth users
+          setStatus('Login successful! Redirecting to complete profile...')
+          setTimeout(
+            () => navigate('/complete-profile', { replace: true }),
+            1000
+          )
+        }
       } catch (err) {
         console.error('OAuth callback error:', err)
         setStatus('Authentication failed. Redirecting to login...')

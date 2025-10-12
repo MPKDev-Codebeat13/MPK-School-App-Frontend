@@ -83,6 +83,7 @@ export const API_ENDPOINTS = {
   GOOGLE_AUTH: `${API_BASE}/auth/google`,
   GOOGLE_CALLBACK: `${API_BASE}/auth/google/callback`,
   AUTO_VERIFY_OAUTH: `${API_BASE}/auth/auto-verify-oauth`,
+  SET_PASSWORD: `${API_BASE}/auth/set-password`,
 
   // User
   UPDATE_USER: `${API_BASE}/auth/user/update`,

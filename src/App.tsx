@@ -13,6 +13,7 @@ import { ThemeProvider } from './context/ThemeContext'
 import ProtectedRoute from './components/ProtectedRoute'
 import OAuthCallback from './pages/OAuthCallback'
 import CompleteProfile from './pages/CompleteProfile'
+import SetPasswordAfterOAuth from './pages/SetPasswordAfterOAuth'
 import Settings from './pages/Settings'
 import Profile from './pages/Profile'
 import Chat from './pages/Chat'
@@ -44,6 +45,7 @@ export default function App() {
             {/* OAuth Callback */}
             <Route path="/oauth-callback" element={<OAuthCallback />} />
             <Route path="/oauth-success" element={<OAuthCallback />} />
+            <Route path="/set-password" element={<SetPasswordAfterOAuth />} />
             <Route path="/complete-profile" element={<CompleteProfile />} />
 
             {/* Protected Route */}
