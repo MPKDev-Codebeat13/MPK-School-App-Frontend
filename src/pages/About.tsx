@@ -23,7 +23,7 @@ const About: React.FC = () => {
         </section>
 
         {/* Details Section */}
-        <section className="max-w-4xl w-11/12 bg-white/10 backdrop-blur-md rounded-2xl shadow-xl p-6 sm:p-8 md:p-10 my-8 sm:my-10 md:my-12 text-indigo-100 text-center">
+        <section className="w-full text-center py-12 sm:py-16 md:py-20 px-4 sm:px-6 bg-white/10 backdrop-blur-md rounded-2xl shadow-2xl mt-4 sm:mt-6 md:mt-8 mx-2 sm:mx-4 md:mx-12 text-indigo-100">
           <h2 className="text-3xl font-bold mb-4 text-yellow-400">
             What is MYM Nexus?
           </h2>
@@ -90,8 +90,8 @@ const About: React.FC = () => {
         </section>
       </div>
 
-      <Footer />
       <InstallButton />
+      <Footer />
     </div>
   )
 }

@@ -8,9 +8,6 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.ico', 'logo.png', 'robots.txt'],
-      devOptions: {
-        enabled: true,
-      },
       manifest: {
         name: 'MYM Nexus',
         short_name: 'MYMNexus',
@@ -32,6 +29,13 @@ export default defineConfig({
             type: 'image/png',
           },
         ],
+      },
+      workbox: {
+        globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
+      },
+      devOptions: {
+        enabled: true,
+        type: 'module',
       },
     }),
   ],
