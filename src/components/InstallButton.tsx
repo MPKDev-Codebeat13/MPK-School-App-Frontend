@@ -116,7 +116,7 @@ const InstallButton: React.FC = () => {
   return (
     <button
       onClick={handleInstallClick}
-      className="fixed bottom-4 left-4 z-50 bg-yellow-400 text-indigo-900 px-4 py-2 rounded-full font-bold text-sm sm:text-base hover:bg-yellow-300 hover:scale-105 transition-all duration-200 shadow-lg border-2 border-indigo-600"
+      className="fixed bottom-4 left-4 z-50 bg-yellow-400 text-indigo-900 px-4 py-2 rounded-full font-bold text-sm sm:text-base hover:bg-yellow-300 hover:scale-105 transition-all duration-200 border-2 border-indigo-600"
     >
       Install MYM Nexus 📱
     </button>
