@@ -15,12 +15,12 @@ const Home: React.FC = () => {
   }, [user, navigate])
 
   return (
-    <div className="flex flex-col items-center min-h-screen w-full text-white bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 overflow-x-hidden">
+    <div className="flex flex-col items-center min-h-screen w-full text-white bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-800 overflow-x-hidden">
       <Header />
 
       <div className="flex-1 overflow-y-auto">
         {/* Hero / Welcome */}
-        <section className="w-full text-center py-12 sm:py-16 md:py-24 px-4 bg-gradient-radial from-purple-600 via-indigo-700 to-indigo-800 text-white shadow-xl">
+        <section className="w-full text-center py-12 sm:py-16 md:py-24 px-4 bg-gradient-to-br from-indigo-600 via-purple-700 to-indigo-800 text-white shadow-xl">
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold mb-4">
             Welcome to MYM Nexus
           </h1>
@@ -109,7 +109,7 @@ const Home: React.FC = () => {
 
           {/* Why Us / CTA */}
           <section className="p-6 rounded-2xl text-center transition-transform duration-300 transform hover:scale-105 bg-indigo-800/20">
-            <h2 className="text-2xl font-bold mb-4 text-pink-300">
+            <h2 className="text-2xl font-bold mb-4 text-yellow-400">
               Why Choose Us?
             </h2>
             <p className="mb-4 leading-relaxed">
@@ -130,9 +130,8 @@ const Home: React.FC = () => {
           </section>
         </div>
       </div>
-
+        <InstallButton />
       <Footer />
-      <InstallButton />
     </div>
   )
 }
