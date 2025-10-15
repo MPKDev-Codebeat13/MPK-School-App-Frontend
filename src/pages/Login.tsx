@@ -65,7 +65,13 @@ const Login: React.FC = () => {
         credentials: 'include',
       })
 
-      const data = await response.json()
+      let data
+      try {
+        data = await response.json()
+      } catch (jsonErr) {
+        // Handle non-JSON responses (e.g., empty body on error)
+        data = { error: 'Invalid response from server' }
+      }
 
       if (response.ok) {
         const accessToken = data.accessToken
