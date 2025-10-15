@@ -61,6 +61,15 @@ export default function SetPasswordAfterOAuth() {
         throw new Error(errorData.error || 'Failed to set password')
       }
 
+      const data = await response.json()
+
+      // Update user in auth context with verified status
+      if (user && data.user) {
+        const updatedUser = { ...user, ...data.user }
+        const { setUser } = useAuth()
+        setUser(updatedUser)
+      }
+
       // Password set successfully, redirect to complete profile
       navigate('/complete-profile', { replace: true })
     } catch (err) {
