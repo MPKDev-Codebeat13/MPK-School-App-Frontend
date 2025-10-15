@@ -47,7 +47,7 @@ const ViewAttendance: React.FC = () => {
   useEffect(() => {
     if (!accessToken || !id) return
     setLoading(true)
-    fetch(`${API_BASE_URL}/attendance/${id}`, {
+    fetch(`${API_BASE_URL}/babysitter/attendance/${id}`, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },

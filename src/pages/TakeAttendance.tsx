@@ -93,7 +93,7 @@ const TakeAttendance: React.FC = () => {
     setError('')
     setLoading(true)
     try {
-      const response = await fetch(`${API_BASE_URL}/attendance`, {
+      const response = await fetch(`${API_BASE_URL}/babysitter/attendance`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

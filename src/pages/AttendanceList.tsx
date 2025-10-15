@@ -42,7 +42,7 @@ const AttendanceList: React.FC = () => {
   useEffect(() => {
     if (!accessToken) return
     setLoading(true)
-    fetch(`${API_BASE_URL}/attendance`, {
+    fetch(`${API_BASE_URL}/babysitter/attendance`, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
@@ -86,12 +86,15 @@ const AttendanceList: React.FC = () => {
 
     setDeleteLoading(recordId)
     try {
-      const response = await fetch(`${API_BASE_URL}/attendance/${recordId}`, {
-        method: 'DELETE',
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      })
+      const response = await fetch(
+        `${API_BASE_URL}/babysitter/attendance/${recordId}`,
+        {
+          method: 'DELETE',
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      )
 
       if (!response.ok) {
         throw new Error('Failed to delete attendance record')
