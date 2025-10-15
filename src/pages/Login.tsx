@@ -49,7 +49,7 @@ const Login: React.FC = () => {
     }))
   }
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent, retryCount = 0) => {
     e.preventDefault()
     setError(null)
     setLoading(true)
@@ -78,7 +78,13 @@ const Login: React.FC = () => {
         const refreshToken = data.refreshToken
 
         if (!accessToken) {
-          throw new Error('No access token in response')
+          // Retry once if access token is missing (possible network/server issue)
+          if (retryCount < 1) {
+            console.warn('Access token missing, retrying login...')
+            setTimeout(() => handleSubmit(e, retryCount + 1), 1000)
+            return
+          }
+          throw new Error('Invalid response from server')
         }
 
         login(data.user, accessToken, refreshToken)
