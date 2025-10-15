@@ -183,42 +183,42 @@ export default function ReportsLessonPlan() {
           <div className={`${tableBg} shadow overflow-hidden sm:rounded-md`}>
             <div className="px-3 sm:px-4 py-4 sm:py-5 lg:p-6">
               <div className="overflow-x-auto scrollbar-thin scrollbar-thumb-indigo-500 scrollbar-track-indigo-100 hover:scrollbar-thumb-indigo-600">
-                <table className="min-w-full divide-y divide-gray-200 text-sm sm:text-base table-auto">
+                <table className="w-full divide-y divide-gray-200 text-xs sm:text-sm table-fixed min-w-[600px]">
                   <thead className={tableBg}>
                     <tr>
                       <th
                         scope="col"
-                        className={`px-3 sm:px-6 py-3 text-left text-xs font-medium ${cardText} uppercase tracking-wider`}
+                        className={`px-2 sm:px-4 py-3 text-left text-xs font-medium ${cardText} uppercase tracking-wider w-2/6`}
                       >
                         Title
                       </th>
                       <th
                         scope="col"
-                        className={`px-3 sm:px-6 py-3 text-left text-xs font-medium ${cardText} uppercase tracking-wider`}
+                        className={`px-2 sm:px-4 py-3 text-left text-xs font-medium ${cardText} uppercase tracking-wider w-1/6`}
                       >
                         Date
                       </th>
                       <th
                         scope="col"
-                        className={`px-3 sm:px-6 py-3 text-left text-xs font-medium ${cardText} uppercase tracking-wider`}
+                        className={`px-2 sm:px-4 py-3 text-left text-xs font-medium ${cardText} uppercase tracking-wider w-1/6`}
                       >
                         Subject
                       </th>
                       <th
                         scope="col"
-                        className={`px-3 sm:px-6 py-3 text-left text-xs font-medium ${cardText} uppercase tracking-wider`}
+                        className={`px-2 sm:px-4 py-3 text-left text-xs font-medium ${cardText} uppercase tracking-wider w-1/6`}
                       >
                         Grade
                       </th>
                       <th
                         scope="col"
-                        className={`px-3 sm:px-6 py-3 text-left text-xs font-medium ${cardText} uppercase tracking-wider`}
+                        className={`px-2 sm:px-4 py-3 text-left text-xs font-medium ${cardText} uppercase tracking-wider w-1/6`}
                       >
                         Type
                       </th>
                       <th
                         scope="col"
-                        className={`px-3 sm:px-6 py-3 text-left text-xs font-medium ${cardText} uppercase tracking-wider`}
+                        className={`px-2 sm:px-4 py-3 text-left text-xs font-medium ${cardText} uppercase tracking-wider w-1/6`}
                       >
                         Status
                       </th>
@@ -231,35 +231,35 @@ export default function ReportsLessonPlan() {
                         className={`${tableRowHover} transition-colors duration-200 hover:bg-indigo-100 dark:hover:bg-indigo-900`}
                       >
                         <td
-                          className={`px-3 sm:px-6 py-4 whitespace-nowrap text-sm font-medium ${cardTitle}`}
+                          className={`px-2 sm:px-4 py-4 text-xs sm:text-sm font-medium ${cardTitle} break-words`}
                         >
                           {plan.title}
                         </td>
                         <td
-                          className={`px-3 sm:px-6 py-4 whitespace-nowrap text-sm ${cardText}`}
+                          className={`px-2 sm:px-4 py-4 text-xs sm:text-sm ${cardText}`}
                         >
-                          <span className="text-sm text-gray-500 dark:text-gray-300">
+                          <span className="text-xs sm:text-sm text-gray-500 dark:text-gray-300">
                             {new Date(plan.createdAt).toLocaleDateString()}
                           </span>
                         </td>
                         <td
-                          className={`px-3 sm:px-6 py-4 whitespace-nowrap text-sm ${cardText}`}
+                          className={`px-2 sm:px-4 py-4 text-xs sm:text-sm ${cardText}`}
                         >
                           {plan.subject}
                         </td>
                         <td
-                          className={`px-3 sm:px-6 py-4 whitespace-nowrap text-sm ${cardText}`}
+                          className={`px-2 sm:px-4 py-4 text-xs sm:text-sm ${cardText}`}
                         >
                           {plan.grade}
                         </td>
                         <td
-                          className={`px-3 sm:px-6 py-4 whitespace-nowrap text-sm ${cardText}`}
+                          className={`px-2 sm:px-4 py-4 text-xs sm:text-sm ${cardText}`}
                         >
                           {plan.type}
                         </td>
-                        <td className="px-3 sm:px-6 py-4 whitespace-nowrap">
+                        <td className="px-2 sm:px-4 py-4">
                           <span
-                            className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+                            className={`inline-flex px-1 sm:px-2 py-1 text-xs font-semibold rounded-full ${
                               plan.status === 'accepted'
                                 ? isLight
                                   ? 'bg-green-100 text-green-800'
