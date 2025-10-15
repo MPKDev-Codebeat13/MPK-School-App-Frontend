@@ -1052,28 +1052,26 @@ const Chat: React.FC = () => {
       <div className="flex-1 flex flex-col">
         {/* Chat Header */}
         <div
-          className={`pt-2 pb-4 px-4 border-b fixed top-0 z-10 w-full ${
-            isSidebarOpen ? 'left-64' : 'left-0'
-          } ${
+          className={`pt-2 pb-4 px-4 border-b fixed top-0 z-10 left-0 right-0 ${
             isLight
               ? 'border-gray-200 bg-white'
               : 'border-gray-700 bg-gray-800/50'
           } backdrop-blur-xl shadow-sm`}
         >
-          <div className="flex items-center justify-start">
-            <div className="flex items-center gap-3">
-              <Globe className="w-6 h-6 text-violet-500" />
-              <h2 className="text-xl font-bold">
+          <div className="flex items-center justify-between w-full">
+            <div className="flex items-center gap-3 flex-1 min-w-0">
+              <Globe className="w-6 h-6 text-violet-500 flex-shrink-0" />
+              <h2 className="text-xl font-bold truncate">
                 {isSelectionMode ? `${selectedMessages.size} selected` : 'Chat'}
               </h2>
               {!isSelectionMode && typingUser && (
-                <span className="text-sm text-gray-500 italic">
+                <span className="text-sm text-gray-500 italic truncate ml-2">
                   {typingUser}
                 </span>
               )}
             </div>
 
-            <div className="flex items-center gap-2 ml-auto">
+            <div className="flex items-center gap-2 flex-shrink-0">
               {isSelectionMode ? (
                 <>
                   <button
