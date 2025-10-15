@@ -37,7 +37,7 @@ export default function Sidebar({
       { to: '/settings', label: 'Settings' },
     ],
     babysitter: [
-      { to: '/babysitter/attendance/', label: 'Take Attendance' },
+      { to: '/attendance/', label: 'Take Attendance' },
       { to: '/chat', label: 'Chat' },
       { to: '/settings', label: 'Settings' },
     ],

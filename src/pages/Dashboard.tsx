@@ -61,7 +61,7 @@ export default function Dashboard() {
       case 'Teacher':
         return (
           <div
-            onClick={() => goTo('/lesson-plans')}
+            onClick={() => goTo('/lesson-planner')}
             className={`${cardBase} ${cardSkin}`}
           >
             <div className="flex items-center gap-3">
@@ -69,7 +69,7 @@ export default function Dashboard() {
                 className={`w-6 h-6 ${iconColor} group-hover:scale-110 transition`}
               />
               <h3 className={`font-bold text-lg ${cardTitle}`}>
-                Lesson Plans 📚
+                Lesson Planner 📚
               </h3>
             </div>
             <p className={`${cardText} mt-3`}>Create and edit lesson plans.</p>
@@ -78,7 +78,7 @@ export default function Dashboard() {
       case 'Babysitter':
         return (
           <div
-            onClick={() => goTo('/babysitter/attendance/')}
+            onClick={() => goTo('/attendance/')}
             className={`${cardBase} ${cardSkin}`}
           >
             <div className="flex items-center gap-3">
@@ -86,7 +86,7 @@ export default function Dashboard() {
                 className={`w-6 h-6 ${iconColor} group-hover:scale-110 transition`}
               />
               <h3 className={`font-bold text-lg ${cardTitle}`}>
-                Attendance ✅
+                Take Attendance ✅
               </h3>
             </div>
             <p className={`${cardText} mt-3`}>
