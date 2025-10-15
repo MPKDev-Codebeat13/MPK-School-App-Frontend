@@ -93,7 +93,7 @@ const TakeAttendance: React.FC = () => {
     setError('')
     setLoading(true)
     try {
-      const response = await fetch(`${API_BASE_URL}/babysitter/attendance`, {
+      const response = await fetch(`${API_BASE_URL}/attendance`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -109,7 +109,7 @@ const TakeAttendance: React.FC = () => {
       if (!response.ok) {
         throw new Error('Failed to save attendance')
       }
-      navigate('/babysitter/attendance')
+      navigate('/attendance/')
     } catch (err: any) {
       setError(err.message || 'Failed to save attendance')
     } finally {
@@ -118,7 +118,7 @@ const TakeAttendance: React.FC = () => {
   }
 
   const handleCancel = () => {
-    navigate('/babysitter/attendance')
+    navigate('/attendance/')
   }
 
   return (

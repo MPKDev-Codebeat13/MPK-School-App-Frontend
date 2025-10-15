@@ -42,7 +42,7 @@ const AttendanceList: React.FC = () => {
   useEffect(() => {
     if (!accessToken) return
     setLoading(true)
-    fetch(`${API_BASE_URL}/babysitter/attendance`, {
+    fetch(`${API_BASE_URL}/attendance`, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
@@ -86,15 +86,12 @@ const AttendanceList: React.FC = () => {
 
     setDeleteLoading(recordId)
     try {
-      const response = await fetch(
-        `${API_BASE_URL}/babysitter/attendance/${recordId}`,
-        {
-          method: 'DELETE',
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      )
+      const response = await fetch(`${API_BASE_URL}/attendance/${recordId}`, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
 
       if (!response.ok) {
         throw new Error('Failed to delete attendance record')
@@ -115,7 +112,7 @@ const AttendanceList: React.FC = () => {
   }
 
   const handleViewDetails = async (recordId: string) => {
-    navigate(`/babysitter/attendance/view/${recordId}`)
+    navigate(`/attendance/view/${recordId}`)
   }
 
   return (
@@ -129,7 +126,7 @@ const AttendanceList: React.FC = () => {
         >
           Attendance
         </h1>
-        <Button onClick={() => navigate('/babysitter/attendance/create')}>
+        <Button onClick={() => navigate('/attendance/create')}>
           Create Attendance
         </Button>
         <div className="mt-4 mb-4">

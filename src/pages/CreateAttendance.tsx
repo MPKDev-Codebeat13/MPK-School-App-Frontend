@@ -57,13 +57,11 @@ const CreateAttendance: React.FC = () => {
       return
     }
     setError('')
-    navigate(
-      `/babysitter/attendance/take/${todayStudents}?total=${totalStudents}`
-    )
+    navigate(`/attendance/take/${todayStudents}?total=${totalStudents}`)
   }
 
   const handleCancel = () => {
-    navigate('/babysitter/attendance')
+    navigate('/attendance/')
   }
 
   return (

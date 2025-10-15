@@ -47,7 +47,7 @@ const ViewAttendance: React.FC = () => {
   useEffect(() => {
     if (!accessToken || !id) return
     setLoading(true)
-    fetch(`${API_BASE_URL}/babysitter/attendance/${id}`, {
+    fetch(`${API_BASE_URL}/attendance/${id}`, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
@@ -130,7 +130,7 @@ const ViewAttendance: React.FC = () => {
             <Button
               onClick={() => {
                 if (user?.role === 'Babysitter') {
-                  navigate('/babysitter/attendance/')
+                  navigate('/attendance/')
                 } else {
                   navigate('/reports-attendance')
                 }
