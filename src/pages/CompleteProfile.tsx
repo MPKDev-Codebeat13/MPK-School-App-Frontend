@@ -311,7 +311,7 @@ const CompleteProfile: React.FC = () => {
 
       if (isOAuthUser) {
         // OAuth user - redirect to check email for verification
-        navigate('/check-email')
+        navigate('/check-email?from=complete-profile')
       } else {
         // Normal user - redirect to check email
         navigate('/check-email')

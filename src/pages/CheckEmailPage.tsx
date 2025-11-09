@@ -65,6 +65,13 @@ const CheckEmailPage: React.FC = () => {
       return () => clearInterval(pollInterval)
     }
 
+    // If redirected from complete profile, don't send email, just poll
+    if (from === 'complete-profile') {
+      // Start polling for verification status
+      const pollInterval = setInterval(checkVerificationStatus, 3000) // Poll every 3 seconds
+      return () => clearInterval(pollInterval)
+    }
+
     // Send verification email only once
     const email = emailFromParams || user?.email
     if (!emailSent && email) {
@@ -173,7 +180,7 @@ const CheckEmailPage: React.FC = () => {
         )}
 
         <div className="space-y-3">
-          {from !== 'verifying' && (
+          {from !== 'verifying' && from !== 'complete-profile' && (
             <button
               onClick={() => {
                 // For OAuth users, redirect to dashboard instead of home
@@ -192,7 +199,7 @@ const CheckEmailPage: React.FC = () => {
               Go to Home
             </button>
           )}
-          {from !== 'verifying' && (
+          {from !== 'verifying' && from !== 'complete-profile' && (
             <button
               onClick={resendVerification}
               disabled={loading}
