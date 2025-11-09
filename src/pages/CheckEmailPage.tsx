@@ -13,6 +13,7 @@ const CheckEmailPage: React.FC = () => {
   const [resendStatus, setResendStatus] = useState<string | null>(null)
   const [emailSent, setEmailSent] = useState(false)
   const [isVerified, setIsVerified] = useState(false)
+  const [shouldPoll, setShouldPoll] = useState(true)
 
   const token = searchParams.get('token')
   const emailFromParams = searchParams.get('email')
@@ -20,7 +21,7 @@ const CheckEmailPage: React.FC = () => {
 
   // Poll for verification status
   const checkVerificationStatus = useCallback(async () => {
-    if (isVerified) return
+    if (isVerified || !shouldPoll) return
 
     const email = emailFromParams || user?.email
     if (!email) return
@@ -41,13 +42,14 @@ const CheckEmailPage: React.FC = () => {
         const data = await response.json()
         if (data.isVerified) {
           setIsVerified(true)
+          setShouldPoll(false)
           setTimeout(() => navigate('/dashboard'), 500)
         }
       }
     } catch (err) {
       console.error('Error checking verification status:', err)
     }
-  }, [emailFromParams, user?.email, isVerified, navigate])
+  }, [emailFromParams, user?.email, isVerified, shouldPoll, navigate])
 
   useEffect(() => {
     // If token is present, redirect to proper verification page
