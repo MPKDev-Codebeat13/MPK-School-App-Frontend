@@ -58,6 +58,36 @@ const CheckEmailPage: React.FC = () => {
       return
     }
 
+    // Check if user is already verified on page load
+    const checkInitialVerificationStatus = async () => {
+      const email = emailFromParams || user?.email
+      if (!email) return
+
+      try {
+        const response = await fetch(
+          `${API_ENDPOINTS.CHECK_VERIFICATION_STATUS}`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email }),
+          }
+        )
+
+        if (response.ok) {
+          const data = await response.json()
+          if (data.isVerified) {
+            // User is already verified, redirect immediately
+            navigate('/dashboard', { replace: true })
+            return
+          }
+        }
+      } catch (err) {
+        console.error('Error checking initial verification status:', err)
+      }
+    }
+
     // If redirected from verifying page, don't send email, just poll
     if (from === 'verifying') {
       // Start polling for verification status
@@ -71,6 +101,9 @@ const CheckEmailPage: React.FC = () => {
       const pollInterval = setInterval(checkVerificationStatus, 3000) // Poll every 3 seconds
       return () => clearInterval(pollInterval)
     }
+
+    // Check initial verification status first
+    checkInitialVerificationStatus()
 
     // Send verification email only once
     const email = emailFromParams || user?.email
