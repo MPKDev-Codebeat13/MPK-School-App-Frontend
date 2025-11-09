@@ -48,19 +48,8 @@ const VerifyingPage: React.FC = () => {
       } else {
         setSuccess(true)
 
-        // For OAuth users, redirect to login after verification
-        // For regular users, redirect to dashboard
+        // After successful verification, redirect to dashboard for all users
         setTimeout(() => {
-          // Check if this is an OAuth verification by looking at localStorage
-          const storedUser = localStorage.getItem('user')
-          if (storedUser) {
-            const user = JSON.parse(storedUser)
-            if (user.isOAuth) {
-              navigate('/login')
-              return
-            }
-          }
-          // Default to dashboard for regular users
           navigate('/dashboard')
         }, 2000)
       }
