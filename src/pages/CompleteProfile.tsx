@@ -310,7 +310,7 @@ const CompleteProfile: React.FC = () => {
           })())
 
       if (isOAuthUser) {
-        // OAuth user - redirect to check email for verification (same as regular users)
+        // OAuth user - redirect to check email for verification
         navigate('/check-email')
       } else {
         // Normal user - redirect to check email

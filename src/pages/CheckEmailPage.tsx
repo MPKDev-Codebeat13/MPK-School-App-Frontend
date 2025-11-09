@@ -149,7 +149,7 @@ const CheckEmailPage: React.FC = () => {
 
         <p className="text-gray-300 mb-6">
           {from === 'verifying'
-            ? 'Your email has been verified. Redirecting to login...'
+            ? 'Your email has been verified. Redirecting to dashboard...'
             : "We've sent a verification link to your email address. Please click the link to verify your account."}
         </p>
         {from !== 'verifying' && (
@@ -160,7 +160,7 @@ const CheckEmailPage: React.FC = () => {
 
         {isVerified && (
           <div className="mb-4 p-3 bg-green-500/20 border border-green-500/50 rounded-lg text-green-300 text-sm">
-            Email verified successfully! Redirecting to login...
+            Email verified successfully! Redirecting to dashboard...
           </div>
         )}
 
