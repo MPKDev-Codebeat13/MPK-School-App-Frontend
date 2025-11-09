@@ -69,8 +69,8 @@ export default function SetPasswordAfterOAuth() {
         setUser(updatedUser)
       }
 
-      // Password set successfully, redirect to check email for verification
-      navigate('/check-email', { replace: true })
+      // Password set successfully, OAuth users are auto-verified, redirect to login
+      navigate('/login', { replace: true })
     } catch (err) {
       console.error('Set password error:', err)
       setError(err instanceof Error ? err.message : 'Failed to set password')

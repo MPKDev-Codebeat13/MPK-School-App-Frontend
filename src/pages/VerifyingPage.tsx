@@ -48,9 +48,9 @@ const VerifyingPage: React.FC = () => {
       } else {
         setSuccess(true)
 
-        // Redirect to dashboard after verification
+        // Redirect to login after verification
         setTimeout(() => {
-          navigate('/dashboard')
+          navigate('/login')
         }, 2000)
       }
     } catch (err) {
