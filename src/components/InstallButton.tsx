@@ -33,7 +33,7 @@ const InstallButton: React.FC = () => {
 
     const handleBeforeInstallPrompt = (e: BeforeInstallPromptEvent) => {
       console.log('InstallButton: beforeinstallprompt event fired')
-      // Prevent the mini-infobar from appearing on mobile
+      // Prevent the mini-infobar from appearing on mobile - we'll handle it ourselves
       e.preventDefault()
       // Stash the event so it can be triggered later
       setDeferredPrompt(e)

@@ -118,7 +118,19 @@ const CheckEmailPage: React.FC = () => {
           'Verification email sent successfully! Please check your email.'
         )
       } else {
-        setResendStatus('Failed to send verification email. Please try again.')
+        // Handle specific error cases
+        if (response.status === 429) {
+          // Rate limited - show the specific error message from server
+          setResendStatus(
+            data.error || 'Please wait before requesting another email.'
+          )
+        } else if (response.status === 400) {
+          setResendStatus(data.error || 'Failed to send verification email.')
+        } else {
+          setResendStatus(
+            'Failed to send verification email. Please try again.'
+          )
+        }
       }
     } catch (err) {
       console.error('Send verification error:', err)
