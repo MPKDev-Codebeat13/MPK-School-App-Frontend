@@ -310,25 +310,8 @@ const CompleteProfile: React.FC = () => {
           })())
 
       if (isOAuthUser) {
-        // Auto-verify OAuth user and redirect to dashboard
-        try {
-          await fetch(API_ENDPOINTS.AUTO_VERIFY_OAUTH, {
-            method: 'POST',
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ email: user?.email || oauthUser?.email }),
-          })
-
-          // Update user context to reflect verified status
-          updateUser({ isVerified: true })
-          navigate('/dashboard')
-        } catch (verifyError) {
-          console.error('Auto-verification failed:', verifyError)
-          // Still redirect to dashboard even if auto-verification fails
-          navigate('/dashboard')
-        }
+        // OAuth user - redirect to check email for verification (same as regular users)
+        navigate('/check-email')
       } else {
         // Normal user - redirect to check email
         navigate('/check-email')

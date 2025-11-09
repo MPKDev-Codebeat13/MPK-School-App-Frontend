@@ -1,5 +1,5 @@
 const API_BASE =
-  import.meta.env.VITE_API_BASE_URL || 'https://mym-nexus.onrender.com/api'
+  import.meta.env.VITE_API_BASE_URL || 'http://localhost:4000/api'
 
 // Global error handler for API responses
 const handleApiError = async (response: Response, defaultMessage: string) => {

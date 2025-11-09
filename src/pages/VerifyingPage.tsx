@@ -48,9 +48,9 @@ const VerifyingPage: React.FC = () => {
       } else {
         setSuccess(true)
 
-        // Redirect to check email page after verification
+        // Redirect to dashboard after verification
         setTimeout(() => {
-          navigate('/check-email?from=verifying')
+          navigate('/dashboard')
         }, 2000)
       }
     } catch (err) {

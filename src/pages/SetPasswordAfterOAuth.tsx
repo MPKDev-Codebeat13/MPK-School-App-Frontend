@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { API_ENDPOINTS } from '../lib/api'
@@ -6,7 +6,7 @@ import { Eye, EyeOff } from 'lucide-react'
 
 export default function SetPasswordAfterOAuth() {
   const navigate = useNavigate()
-  const { user, accessToken } = useAuth()
+  const { user, accessToken, setUser } = useAuth()
   const [formData, setFormData] = useState({
     password: '',
     confirmPassword: '',
@@ -66,12 +66,11 @@ export default function SetPasswordAfterOAuth() {
       // Update user in auth context with verified status
       if (user && data.user) {
         const updatedUser = { ...user, ...data.user }
-        const { setUser } = useAuth()
         setUser(updatedUser)
       }
 
-      // Password set successfully, redirect to complete profile
-      navigate('/complete-profile', { replace: true })
+      // Password set successfully, redirect to check email for verification
+      navigate('/check-email', { replace: true })
     } catch (err) {
       console.error('Set password error:', err)
       setError(err instanceof Error ? err.message : 'Failed to set password')
