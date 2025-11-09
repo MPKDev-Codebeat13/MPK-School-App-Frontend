@@ -156,12 +156,15 @@ const VerifyingPage: React.FC = () => {
                 />
               </svg>
             </div>
+            <h1 className="text-2xl font-bold text-white mb-4">
+              Verification Failed
+            </h1>
             <p className="text-red-300 mb-6">{error}</p>
             <button
-              onClick={() => navigate('/check-email')}
+              onClick={() => navigate('/')}
               className="w-full py-3 bg-gradient-to-r from-indigo-500 via-purple-600 to-pink-500 text-white font-bold rounded-xl shadow-lg hover:scale-105 transition-all"
             >
-              Back to Check Email
+              Go to Home
             </button>
           </div>
         )}
