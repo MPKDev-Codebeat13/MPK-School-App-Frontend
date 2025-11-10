@@ -19,7 +19,7 @@ const CheckEmailPage: React.FC = () => {
   const emailFromParams = searchParams.get('email')
   const from = searchParams.get('from')
 
-  // Poll for verification status
+  // Poll for verification status with rate limiting awareness
   const checkVerificationStatus = useCallback(async () => {
     if (isVerified || !shouldPoll) return
 
@@ -45,6 +45,14 @@ const CheckEmailPage: React.FC = () => {
           setShouldPoll(false)
           setTimeout(() => navigate('/dashboard'), 500)
         }
+      } else if (response.status === 429) {
+        // Rate limited - stop polling temporarily
+        console.log('Rate limited, pausing verification checks')
+        setShouldPoll(false)
+        // Resume polling after 30 seconds
+        setTimeout(() => {
+          setShouldPoll(true)
+        }, 30000)
       }
     } catch (err) {
       console.error('Error checking verification status:', err)
