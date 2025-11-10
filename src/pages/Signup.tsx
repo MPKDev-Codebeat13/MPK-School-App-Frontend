@@ -146,8 +146,8 @@ const Signup: React.FC = () => {
         setPreview(
           'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%2Fid%2FOIP.Ai9h_6D7ojZdsZnE4_6SDgAAAA%3Fpid%3DApi&f=1&ipt=8e2776a266b58e01092cc5c997fc6d37f99717f56a2c80427&ipo=images'
         )
-        // Redirect to verifying page immediately
-        navigate('/check-email')
+        // Redirect to check email page with email parameter
+        navigate(data.redirectTo || '/check-email')
       } else {
         setError(data.message || data.error || 'Signup failed')
       }

@@ -147,6 +147,8 @@ const CheckEmailPage: React.FC = () => {
         return
       }
 
+      console.log('Sending verification email for:', email)
+
       const response = await fetch(`${API_ENDPOINTS.RESEND_VERIFICATION}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
