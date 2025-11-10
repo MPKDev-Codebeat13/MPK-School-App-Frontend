@@ -43,7 +43,7 @@ const CheckEmailPage: React.FC = () => {
         if (data.isVerified) {
           setIsVerified(true)
           setShouldPoll(false)
-          setTimeout(() => navigate('/dashboard'), 500)
+          setTimeout(() => navigate('/login'), 500)
         }
       } else if (response.status === 429) {
         // Rate limited - stop polling temporarily
@@ -87,7 +87,7 @@ const CheckEmailPage: React.FC = () => {
           const data = await response.json()
           if (data.isVerified) {
             // User is already verified, redirect immediately
-            navigate('/dashboard', { replace: true })
+            navigate('/login', { replace: true })
             return
           }
         }
@@ -103,12 +103,8 @@ const CheckEmailPage: React.FC = () => {
       return () => clearInterval(pollInterval)
     }
 
-    // If redirected from complete profile, don't send email, just poll
-    if (from === 'complete-profile') {
-      // Start polling for verification status
-      const pollInterval = setInterval(checkVerificationStatus, 3000) // Poll every 3 seconds
-      return () => clearInterval(pollInterval)
-    }
+    // If redirected from complete profile (OAuth users), send email and poll like regular users
+    // No special handling needed - they should receive email verification like everyone else
 
     // Check initial verification status first
     checkInitialVerificationStatus()
@@ -213,7 +209,7 @@ const CheckEmailPage: React.FC = () => {
 
         <p className="text-gray-300 mb-6">
           {from === 'verifying'
-            ? 'Your email has been verified. Redirecting to dashboard...'
+            ? 'Your email has been verified. Redirecting to login...'
             : "We've sent a verification link to your email address. Please click the link to verify your account."}
         </p>
         {from !== 'verifying' && (
@@ -224,7 +220,7 @@ const CheckEmailPage: React.FC = () => {
 
         {isVerified && (
           <div className="mb-4 p-3 bg-green-500/20 border border-green-500/50 rounded-lg text-green-300 text-sm">
-            Email verified successfully! Redirecting to dashboard...
+            Email verified successfully! Redirecting to login...
           </div>
         )}
 
@@ -235,7 +231,7 @@ const CheckEmailPage: React.FC = () => {
         )}
 
         <div className="space-y-3">
-          {from !== 'verifying' && from !== 'complete-profile' && (
+          {from !== 'verifying' && (
             <button
               onClick={() => {
                 // For OAuth users, redirect to dashboard instead of home
@@ -254,7 +250,7 @@ const CheckEmailPage: React.FC = () => {
               Go to Home
             </button>
           )}
-          {from !== 'verifying' && from !== 'complete-profile' && (
+          {from !== 'verifying' && (
             <button
               onClick={resendVerification}
               disabled={loading}

@@ -69,8 +69,8 @@ export default function SetPasswordAfterOAuth() {
         setUser(updatedUser)
       }
 
-      // Password set successfully, redirect to complete profile
-      navigate('/complete-profile', { replace: true })
+      // Password set successfully, redirect to login (like regular users after verification)
+      navigate('/login', { replace: true })
     } catch (err) {
       console.error('Set password error:', err)
       setError(err instanceof Error ? err.message : 'Failed to set password')
@@ -175,10 +175,10 @@ export default function SetPasswordAfterOAuth() {
           <p className="text-white/70 text-sm">
             Already have a password?{' '}
             <button
-              onClick={() => navigate('/complete-profile')}
+              onClick={() => navigate('/login')}
               className="text-indigo-300 hover:text-indigo-200 underline"
             >
-              Skip to complete profile
+              Skip to login
             </button>
           </p>
         </div>
