@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useTheme } from '../context/ThemeContext'
 import { FiMenu, FiX } from 'react-icons/fi'
+import { getUnreadMessageCount } from '../lib/api'
 
 interface SidebarProps {
   isOpen?: boolean
@@ -13,12 +14,32 @@ export default function Sidebar({
   isOpen: propIsOpen,
   setIsOpen: propSetIsOpen,
 }: SidebarProps) {
-  const { user } = useAuth()
+  const { user, accessToken } = useAuth()
   const { theme, isLight } = useTheme()
   const [localIsOpen, setLocalIsOpen] = React.useState(true)
+  const [unreadCount, setUnreadCount] = React.useState(0)
 
   const isOpen = propIsOpen !== undefined ? propIsOpen : localIsOpen
   const setIsOpen = propSetIsOpen || setLocalIsOpen
+
+  // Fetch unread message count
+  React.useEffect(() => {
+    const fetchUnreadCount = async () => {
+      if (accessToken && user) {
+        try {
+          const response = await getUnreadMessageCount(accessToken, 'public')
+          setUnreadCount(response.unreadCount || 0)
+        } catch (error) {
+          console.error('Failed to fetch unread count:', error)
+        }
+      }
+    }
+
+    fetchUnreadCount()
+    // Poll every 30 seconds
+    const interval = setInterval(fetchUnreadCount, 30000)
+    return () => clearInterval(interval)
+  }, [accessToken, user])
 
   // Extract display name for initials to avoid TS issues
   const displayName = user?.fullName || user?.name || 'User'
@@ -163,10 +184,15 @@ export default function Sidebar({
             <Link
               key={link.to}
               to={link.to}
-              className={`p-2 rounded-lg ${linkHover} transition-colors duration-200`}
+              className={`p-2 rounded-lg ${linkHover} transition-colors duration-200 relative`}
               onClick={() => setIsOpen(false)} // Close sidebar on link click for mobile
             >
               {link.label}
+              {link.to === '/chat' && unreadCount > 0 && (
+                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                  {unreadCount > 99 ? '99+' : unreadCount}
+                </span>
+              )}
             </Link>
           ))}
         </nav>

@@ -96,6 +96,8 @@ export const API_ENDPOINTS = {
   // Chat
   CHAT: `${API_BASE}/chat/users`,
   CHAT_MESSAGES: `${API_BASE}/chat/messages`,
+  CHAT_MESSAGES_UNREAD: `${API_BASE}/chat/messages/unread`,
+  CHAT_MARK_READ: `${API_BASE}/chat/messages/mark-read`,
   CHAT_UPLOAD: `${API_BASE}/chat/upload`,
   DELETE_MESSAGE: (id: string) => `${API_BASE}/chat/messages/${id}`,
   // Admin
@@ -455,6 +457,37 @@ export const getPrivateMessages = async (
   })
   if (!response.ok) {
     throw new Error('Failed to fetch private messages')
+  }
+  return response.json()
+}
+
+export const getUnreadMessageCount = async (token: string, room: string) => {
+  const url = new URL(API_ENDPOINTS.CHAT_MESSAGES_UNREAD)
+  url.searchParams.append('room', room)
+  const response = await fetch(url.toString(), {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+  })
+  if (!response.ok) {
+    throw new Error('Failed to fetch unread message count')
+  }
+  return response.json()
+}
+
+export const markMessagesAsRead = async (token: string, room: string) => {
+  const response = await fetch(API_ENDPOINTS.CHAT_MARK_READ, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ room }),
+  })
+  if (!response.ok) {
+    throw new Error('Failed to mark messages as read')
   }
   return response.json()
 }

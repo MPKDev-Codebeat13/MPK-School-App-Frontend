@@ -5,7 +5,7 @@ import type { User } from '../context/AuthContext'
 import { useTheme } from '../context/ThemeContext'
 import Sidebar from '../components/Sidebar'
 
-import { API_ENDPOINTS, API_BASE_URL } from '../lib/api'
+import { API_ENDPOINTS, API_BASE_URL, markMessagesAsRead } from '../lib/api'
 
 import {
   Send,
@@ -789,6 +789,20 @@ const Chat: React.FC = () => {
       newSocket.disconnect()
     }
   }, [accessToken, user?._id])
+
+  // Mark messages as read when entering chat
+  useEffect(() => {
+    const markAsRead = async () => {
+      if (accessToken) {
+        try {
+          await markMessagesAsRead(accessToken, 'public')
+        } catch (error) {
+          console.error('Failed to mark messages as read:', error)
+        }
+      }
+    }
+    markAsRead()
+  }, [accessToken])
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
