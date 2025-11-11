@@ -70,7 +70,7 @@ export default function SetPasswordAfterOAuth() {
       }
 
       // Password set successfully, redirect to login (like regular users after verification)
-      navigate('/login', { replace: true })
+      navigate('/complete-profile', { replace: true })
     } catch (err) {
       console.error('Set password error:', err)
       setError(err instanceof Error ? err.message : 'Failed to set password')
