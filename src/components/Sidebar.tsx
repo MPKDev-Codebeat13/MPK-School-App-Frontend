@@ -95,13 +95,13 @@ export default function Sidebar({
       {/* Hamburger Menu - only show when sidebar is closed */}
       {!isOpen && (
         <button
-          className="fixed top-4 left-4 z-50 bg-violet-600 text-white p-2 rounded-lg shadow-lg hover:bg-violet-700 transition-colors relative"
+          className="fixed top-4 left-0 z-50 bg-violet-600 text-white p-2 rounded-lg shadow-lg hover:bg-violet-700 transition-colors relative"
           onClick={() => setIsOpen(!isOpen)}
         >
-          <FiMenu size={20} />
+          <FiMenu size={24} />
           {unreadCount > 0 && (
-            <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[8px] rounded-full h-2 w-2 flex items-center justify-center">
-              {unreadCount > 9 ? '9+' : unreadCount}
+            <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">
+              {unreadCount > 99 ? '99+' : unreadCount}
             </span>
           )}
         </button>

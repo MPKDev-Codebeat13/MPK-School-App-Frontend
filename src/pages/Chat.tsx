@@ -1055,7 +1055,11 @@ const Chat: React.FC = () => {
   }
 
   return (
-    <div className={`flex min-h-screen ${theme} overflow-x-hidden`}>
+    <div
+      className={`flex min-h-screen ${theme} overflow-x-hidden ${
+        isSidebarOpen ? 'sm:ml-64' : ''
+      }`}
+    >
       <Sidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
 
       {/* Main Chat Area */}
