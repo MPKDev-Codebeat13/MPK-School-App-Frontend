@@ -6,6 +6,7 @@ import React, {
   useEffect,
 } from 'react'
 import { useAuth } from './AuthContext'
+import { getUserTheme, updateUserTheme } from '../lib/api'
 
 type Theme = {
   name: string
@@ -61,11 +62,11 @@ const isLightTheme = (theme: Theme): boolean => {
 }
 
 export const ThemeProvider = ({ children }: { children: ReactNode }) => {
-  const { user } = useAuth()
+  const { user, accessToken } = useAuth()
   const getStorageKey = (userId?: string) =>
     userId ? `${THEME_STORAGE_KEY}-${userId}` : `${THEME_STORAGE_KEY}-default`
 
-  const [theme, setTheme] = useState<Theme>(() => {
+  const [theme, setThemeState] = useState<Theme>(() => {
     const key = getStorageKey(user?._id || user?.id)
     const storedTheme = localStorage.getItem(key)
     if (storedTheme) {
@@ -80,26 +81,56 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
 
   const isLight = isLightTheme(theme)
 
-  // Save theme to user-specific key
-  useEffect(() => {
-    const key = getStorageKey(user?._id || user?.id)
-    localStorage.setItem(key, JSON.stringify(theme))
-  }, [theme, user])
-
-  // Reload theme when user changes
-  useEffect(() => {
-    const key = getStorageKey(user?._id || user?.id)
-    const storedTheme = localStorage.getItem(key)
-    if (storedTheme) {
+  // Function to set theme and save to server
+  const setTheme = async (newTheme: Theme) => {
+    setThemeState(newTheme)
+    if (user && accessToken) {
       try {
-        setTheme(JSON.parse(storedTheme) as Theme)
-      } catch {
-        setTheme(defaultTheme)
+        await updateUserTheme(accessToken, newTheme)
+      } catch (error) {
+        console.error('Failed to save theme to server:', error)
       }
-    } else {
-      setTheme(defaultTheme)
     }
-  }, [user])
+  }
+
+  // Load theme from server when user changes
+  useEffect(() => {
+    const loadThemeFromServer = async () => {
+      if (user && accessToken) {
+        try {
+          const response = await getUserTheme(accessToken)
+          if (response.theme) {
+            setThemeState(response.theme)
+          }
+        } catch (error) {
+          console.error('Failed to load theme from server:', error)
+          // Fallback to localStorage
+          const key = getStorageKey(user._id || user.id)
+          const storedTheme = localStorage.getItem(key)
+          if (storedTheme) {
+            try {
+              setThemeState(JSON.parse(storedTheme) as Theme)
+            } catch {
+              setThemeState(defaultTheme)
+            }
+          }
+        }
+      } else {
+        // No user, use default
+        setThemeState(defaultTheme)
+      }
+    }
+
+    loadThemeFromServer()
+  }, [user, accessToken])
+
+  // Save to localStorage as backup
+  useEffect(() => {
+    if (user) {
+      const key = getStorageKey(user._id || user.id)
+      localStorage.setItem(key, JSON.stringify(theme))
+    }
+  }, [theme, user])
 
   return (
     <ThemeContext.Provider value={{ theme, setTheme, isLight }}>

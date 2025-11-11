@@ -89,6 +89,10 @@ export const API_ENDPOINTS = {
   UPDATE_USER: `${API_BASE}/auth/user/update`,
   DELETE_USER: `${API_BASE}/auth/user/delete`,
 
+  // Theme
+  GET_THEME: `${API_BASE}/auth/theme`,
+  UPDATE_THEME: `${API_BASE}/auth/theme`,
+
   // Chat
   CHAT: `${API_BASE}/chat/users`,
   CHAT_MESSAGES: `${API_BASE}/chat/messages`,
@@ -451,6 +455,39 @@ export const getPrivateMessages = async (
   })
   if (!response.ok) {
     throw new Error('Failed to fetch private messages')
+  }
+  return response.json()
+}
+
+// Theme API functions
+export const getUserTheme = async (token: string) => {
+  const response = await fetch(API_ENDPOINTS.GET_THEME, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+  })
+  if (!response.ok) {
+    throw new Error('Failed to fetch user theme')
+  }
+  return response.json()
+}
+
+export const updateUserTheme = async (
+  token: string,
+  theme: { name: string; class: string }
+) => {
+  const response = await fetch(API_ENDPOINTS.UPDATE_THEME, {
+    method: 'PUT',
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ theme }),
+  })
+  if (!response.ok) {
+    throw new Error('Failed to update user theme')
   }
   return response.json()
 }
