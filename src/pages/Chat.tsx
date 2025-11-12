@@ -1081,7 +1081,7 @@ const Chat: React.FC = () => {
                 className="bg-violet-600 text-white p-1 rounded shadow hover:bg-violet-700 transition-colors relative flex-shrink-0"
                 onClick={() => setIsSidebarOpen(!isSidebarOpen)}
               >
-                <FiMenu size={20} />
+                <FiMenu size={29} />
                 {unreadCount > 0 && (
                   <span className="absolute top-0 right-0 bg-red-500 text-xs rounded-full h-4 w-4 flex items-center justify-center text-[10px] transform translate-x-1/2 -translate-y-1/2">
                     {unreadCount > 99 ? '99+' : unreadCount}
