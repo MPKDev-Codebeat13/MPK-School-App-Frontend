@@ -39,8 +39,8 @@ const Chat: React.FC = () => {
   const { theme } = useTheme()
   const isLight = theme.class.includes('text-gray-900')
   const [isSidebarOpen, setIsSidebarOpen] = useState(true)
-  const [fullUserData, setFullUserData] = useState<any>(null)
   const [unreadCount, setUnreadCount] = useState(0)
+  const [fullUserData, setFullUserData] = useState<any>(null)
 
   // Helper function to get user ID (handles both _id and id properties)
   const getUserId = (user: any): string => {
@@ -764,6 +764,7 @@ const Chat: React.FC = () => {
       if (!message.sender) return
       if (message.sender._id !== getUserId(user)) {
         setMessages((prev) => [...prev, message])
+        setUnreadCount((prev) => prev + 1)
       } else {
         // Update the local message with the server-assigned _id
         setMessages((prev) =>
@@ -798,6 +799,7 @@ const Chat: React.FC = () => {
       if (accessToken) {
         try {
           await markMessagesAsRead(accessToken, 'public')
+          setUnreadCount(0) // Reset unread count when viewing chat
         } catch (error) {
           console.error('Failed to mark messages as read:', error)
         }
@@ -1057,22 +1059,12 @@ const Chat: React.FC = () => {
   }
 
   return (
-    <div className={`min-h-screen ${theme} overflow-x-hidden`}>
-      {/* Sticky Hamburger Menu */}
-      <button
-        className="fixed top-4 left-4 z-50 bg-violet-600 text-white p-1 rounded shadow hover:bg-violet-700 transition-colors relative"
-        onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-      >
-        <FiMenu size={20} />
-        {unreadCount > 0 && (
-          <span className="absolute top-0 right-0 bg-red-500 text-xs rounded-full h-4 w-4 flex items-center justify-center text-[10px] transform translate-x-1/2 -translate-y-1/2">
-            {unreadCount > 99 ? '99+' : unreadCount}
-          </span>
-        )}
-      </button>
+    <div className={`min-h-screen ${theme} overflow-x-hidden flex`}>
+      {/* Sidebar */}
+      {isSidebarOpen && <Sidebar />}
 
       {/* Main Chat Area */}
-      <div className="flex flex-col">
+      <div className="flex flex-col flex-1">
         {/* Chat Header */}
         <div
           className={`pt-2 pb-4 px-4 border-b fixed top-0 z-10 ${
@@ -1085,6 +1077,17 @@ const Chat: React.FC = () => {
         >
           <div className="flex items-center justify-between w-full">
             <div className="flex items-center gap-3 flex-1 min-w-0">
+              <button
+                className="bg-violet-600 text-white p-1 rounded shadow hover:bg-violet-700 transition-colors relative flex-shrink-0"
+                onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+              >
+                <FiMenu size={20} />
+                {unreadCount > 0 && (
+                  <span className="absolute top-0 right-0 bg-red-500 text-xs rounded-full h-4 w-4 flex items-center justify-center text-[10px] transform translate-x-1/2 -translate-y-1/2">
+                    {unreadCount > 99 ? '99+' : unreadCount}
+                  </span>
+                )}
+              </button>
               <Globe className="w-6 h-6 text-violet-500 flex-shrink-0" />
               <h2 className="text-xl font-bold truncate">
                 {isSelectionMode ? `${selectedMessages.size} selected` : 'Chat'}
