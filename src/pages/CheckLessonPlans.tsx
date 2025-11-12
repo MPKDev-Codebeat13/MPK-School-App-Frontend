@@ -139,7 +139,7 @@ const CheckLessonPlans: React.FC = () => {
   if (loading) return <div>Loading lesson plans...</div>
   return (
     <div
-      className={`flex min-h-screen ${theme} overflow-x-hidden ${
+      className={`min-h-screen ${theme} overflow-x-hidden ${
         isSidebarOpen ? 'sm:ml-64' : ''
       }`}
     >
