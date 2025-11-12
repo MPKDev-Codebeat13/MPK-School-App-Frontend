@@ -92,20 +92,18 @@ export default function Sidebar({
 
   return (
     <>
-      {/* Hamburger Menu - only show when sidebar is closed */}
-      {!isOpen && (
-        <button
-          className="fixed top-4 left-0 z-50 bg-violet-600 text-white p-1 rounded shadow hover:bg-violet-700 transition-colors relative"
-          onClick={() => setIsOpen(!isOpen)}
-        >
-          <FiMenu size={20} />
-          {unreadCount > 0 && (
-            <span className="absolute top-0 right-0 bg-red-500 text-xs rounded-full h-4 w-4 flex items-center justify-center text-[10px] transform translate-x-1/2 -translate-y-1/2">
-              {unreadCount > 99 ? '99+' : unreadCount}
-            </span>
-          )}
-        </button>
-      )}
+      {/* Hamburger Menu - always visible */}
+      <button
+        className="fixed top-4 left-0 z-50 bg-violet-600 text-white p-1 rounded shadow hover:bg-violet-700 transition-colors relative"
+        onClick={() => setIsOpen(!isOpen)}
+      >
+        <FiMenu size={29} />
+        {unreadCount > 0 && (
+          <span className="absolute top-0 right-0 bg-red-500 text-xs rounded-full h-4 w-4 flex items-center justify-center text-[10px] transform translate-x-1/2 -translate-y-1/2">
+            {unreadCount > 99 ? '99+' : unreadCount}
+          </span>
+        )}
+      </button>
 
       <aside
         className={`${sidebarBg} ${sidebarText} h-screen shadow-lg rounded-r-2xl flex flex-col transition-all duration-300 fixed top-0 left-0 z-40 overflow-x-hidden ${
