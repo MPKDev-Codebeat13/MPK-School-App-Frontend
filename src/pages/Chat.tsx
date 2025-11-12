@@ -4,6 +4,7 @@ import { useAuth } from '../context/AuthContext'
 import type { User } from '../context/AuthContext'
 import { useTheme } from '../context/ThemeContext'
 import Sidebar from '../components/Sidebar'
+import { FiMenu } from 'react-icons/fi'
 
 import { API_ENDPOINTS, API_BASE_URL, markMessagesAsRead } from '../lib/api'
 
@@ -39,6 +40,7 @@ const Chat: React.FC = () => {
   const isLight = theme.class.includes('text-gray-900')
   const [isSidebarOpen, setIsSidebarOpen] = useState(true)
   const [fullUserData, setFullUserData] = useState<any>(null)
+  const [unreadCount, setUnreadCount] = useState(0)
 
   // Helper function to get user ID (handles both _id and id properties)
   const getUserId = (user: any): string => {
@@ -1056,10 +1058,21 @@ const Chat: React.FC = () => {
 
   return (
     <div className={`min-h-screen ${theme} overflow-x-hidden`}>
-      <Sidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
+      {/* Sticky Hamburger Menu */}
+      <button
+        className="fixed top-4 left-4 z-50 bg-violet-600 text-white p-1 rounded shadow hover:bg-violet-700 transition-colors relative"
+        onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+      >
+        <FiMenu size={20} />
+        {unreadCount > 0 && (
+          <span className="absolute top-0 right-0 bg-red-500 text-xs rounded-full h-4 w-4 flex items-center justify-center text-[10px] transform translate-x-1/2 -translate-y-1/2">
+            {unreadCount > 99 ? '99+' : unreadCount}
+          </span>
+        )}
+      </button>
 
       {/* Main Chat Area */}
-      <div className={`flex flex-col ${isSidebarOpen ? 'sm:ml-64' : ''}`}>
+      <div className="flex flex-col">
         {/* Chat Header */}
         <div
           className={`pt-2 pb-4 px-4 border-b fixed top-0 z-10 ${

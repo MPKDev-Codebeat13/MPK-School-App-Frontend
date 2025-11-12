@@ -8,6 +8,7 @@ import { getUnreadMessageCount } from '../lib/api'
 interface SidebarProps {
   isOpen?: boolean
   setIsOpen?: (open: boolean) => void
+  showHamburger?: boolean
 }
 
 export default function Sidebar({
