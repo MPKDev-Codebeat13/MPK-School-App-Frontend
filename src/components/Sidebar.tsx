@@ -4,7 +4,7 @@ import { useAuth } from '../context/AuthContext'
 import { useTheme } from '../context/ThemeContext'
 import { FiMenu, FiX } from 'react-icons/fi'
 import { getUnreadMessageCount } from '../lib/api'
-          
+
 interface SidebarProps {
   isOpen?: boolean
   setIsOpen?: (open: boolean) => void
@@ -95,10 +95,10 @@ export default function Sidebar({
       {/* Hamburger Menu - only show when sidebar is closed */}
       {!isOpen && (
         <button
-          className="fixed top-4 left-0 z-50 bg-violet-600 text-white p-1 rounded shadow hover:bg-violet-700 transition-colors relative"
+          className="fixed top-4 left-0 z-50 bg-violet-600 text-white p-0.5 rounded shadow hover:bg-violet-700 transition-colors relative"
           onClick={() => setIsOpen(!isOpen)}
         >
-          <FiMenu size={20} />
+          <FiMenu size={16} />
           {unreadCount > 0 && (
             <span className="absolute -top-1 -right-1 bg-red-500 text-xs rounded-full h-3 w-3 flex items-center justify-center">
               {unreadCount > 99 ? '99+' : unreadCount}
