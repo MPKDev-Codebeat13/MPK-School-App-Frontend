@@ -4,7 +4,7 @@ import { useAuth } from '../context/AuthContext'
 import { useTheme } from '../context/ThemeContext'
 import { FiMenu, FiX } from 'react-icons/fi'
 import { getUnreadMessageCount } from '../lib/api'
-
+          
 interface SidebarProps {
   isOpen?: boolean
   setIsOpen?: (open: boolean) => void
