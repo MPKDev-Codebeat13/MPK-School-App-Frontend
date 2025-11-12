@@ -95,12 +95,12 @@ export default function Sidebar({
       {/* Hamburger Menu - only show when sidebar is closed */}
       {!isOpen && (
         <button
-          className="fixed top-4 left-0 z-50 bg-violet-600 text-white p-0.5 rounded shadow hover:bg-violet-700 transition-colors relative"
+          className="fixed top-4 left-0 z-50 bg-violet-600 text-white p-1 rounded shadow hover:bg-violet-700 transition-colors relative"
           onClick={() => setIsOpen(!isOpen)}
         >
-          <FiMenu size={16} />
+          <FiMenu size={20} />
           {unreadCount > 0 && (
-            <span className="absolute -top-1 -right-1 bg-red-500 text-xs rounded-full h-3 w-3 flex items-center justify-center">
+            <span className="absolute top-0 right-0 bg-red-500 text-xs rounded-full h-4 w-4 flex items-center justify-center text-[10px] transform translate-x-1/2 -translate-y-1/2">
               {unreadCount > 99 ? '99+' : unreadCount}
             </span>
           )}
@@ -184,7 +184,7 @@ export default function Sidebar({
           </div>
         </Link>
 
-        <nav className="flex flex-col gap-3 overflow-y-auto max-h-full">
+        <nav className="flex flex-col gap-3 overflow-y-auto max-h-full overflow-x-hidden">
           {links.map((link) => (
             <Link
               key={link.to}
@@ -194,7 +194,7 @@ export default function Sidebar({
             >
               {link.label}
               {link.to === '/chat' && unreadCount > 0 && (
-                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                <span className="absolute top-1 right-1 bg-red-500 text-white text-[10px] rounded-full h-4 w-4 flex items-center justify-center">
                   {unreadCount > 99 ? '99+' : unreadCount}
                 </span>
               )}
