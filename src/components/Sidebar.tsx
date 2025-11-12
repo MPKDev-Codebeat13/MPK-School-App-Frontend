@@ -113,12 +113,6 @@ export default function Sidebar({
       >
         {isOpen && (
           <div className="flex items-center gap-2 mb-6">
-            <button
-              className="text-gray-500 hover:text-gray-700 transition-colors hover:scale-110"
-              onClick={() => setIsOpen(!isOpen)}
-            >
-              {isOpen ? <FiX size={20} /> : <FiMenu size={20} />}
-            </button>
             <Link
               to="/dashboard"
               className="text-1xl font-bold text-violet-400 hover:text-violet-300 transition-colors duration-200"
