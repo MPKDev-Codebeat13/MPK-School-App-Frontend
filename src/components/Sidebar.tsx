@@ -100,7 +100,13 @@ export default function Sidebar({
           className="fixed top-4 left-0 z-50 bg-violet-600 text-white p-1 rounded shadow hover:bg-violet-700 transition-colors relative"
           onClick={() => setIsOpen(!isOpen)}
         >
-          <FiMenu size={29} />
+          <div className="transition-transform duration-300">
+            {isOpen ? (
+              <FiX size={29} className="rotate-180" />
+            ) : (
+              <FiMenu size={29} />
+            )}
+          </div>
           {unreadCount > 0 && (
             <span className="absolute top-0 right-0 bg-red-500 text-xs rounded-full h-4 w-4 flex items-center justify-center text-[10px] transform translate-x-1/2 -translate-y-1/2">
               {unreadCount > 99 ? '99+' : unreadCount}
@@ -116,12 +122,6 @@ export default function Sidebar({
       >
         {isOpen && (
           <div className="flex items-center gap-2 mb-6">
-            <button
-              className="bg-violet-600 text-white p-1 rounded shadow hover:bg-violet-700 transition-colors"
-              onClick={() => setIsOpen(false)}
-            >
-              <FiX size={20} />
-            </button>
             <Link
               to="/dashboard"
               className="text-1xl font-bold text-violet-400 hover:text-violet-300 transition-colors duration-200"
