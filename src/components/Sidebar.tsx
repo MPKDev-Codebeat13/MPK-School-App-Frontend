@@ -18,7 +18,7 @@ export default function Sidebar({
 }: SidebarProps) {
   const { user, accessToken } = useAuth()
   const { theme, isLight } = useTheme()
-  const [localIsOpen, setLocalIsOpen] = React.useState(true)
+  const [localIsOpen, setLocalIsOpen] = React.useState(false)
   const [unreadCount, setUnreadCount] = React.useState(0)
 
   const isOpen = propIsOpen !== undefined ? propIsOpen : localIsOpen
