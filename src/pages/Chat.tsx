@@ -1081,11 +1081,8 @@ const Chat: React.FC = () => {
         >
           <div className="flex items-center justify-between w-full">
             <div className="flex items-center gap-3 flex-1 min-w-0">
-              <h2 className="text-xl font-bold truncate">
-                {isSelectionMode ? `${selectedMessages.size} selected` : 'Chat'}
-              </h2>
               {!isSelectionMode && typingUser && (
-                <span className="text-sm text-gray-500 italic truncate ml-2">
+                <span className="text-sm text-gray-500 italic truncate">
                   {typingUser}
                 </span>
               )}
@@ -1118,30 +1115,7 @@ const Chat: React.FC = () => {
                     Cancel
                   </button>
                 </>
-              ) : (
-                <div className="relative">
-                  <button
-                    onClick={() => setShowMenuDropdown(!showMenuDropdown)}
-                    className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-gray-900 dark:text-gray-100"
-                  >
-                    <MoreVertical className="w-5 h-5" />
-                  </button>
-                  {showMenuDropdown && (
-                    <div className="absolute top-full right-0 bg-white dark:bg-gray-800 border rounded shadow p-2 z-50">
-                      <button
-                        onClick={() => {
-                          setIsSelectionMode(!isSelectionMode)
-                          setSelectedMessages(new Set())
-                          setShowMenuDropdown(false)
-                        }}
-                        className="block w-full text-left p-1 hover:bg-gray-100 dark:hover:bg-gray-700 rounded text-gray-900 dark:text-gray-100"
-                      >
-                        {isSelectionMode ? 'Exit selection' : 'Select messages'}
-                      </button>
-                    </div>
-                  )}
-                </div>
-              )}
+              ) : null}
             </div>
           </div>
         </div>
@@ -1174,7 +1148,6 @@ const Chat: React.FC = () => {
             )}
             {messages.length === 0 && !loadingMore ? (
               <div className="flex flex-col items-center justify-center h-full text-center">
-                <Globe className="w-16 h-16 text-gray-400 mb-4" />
                 <h3 className="text-lg font-semibold text-gray-600 dark:text-gray-400 mb-2">
                   No messages yet
                 </h3>
