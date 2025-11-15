@@ -178,6 +178,18 @@ export default function ManageUsersPage() {
                               ? isLight
                                 ? 'bg-red-100 text-red-800'
                                 : 'bg-red-900 text-red-200'
+                              : user.role === 'Principal'
+                              ? isLight
+                                ? 'bg-orange-100 text-orange-800'
+                                : 'bg-orange-900 text-orange-200'
+                              : user.role === 'Sub Principal'
+                              ? isLight
+                                ? 'bg-yellow-100 text-yellow-800'
+                                : 'bg-yellow-900 text-yellow-200'
+                              : user.role === 'Department'
+                              ? isLight
+                                ? 'bg-indigo-100 text-indigo-800'
+                                : 'bg-indigo-900 text-indigo-200'
                               : user.role === 'Teacher'
                               ? isLight
                                 ? 'bg-blue-100 text-blue-800'

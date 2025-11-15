@@ -58,10 +58,12 @@ const Signup: React.FC = () => {
   ]
 
   const roleOptions = [
+    { value: 'Admin', label: 'Admin' },
+    { value: 'Principal', label: 'Principal' },
+    { value: 'Sub Principal', label: 'Sub Principal' },
+    { value: 'Department', label: 'Department' },
     { value: 'Teacher', label: 'Teacher' },
     { value: 'Babysitter', label: 'Babysitter' },
-    { value: 'Admin', label: 'Admin' },
-    { value: 'Department', label: 'Department' },
   ]
 
   const gradeOptions = [...Array(12)].map((_, i) => ({
