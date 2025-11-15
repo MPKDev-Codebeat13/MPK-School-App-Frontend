@@ -1123,12 +1123,30 @@ const Chat: React.FC = () => {
                   </button>
                 </>
               ) : (
-                <button
-                  onClick={() => setShowMenuDropdown(!showMenuDropdown)}
-                  className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
-                >
-                  <MoreVertical className="w-5 h-5" />
-                </button>
+                <div className="relative">
+                  <button
+                    onClick={() => setShowMenuDropdown(!showMenuDropdown)}
+                    className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                  >
+                    <MoreVertical className="w-5 h-5" />
+                  </button>
+                  {showMenuDropdown && (
+                    <div
+                      ref={menuDropdownRef}
+                      className="absolute top-full right-0 mt-1 bg-white dark:bg-gray-800 border rounded-lg shadow-lg py-1 z-50"
+                    >
+                      <button
+                        onClick={() => {
+                          setIsSelectionMode(true)
+                          setShowMenuDropdown(false)
+                        }}
+                        className="w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                      >
+                        Select messages
+                      </button>
+                    </div>
+                  )}
+                </div>
               )}
             </div>
           </div>
