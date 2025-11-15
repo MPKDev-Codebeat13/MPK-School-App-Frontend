@@ -1061,7 +1061,11 @@ const Chat: React.FC = () => {
   return (
     <div className={`min-h-screen ${theme} overflow-x-hidden flex`}>
       {/* Sidebar */}
-      <Sidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} showHamburger={false} />
+      <Sidebar
+        isOpen={isSidebarOpen}
+        setIsOpen={setIsSidebarOpen}
+        showHamburger={true}
+      />
 
       {/* Main Chat Area */}
       <div className="flex flex-col flex-1">
@@ -1077,18 +1081,6 @@ const Chat: React.FC = () => {
         >
           <div className="flex items-center justify-between w-full">
             <div className="flex items-center gap-3 flex-1 min-w-0">
-              <button
-                className="bg-violet-600 text-white p-1 rounded shadow hover:bg-violet-700 transition-colors relative flex-shrink-0"
-                onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-              >
-                <FiMenu size={29} />
-                {unreadCount > 0 && (
-                  <span className="absolute top-0 right-0 bg-red-500 text-xs rounded-full h-4 w-4 flex items-center justify-center text-[10px] transform translate-x-1/2 -translate-y-1/2">
-                    {unreadCount > 99 ? '99+' : unreadCount}
-                  </span>
-                )}
-              </button>
-              <Globe className="w-6 h-6 text-violet-500 flex-shrink-0" />
               <h2 className="text-xl font-bold truncate">
                 {isSelectionMode ? `${selectedMessages.size} selected` : 'Chat'}
               </h2>
@@ -1155,7 +1147,11 @@ const Chat: React.FC = () => {
         </div>
 
         {/* Messages Area */}
-        <div className="flex-1 overflow-y-auto pt-12">
+        <div
+          className={`flex-1 overflow-y-auto pt-12 ${
+            isSidebarOpen ? 'sm:ml-64' : ''
+          }`}
+        >
           <div
             className="p-4 pl-8 space-y-4 relative pb-16 bg-white/30 dark:bg-gray-800/30 backdrop-blur-sm"
             ref={messagesContainerRef}
