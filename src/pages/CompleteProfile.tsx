@@ -186,14 +186,7 @@ const CompleteProfile: React.FC = () => {
 
     // If user already has required fields, redirect to dashboard
     const currentRole = user?.role || oauthUser?.role
-    if (currentRole === 'Student' && user && user.grade) {
-      navigate('/dashboard')
-    } else if (
-      currentRole === 'Teacher' &&
-      user &&
-      user.subject &&
-      user.grade
-    ) {
+    if (currentRole === 'Teacher' && user && user.subject && user.grade) {
       navigate('/dashboard')
     } else if (
       currentRole === 'Babysitter' &&
@@ -221,11 +214,9 @@ const CompleteProfile: React.FC = () => {
   }
 
   const roleOptions = [
-    { value: 'Student', label: 'Student' },
     { value: 'Teacher', label: 'Teacher' },
     { value: 'Babysitter', label: 'Babysitter' },
     { value: 'Admin', label: 'Admin' },
-    { value: 'Parent', label: 'Parent' },
     { value: 'Department', label: 'Department' },
   ]
 
@@ -275,9 +266,6 @@ const CompleteProfile: React.FC = () => {
       }
 
       // Validate required fields based on role
-      if (currentRole === 'Student' && !formData.grade) {
-        throw new Error('Grade is required for students')
-      }
       if (currentRole === 'Teacher' && !formData.grade) {
         throw new Error('Grade is required for teachers')
       }
@@ -449,19 +437,6 @@ const CompleteProfile: React.FC = () => {
           )}
 
           {/* Role-specific fields */}
-          {((profileData?.role || user?.role || oauthUser?.role) ===
-            'Student' ||
-            formData.role === 'Student') && (
-            <div>
-              <Dropdown
-                options={gradeOptions}
-                value={formData.grade}
-                onChange={handleDropdownChange('grade')}
-                placeholder="Select Grade"
-                className="bg-white/20 text-white border-white/20"
-              />
-            </div>
-          )}
 
           {((profileData?.role || user?.role || oauthUser?.role) ===
             'Teacher' ||

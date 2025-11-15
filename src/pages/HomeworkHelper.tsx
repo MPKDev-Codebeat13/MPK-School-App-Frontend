@@ -30,10 +30,6 @@ const HomeworkHelper: React.FC = () => {
         return '/check-lesson-plans'
       case 'Admin':
         return '/manage-users-page'
-      case 'Parent':
-        return '/check-child'
-      case 'Student':
-        return '/homework-helper'
       default:
         return '/'
     }

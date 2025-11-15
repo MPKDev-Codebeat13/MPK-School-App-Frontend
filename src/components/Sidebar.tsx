@@ -49,11 +49,6 @@ export default function Sidebar({
 
   // role-based links
   const roleLinks: Record<string, { to: string; label: string }[]> = {
-    parent: [
-      { to: '/check-child', label: 'AI Assistant' },
-      { to: '/chat', label: 'Chat' },
-      { to: '/settings', label: 'Settings' },
-    ],
     teacher: [
       { to: '/lesson-planner', label: 'Lesson Planner' },
       { to: '/chat', label: 'Chat' },
@@ -61,11 +56,6 @@ export default function Sidebar({
     ],
     babysitter: [
       { to: '/attendance/', label: 'Take Attendance' },
-      { to: '/chat', label: 'Chat' },
-      { to: '/settings', label: 'Settings' },
-    ],
-    student: [
-      { to: '/homework', label: 'Homework Helper' },
       { to: '/chat', label: 'Chat' },
       { to: '/settings', label: 'Settings' },
     ],
@@ -83,7 +73,7 @@ export default function Sidebar({
     ],
   }
 
-  const links = roleLinks[user?.role?.toLowerCase() || 'student']
+  const links = roleLinks[user?.role?.toLowerCase() || 'teacher']
 
   const sidebarBg = isLight ? 'bg-gray-100' : 'bg-gray-900'
   const sidebarText = isLight ? 'text-gray-900' : 'text-white'
@@ -97,14 +87,14 @@ export default function Sidebar({
       {/* Hamburger Menu - conditionally visible */}
       {showHamburger !== false && (
         <button
-          className="fixed top-4 left-0 z-50 bg-violet-600 text-white p-2 rounded shadow hover:bg-violet-700 transition-colors relative"
+          className="fixed top-4 left-4 z-50 bg-violet-600 text-white p-3 rounded shadow hover:bg-violet-700 transition-colors relative"
           onClick={() => setIsOpen(!isOpen)}
         >
-          <div className="transition-transform duration-300">
+          <div className="transition-transform duration-500 ease-in-out">
             {isOpen ? (
-              <FiX size={24} className="rotate-180" />
+              <FiX size={32} className="rotate-[360deg]" />
             ) : (
-              <FiMenu size={24} />
+              <FiMenu size={32} />
             )}
           </div>
           {unreadCount > 0 && (
@@ -180,7 +170,7 @@ export default function Sidebar({
             <div>
               <p className="font-semibold text-sm">{displayName}</p>
               <p className={`text-xs ${textSecondary}`}>
-                {user?.role || 'Student'}
+                {user?.role || 'Teacher'}
               </p>
             </div>
           </div>

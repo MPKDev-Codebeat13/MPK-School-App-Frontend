@@ -58,10 +58,8 @@ const Signup: React.FC = () => {
   ]
 
   const roleOptions = [
-    { value: 'Student', label: 'Student' },
     { value: 'Teacher', label: 'Teacher' },
     { value: 'Babysitter', label: 'Babysitter' },
-    { value: 'Parent', label: 'Parent' },
     { value: 'Admin', label: 'Admin' },
     { value: 'Department', label: 'Department' },
   ]
@@ -270,9 +268,7 @@ const Signup: React.FC = () => {
             />
           </div>
 
-          {(formData.role === 'Student' ||
-            formData.role === 'Teacher' ||
-            formData.role === 'Babysitter') && (
+          {(formData.role === 'Teacher' || formData.role === 'Babysitter') && (
             <>
               <div>
                 <Dropdown

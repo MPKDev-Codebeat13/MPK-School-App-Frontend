@@ -38,26 +38,6 @@ export default function Dashboard() {
 
   const renderRoleTools = () => {
     switch (user?.role) {
-      case 'Parent':
-        return (
-          <div
-            onClick={() => goTo('/check-child')}
-            className={`${cardBase} ${cardSkin}`}
-          >
-            <div className="flex items-center gap-3">
-              <Eye
-                className={`w-6 h-6 ${iconColor} group-hover:scale-110 transition`}
-              />
-              <h3 className={`font-bold text-lg ${cardTitle}`}>
-                AI Assistant 🤖
-              </h3>
-            </div>
-            <p className={`${cardText} mt-3`}>
-              Get personalized advice and support from our AI assistant for your
-              parenting journey.
-            </p>
-          </div>
-        )
       case 'Teacher':
         return (
           <div
@@ -91,25 +71,6 @@ export default function Dashboard() {
             </div>
             <p className={`${cardText} mt-3`}>
               Mark and review student attendance with ease.
-            </p>
-          </div>
-        )
-      case 'Student':
-        return (
-          <div
-            onClick={() => goTo('/homework')}
-            className={`${cardBase} ${cardSkin}`}
-          >
-            <div className="flex items-center gap-3">
-              <GraduationCap
-                className={`w-6 h-6 ${iconColor} group-hover:scale-110 transition`}
-              />
-              <h3 className={`font-bold text-lg ${cardTitle}`}>
-                HW & CW Helper ✏️
-              </h3>
-            </div>
-            <p className={`${cardText} mt-3`}>
-              Get guided help with homework and classwork from the AI tutor.
             </p>
           </div>
         )

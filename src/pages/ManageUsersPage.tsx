@@ -29,10 +29,6 @@ export default function ManageUsersPage() {
         return '/check-lesson-plans'
       case 'Admin':
         return '/manage-users-page'
-      case 'Parent':
-        return '/check-child'
-      case 'Student':
-        return '/homework-helper'
       default:
         return '/'
     }

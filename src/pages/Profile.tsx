@@ -322,8 +322,7 @@ export default function Profile() {
                 />
               </div>
 
-              {(role === 'Student' ||
-                role === 'Teacher' ||
+              {(role === 'Teacher' ||
                 role === 'Babysitter') && (
                 <div className="space-y-2">
                   <label className={`${textMuted} text-sm sm:text-base`}>

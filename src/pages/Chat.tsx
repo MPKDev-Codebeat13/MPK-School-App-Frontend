@@ -70,6 +70,7 @@ const Chat: React.FC = () => {
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
   const emojiPickerRef = useRef<HTMLDivElement>(null)
+  const menuDropdownRef = useRef<HTMLDivElement>(null)
 
   // Reply bar UI above input
   const ReplyBar = () => {
@@ -816,16 +817,22 @@ const Chat: React.FC = () => {
       ) {
         setShowEmojiPicker(false)
       }
+      if (
+        menuDropdownRef.current &&
+        !menuDropdownRef.current.contains(event.target as Node)
+      ) {
+        setShowMenuDropdown(false)
+      }
     }
 
-    if (showEmojiPicker) {
+    if (showEmojiPicker || showMenuDropdown) {
       document.addEventListener('mousedown', handleClickOutside)
     }
 
     return () => {
       document.removeEventListener('mousedown', handleClickOutside)
     }
-  }, [showEmojiPicker])
+  }, [showEmojiPicker, showMenuDropdown])
 
   useEffect(() => {
     if (!loadMoreRef.current || !hasMore) return
@@ -1115,7 +1122,14 @@ const Chat: React.FC = () => {
                     Cancel
                   </button>
                 </>
-              ) : null}
+              ) : (
+                <button
+                  onClick={() => setShowMenuDropdown(!showMenuDropdown)}
+                  className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                >
+                  <MoreVertical className="w-5 h-5" />
+                </button>
+              )}
             </div>
           </div>
         </div>

@@ -14,6 +14,19 @@ const CheckChild: React.FC = () => {
   const [aiResponse, setAiResponse] = useState<string | null>(null)
   const [loadingAi, setLoadingAi] = useState(false)
 
+  const getDashboardPath = (role: string) => {
+    switch (role) {
+      case 'Teacher':
+        return '/lesson-planner'
+      case 'Department':
+        return '/check-lesson-plans'
+      case 'Admin':
+        return '/manage-users-page'
+      default:
+        return '/'
+    }
+  }
+
   const handleAiQuerySubmit = async () => {
     if (!user) {
       alert('Access denied. You do not have permission to access this page.')
