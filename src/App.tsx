@@ -29,6 +29,7 @@ import TakeAttendance from './pages/TakeAttendance'
 import ViewAttendance from './pages/ViewAttendance'
 import LessonPlanDetails from './pages/LessonPlanDetails'
 import PrincipalPage from './pages/PrincipalPage'
+import RejectionReasonsPage from './pages/RejectionReasonsPage'
 
 export default function App() {
   return (
@@ -77,6 +78,10 @@ export default function App() {
               />
               <Route path="/attendance/view/:id" element={<ViewAttendance />} />
               <Route path="/principal" element={<PrincipalPage />} />
+              <Route
+                path="/rejection-reasons"
+                element={<RejectionReasonsPage />}
+              />
             </Route>
             <Route path="/verify/check-email" element={<CheckEmailPage />} />
             <Route path="/check-email" element={<CheckEmailPage />} />
