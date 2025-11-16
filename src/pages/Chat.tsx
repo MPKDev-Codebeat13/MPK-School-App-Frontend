@@ -1371,7 +1371,7 @@ const Chat: React.FC = () => {
           } backdrop-blur-xl`}
         >
           <ReplyBar />
-          <div className="flex fixed bottom-0 gap-2">
+          <div className="flex items-center gap-2">
             <input
               ref={inputRef}
               type="text"
