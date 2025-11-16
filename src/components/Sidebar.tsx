@@ -97,14 +97,14 @@ export default function Sidebar({
       {/* Hamburger Menu - conditionally visible */}
       {showHamburger !== false && (
         <button
-          className="fixed top-4 left-4 z-50 bg-violet-600 text-white p-3 rounded shadow hover:bg-violet-700 transition-colors relative"
+          className="fixed top-4 left-4 z-50 bg-violet-600 text-white p-2 rounded shadow hover:bg-violet-700 transition-colors relative"
           onClick={() => setIsOpen(!isOpen)}
         >
           <div className="transition-transform duration-500 ease-in-out">
             {isOpen ? (
-              <FiX size={32} className="rotate-[360deg]" />
+              <FiX size={24} className="rotate-[360deg]" />
             ) : (
-              <FiMenu size={32} />
+              <FiMenu size={24} />
             )}
           </div>
           {unreadCount > 0 && (
