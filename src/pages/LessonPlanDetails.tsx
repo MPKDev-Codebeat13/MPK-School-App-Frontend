@@ -375,7 +375,7 @@ const LessonPlanDetails: React.FC = () => {
         {user?.role === 'Department' &&
           !rejectionMode &&
           lessonPlan.status === 'rejected' && (
-            <div className="mt-4 sm:mt-6">
+            <div className="mt-4 sm:mt-6 flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4">
               <Button
                 onClick={async () => {
                   try {
@@ -402,12 +402,18 @@ const LessonPlanDetails: React.FC = () => {
                 <CheckCircle className="w-4 h-4 mr-2" />
                 Accept
               </Button>
+              <Button
+                onClick={() => navigate('/rejection-reasons')}
+                className="bg-purple-600 hover:bg-purple-700"
+              >
+                View Rejection Reasons
+              </Button>
             </div>
           )}
         {user?.role === 'Department' &&
           !rejectionMode &&
           lessonPlan.status === 'accepted' && (
-            <div className="mt-4 sm:mt-6">
+            <div className="mt-4 sm:mt-6 flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4">
               <Button
                 onClick={() =>
                   navigate(`/lesson-plan/${lessonPlan._id}`, {
@@ -418,6 +424,12 @@ const LessonPlanDetails: React.FC = () => {
               >
                 <XCircle className="w-4 h-4 mr-2" />
                 Reject
+              </Button>
+              <Button
+                onClick={() => navigate('/rejection-reasons')}
+                className="bg-purple-600 hover:bg-purple-700"
+              >
+                View Rejection Reasons
               </Button>
             </div>
           )}

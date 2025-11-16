@@ -14,24 +14,46 @@ const CreateAttendance: React.FC = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true)
 
   const handleTotalIncrement = () => {
-    setTotalStudents((prev) => prev + 1)
+    setTotalStudents((prev) => {
+      const newTotal = prev + 1
+      // If today's students exceeds new total, adjust it
+      if (todayStudents > newTotal) {
+        setTodayStudents(newTotal)
+      }
+      return newTotal
+    })
   }
 
   const handleTotalDecrement = () => {
-    setTotalStudents((prev) => Math.max(1, prev - 1))
+    setTotalStudents((prev) => {
+      const newTotal = Math.max(1, prev - 1)
+      // If today's students exceeds new total, adjust it
+      if (todayStudents > newTotal) {
+        setTodayStudents(newTotal)
+      }
+      return newTotal
+    })
   }
 
   const handleTotalInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = parseInt(e.target.value, 10)
     if (!isNaN(value) && value > 0) {
       setTotalStudents(value)
+      // If today's students exceeds new total, adjust it
+      if (todayStudents > value) {
+        setTodayStudents(value)
+      }
     } else if (e.target.value === '') {
       setTotalStudents(1)
+      // If today's students exceeds new total, adjust it
+      if (todayStudents > 1) {
+        setTodayStudents(1)
+      }
     }
   }
 
   const handleTodayIncrement = () => {
-    setTodayStudents((prev) => prev + 1)
+    setTodayStudents((prev) => Math.min(totalStudents, prev + 1))
   }
 
   const handleTodayDecrement = () => {
@@ -40,10 +62,12 @@ const CreateAttendance: React.FC = () => {
 
   const handleTodayInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = parseInt(e.target.value, 10)
-    if (!isNaN(value) && value > 0) {
+    if (!isNaN(value) && value > 0 && value <= totalStudents) {
       setTodayStudents(value)
     } else if (e.target.value === '') {
       setTodayStudents(1)
+    } else if (value > totalStudents) {
+      setTodayStudents(totalStudents)
     }
   }
 

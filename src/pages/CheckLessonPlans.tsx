@@ -274,7 +274,7 @@ const CheckLessonPlans: React.FC = () => {
                     </span>
                   )}
                   {plan.status === 'rejected' && (
-                    <>
+                    <div className="flex flex-col space-y-2">
                       <Button
                         onClick={() => handleAccept(plan._id)}
                         className="bg-green-600 hover:bg-green-700 text-xs px-3 py-2"
@@ -289,10 +289,10 @@ const CheckLessonPlans: React.FC = () => {
                       >
                         View Rejection Reasons
                       </Button>
-                    </>
+                    </div>
                   )}
                   {plan.status === 'accepted' && (
-                    <>
+                    <div className="flex flex-col space-y-2">
                       <Button
                         onClick={() => handleReject(plan._id)}
                         className="bg-red-600 hover:bg-red-700 text-xs px-3 py-2"
@@ -307,7 +307,7 @@ const CheckLessonPlans: React.FC = () => {
                       >
                         View Rejection Reasons
                       </Button>
-                    </>
+                    </div>
                   )}
                 </div>
               </div>
