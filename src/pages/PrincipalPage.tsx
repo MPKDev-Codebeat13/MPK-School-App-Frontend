@@ -137,11 +137,17 @@ export default function PrincipalPage() {
   const tableDivider = isLight ? 'divide-gray-200' : 'divide-gray-700'
 
   return (
-    <div className={`min-h-screen overflow-x-hidden ${theme.class}`}>
+    <div
+      className={`min-h-screen overflow-x-hidden ${theme.class} ${
+        isSidebarOpen ? 'sm:ml-64' : ''
+      }`}
+    >
       <Sidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
-      <main className={`p-4 sm:p-6 lg:p-8 ${isSidebarOpen ? 'sm:ml-64' : ''}`}>
+      <main className="p-4 sm:p-6 lg:p-8">
         <div className="max-w-7xl mx-auto">
-          <div className={`${cardBase} ${cardSkin}`}>
+          <div
+            className={`${cardBase} ${cardSkin} backdrop-blur-sm bg-opacity-90`}
+          >
             <h1
               className={`text-2xl sm:text-3xl font-bold mb-4 sm:mb-6 ${cardTitle}`}
             >

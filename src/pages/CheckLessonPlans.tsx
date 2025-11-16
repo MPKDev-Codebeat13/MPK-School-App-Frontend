@@ -116,10 +116,10 @@ const CheckLessonPlans: React.FC = () => {
   const { isLight } = useTheme()
 
   const lessonPlanCardBase =
-    'p-6 rounded-2xl shadow-lg transition-all duration-300 border'
+    'p-6 rounded-2xl shadow-lg transition-all duration-300 border backdrop-blur-sm'
   const lessonPlanCardSkin = isLight
-    ? 'bg-white border-gray-200 hover:shadow-xl'
-    : 'bg-gray-800 border-gray-700 hover:shadow-violet-500/40'
+    ? 'bg-white/90 border-gray-200 hover:shadow-xl hover:shadow-blue-500/20'
+    : 'bg-gray-800/90 border-gray-700 hover:shadow-violet-500/40'
   const lessonPlanCardTitle = isLight ? 'text-gray-900' : 'text-white'
   const lessonPlanCardText = isLight ? 'text-gray-600' : 'text-gray-400'
 
@@ -228,13 +228,13 @@ const CheckLessonPlans: React.FC = () => {
                     <>
                       <Button
                         onClick={() => handleOpen(plan)}
-                        className="bg-blue-600 hover:bg-blue-700"
+                        className="bg-blue-600 hover:bg-blue-700 text-xs px-3 py-2"
                       >
                         View Rejection Details
                       </Button>
                       <Button
                         onClick={() => handleAccept(plan._id)}
-                        className="bg-green-600 hover:bg-green-700"
+                        className="bg-green-600 hover:bg-green-700 text-xs px-3 py-2"
                         disabled={processingIds.includes(plan._id)}
                       >
                         Accept
