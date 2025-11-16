@@ -1185,7 +1185,7 @@ const Chat: React.FC = () => {
               </div>
             )}
             {messages.length === 0 && !loadingMore ? (
-              <div className="flex flex-col items-center justify-center h-full text-center">
+              <div className="flex flex-col items-center justify-center min-h-[50vh] text-center">
                 <h3 className="text-lg font-semibold text-gray-600 dark:text-gray-400 mb-2">
                   No messages yet
                 </h3>
