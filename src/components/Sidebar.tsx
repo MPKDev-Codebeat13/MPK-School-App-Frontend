@@ -94,17 +94,28 @@ export default function Sidebar({
 
   return (
     <>
-      {/* Hamburger Menu - always visible and consistent */}
+      {/* Hamburger Menu - smaller icons with smooth morphing animation */}
       <button
-        className="fixed top-4 left-4 z-50 bg-violet-600 text-white p-2 rounded shadow hover:bg-violet-700 transition-colors relative"
+        className="fixed top-4 left-4 z-50 bg-violet-600 text-white p-1.5 rounded shadow hover:bg-violet-700 transition-colors relative"
         onClick={() => setIsOpen(!isOpen)}
       >
-        <div className="transition-transform duration-500 ease-in-out">
-          {isOpen ? (
-            <FiX size={20} className="rotate-[360deg]" />
-          ) : (
-            <FiMenu size={20} />
-          )}
+        <div className="relative w-5 h-5 overflow-hidden">
+          <FiMenu
+            size={18}
+            className={`absolute inset-0 transition-all duration-300 ease-in-out ${
+              isOpen
+                ? 'opacity-0 rotate-180 scale-75'
+                : 'opacity-100 rotate-0 scale-100'
+            }`}
+          />
+          <FiX
+            size={18}
+            className={`absolute inset-0 transition-all duration-300 ease-in-out ${
+              isOpen
+                ? 'opacity-100 rotate-0 scale-100'
+                : 'opacity-0 -rotate-180 scale-75'
+            }`}
+          />
         </div>
         {unreadCount > 0 && (
           <span className="absolute top-0 right-0 bg-red-500 text-xs rounded-full h-4 w-4 flex items-center justify-center text-[10px] transform translate-x-1/2 -translate-y-1/2">
