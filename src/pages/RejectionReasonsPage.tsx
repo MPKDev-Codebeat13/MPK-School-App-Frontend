@@ -180,7 +180,12 @@ export default function RejectionReasonsPage() {
                 >
                   <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4">
                     <div>
-                      <h3 className="text-lg font-semibold mb-2">
+                      <h3
+                        className="text-lg font-semibold mb-2 cursor-pointer hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                        onClick={() =>
+                          navigate(`/lesson-plan/${reason.lessonPlanId}`)
+                        }
+                      >
                         {reason.lessonPlanTitle}
                       </h3>
                       <p
