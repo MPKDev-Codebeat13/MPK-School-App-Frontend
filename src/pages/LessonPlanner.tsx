@@ -290,6 +290,16 @@ const LessonPlanner: React.FC = () => {
                       View
                     </Button>
 
+                    {plan.status === 'rejected' && (
+                      <Button
+                        size="sm"
+                        onClick={() => navigate('/rejection-reasons')}
+                        className="bg-orange-600 hover:bg-orange-700 text-sm sm:text-base"
+                      >
+                        View Rejection Reasons
+                      </Button>
+                    )}
+
                     {plan.status === 'draft' && (
                       <Button
                         size="sm"
