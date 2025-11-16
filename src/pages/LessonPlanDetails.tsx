@@ -20,6 +20,8 @@ interface LessonPlan {
   type: 'manual' | 'ai'
   createdAt: string
   updatedAt: string
+  rejectionReason?: string
+  highlightedText?: string
 }
 
 const LessonPlanDetails: React.FC = () => {
@@ -218,7 +220,7 @@ const LessonPlanDetails: React.FC = () => {
         <p className="mb-2">
           <strong>Status:</strong>{' '}
           <span
-            className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+            className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full animate-pulse ${
               lessonPlan.status === 'accepted'
                 ? isLight
                   ? 'bg-green-100 text-green-800'
@@ -266,7 +268,24 @@ const LessonPlanDetails: React.FC = () => {
               {lessonPlan.description}
             </div>
           ) : (
-            lessonPlan.description
+            <div>
+              {lessonPlan.status === 'rejected' &&
+              lessonPlan.highlightedText ? (
+                <div className="mb-4 p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg">
+                  <h4 className="text-sm font-semibold text-red-800 dark:text-red-200 mb-2">
+                    Rejection Details:
+                  </h4>
+                  <p className="text-sm text-red-700 dark:text-red-300 mb-2">
+                    <strong>Reason:</strong> {lessonPlan.rejectionReason}
+                  </p>
+                  <p className="text-sm text-red-700 dark:text-red-300">
+                    <strong>Highlighted Text:</strong>{' '}
+                    {lessonPlan.highlightedText}
+                  </p>
+                </div>
+              ) : null}
+              {lessonPlan.description}
+            </div>
           )}
         </div>
         {user?.role === 'Teacher' && lessonPlan.status === 'draft' && (

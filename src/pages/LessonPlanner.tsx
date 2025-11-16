@@ -15,6 +15,8 @@ interface LessonPlan {
   type: string
   status: 'draft' | 'pending' | 'accepted' | 'rejected'
   createdAt: string
+  rejectionReason?: string
+  highlightedText?: string
 }
 
 const LessonPlanner: React.FC = () => {
@@ -263,6 +265,18 @@ const LessonPlanner: React.FC = () => {
                       isLight ? 'text-gray-800' : 'text-gray-200'
                     }`}
                   >
+                    {plan.status === 'rejected' && plan.rejectionReason ? (
+                      <div className="mb-2 p-2 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded">
+                        <p className="text-sm text-red-700 dark:text-red-300">
+                          <strong>Rejected:</strong> {plan.rejectionReason}
+                        </p>
+                        {plan.highlightedText && (
+                          <p className="text-sm text-red-600 dark:text-red-400 mt-1">
+                            <strong>Issue:</strong> {plan.highlightedText}
+                          </p>
+                        )}
+                      </div>
+                    ) : null}
                     {plan.description}
                   </p>
                   <div className="mt-2 flex flex-wrap gap-2">

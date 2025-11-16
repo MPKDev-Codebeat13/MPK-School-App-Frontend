@@ -20,6 +20,8 @@ interface LessonPlan {
   type: 'manual' | 'ai' | 'uploaded'
   createdAt: string
   updatedAt: string
+  rejectionReason?: string
+  highlightedText?: string
 }
 
 interface Pagination {
