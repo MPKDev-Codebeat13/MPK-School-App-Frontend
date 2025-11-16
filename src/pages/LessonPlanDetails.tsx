@@ -270,18 +270,22 @@ const LessonPlanDetails: React.FC = () => {
           ) : (
             <div>
               {lessonPlan.status === 'rejected' &&
-              lessonPlan.highlightedText ? (
+              (lessonPlan.rejectionReason || lessonPlan.highlightedText) ? (
                 <div className="mb-4 p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg">
                   <h4 className="text-sm font-semibold text-red-800 dark:text-red-200 mb-2">
                     Rejection Details:
                   </h4>
-                  <p className="text-sm text-red-700 dark:text-red-300 mb-2">
-                    <strong>Reason:</strong> {lessonPlan.rejectionReason}
-                  </p>
-                  <p className="text-sm text-red-700 dark:text-red-300">
-                    <strong>Highlighted Text:</strong>{' '}
-                    {lessonPlan.highlightedText}
-                  </p>
+                  {lessonPlan.rejectionReason && (
+                    <p className="text-sm text-red-700 dark:text-red-300 mb-2">
+                      <strong>Reason:</strong> {lessonPlan.rejectionReason}
+                    </p>
+                  )}
+                  {lessonPlan.highlightedText && (
+                    <p className="text-sm text-red-700 dark:text-red-300">
+                      <strong>Highlighted Text:</strong>{' '}
+                      {lessonPlan.highlightedText}
+                    </p>
+                  )}
                 </div>
               ) : null}
               {lessonPlan.description}

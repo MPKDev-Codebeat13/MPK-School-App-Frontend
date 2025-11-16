@@ -5,6 +5,7 @@ import Sidebar from '../components/Sidebar'
 import { Button } from '../components/ui/button'
 import { API_BASE_URL } from '../lib/api'
 import { useNavigate } from 'react-router-dom'
+import { Eye } from 'lucide-react'
 
 interface LessonPlan {
   _id: string
@@ -285,8 +286,18 @@ const LessonPlanner: React.FC = () => {
                       onClick={() => navigate(`/lesson-plan/${plan._id}`)}
                       className="bg-green-600 hover:bg-green-700 text-sm sm:text-base"
                     >
+                      <Eye className="w-4 h-4 mr-2" />
                       View
                     </Button>
+                    {plan.status === 'rejected' && (
+                      <Button
+                        size="sm"
+                        onClick={() => navigate(`/lesson-plan/${plan._id}`)}
+                        className="bg-orange-600 hover:bg-orange-700 text-sm sm:text-base"
+                      >
+                        View Rejection Details
+                      </Button>
+                    )}
                     {plan.status === 'draft' && (
                       <Button
                         size="sm"
