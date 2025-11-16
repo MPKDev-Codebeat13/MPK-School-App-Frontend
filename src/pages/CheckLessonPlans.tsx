@@ -281,6 +281,12 @@ const CheckLessonPlans: React.FC = () => {
                       >
                         View Rejection Details
                       </Button>
+                      <Button
+                        onClick={() => navigate('/rejection-reasons')}
+                        className="bg-purple-600 hover:bg-purple-700 text-xs px-3 py-2"
+                      >
+                        View Rejection Reasons
+                      </Button>
                     </>
                   )}
                 </div>
