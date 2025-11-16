@@ -116,7 +116,7 @@ export default function Sidebar({
       )}
 
       <aside
-        className={`${sidebarBg} ${sidebarText} h-screen shadow-lg rounded-r-2xl flex flex-col transition-all duration-300 fixed top-0 left-0 z-40 overflow-x-hidden ${
+        className={`${sidebarBg} ${sidebarText} min-h-screen shadow-lg rounded-r-2xl flex flex-col transition-all duration-300 fixed top-0 left-0 z-40 overflow-x-hidden ${
           isOpen ? 'w-64 p-4' : 'w-0 overflow-hidden'
         }`}
       >

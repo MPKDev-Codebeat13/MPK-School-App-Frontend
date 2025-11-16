@@ -198,7 +198,7 @@ export const acceptLessonPlan = async (id: string, token: string) => {
   return response.json()
 }
 
-export const rejectLessonPlan = async (id: string, token: string) => {
+export const rejectLessonPlan = async (id: string, token: string, reason?: string, highlightedText?: string) => {
   const response = await fetch(
     API_ENDPOINTS.DEPARTMENT_REJECT_LESSON_PLAN(id),
     {
@@ -207,7 +207,10 @@ export const rejectLessonPlan = async (id: string, token: string) => {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({}),
+      body: JSON.stringify({
+        reason,
+        highlightedText,
+      }),
     }
   )
   if (!response.ok) {

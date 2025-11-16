@@ -9,6 +9,7 @@ import {
   acceptLessonPlan,
   rejectLessonPlan,
 } from '../lib/api'
+import { CheckCircle, XCircle, Eye } from 'lucide-react'
 
 interface LessonPlan {
   _id: string
@@ -108,29 +109,19 @@ const CheckLessonPlans: React.FC = () => {
     }
   }
 
-  const handleReject = async (planId: string) => {
-    try {
-      if (!accessToken) {
-        setError('Not authenticated')
-        return
-      }
-      setProcessingIds((prev) => [...prev, planId])
-      await rejectLessonPlan(planId, accessToken)
-      setError(null)
-      setSuccessMessage('Lesson plan rejected. Thank you for your review.')
-      // Update lessonPlans state directly
-      setLessonPlans((prevPlans) =>
-        prevPlans.map((plan) =>
-          plan._id === planId ? { ...plan, status: 'rejected' } : plan
-        )
-      )
-      setTimeout(() => setSuccessMessage(null), 3000)
-    } catch {
-      setError('Failed to reject lesson plan')
-    } finally {
-      setProcessingIds((prev) => prev.filter((id) => id !== planId))
-    }
+  const handleReject = (planId: string) => {
+    navigate(`/lesson-plan/${planId}`, { state: { rejectionMode: true } })
   }
+
+  const { isLight } = useTheme()
+
+  const lessonPlanCardBase =
+    'p-6 rounded-2xl shadow-lg transition-all duration-300 border'
+  const lessonPlanCardSkin = isLight
+    ? 'bg-white border-gray-200 hover:shadow-xl'
+    : 'bg-gray-800 border-gray-700 hover:shadow-violet-500/40'
+  const lessonPlanCardTitle = isLight ? 'text-gray-900' : 'text-white'
+  const lessonPlanCardText = isLight ? 'text-gray-600' : 'text-gray-400'
 
   if (loading) return <div>Loading lesson plans...</div>
   return (
@@ -160,65 +151,90 @@ const CheckLessonPlans: React.FC = () => {
             {lessonPlans.map((plan) => (
               <div
                 key={plan._id}
-                className={`border rounded-lg p-4 shadow-md bg-transparent ${
-                  plan.status === 'rejected' ? 'bg-red-100 border-red-500' : ''
-                }`}
+                className={`${lessonPlanCardBase} ${lessonPlanCardSkin}`}
               >
-                <p>
-                  <strong>Date:</strong>{' '}
-                  {new Date(plan.createdAt).toLocaleDateString()}
-                </p>
-                <p>
-                  <strong>Teacher:</strong>{' '}
-                  {plan.teacher ? plan.teacher.fullName : 'Unknown'}
-                </p>
-                <p>
-                  <strong>Subject:</strong> {plan.subject}
-                </p>
-                <p>
-                  <strong>Type:</strong>{' '}
-                  {plan.type.charAt(0).toUpperCase() + plan.type.slice(1)}
-                </p>
-                <p>
-                  <strong>Status:</strong>{' '}
-                  {plan.status.charAt(0).toUpperCase() + plan.status.slice(1)}
-                </p>
+                <div className="flex items-center justify-between mb-4">
+                  <h3
+                    className={`text-lg font-semibold ${lessonPlanCardTitle}`}
+                  >
+                    Lesson Plan
+                  </h3>
+                  {plan.status === 'accepted' && (
+                    <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                      <CheckCircle className="w-3 h-3 mr-1" />
+                      Accepted
+                    </span>
+                  )}
+                  {plan.status === 'rejected' && (
+                    <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                      <XCircle className="w-3 h-3 mr-1" />
+                      Rejected
+                    </span>
+                  )}
+                  {plan.status === 'pending' && (
+                    <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                      Pending Review
+                    </span>
+                  )}
+                </div>
+                <div className="space-y-2">
+                  <p className={`${lessonPlanCardText}`}>
+                    <strong>Date:</strong>{' '}
+                    {new Date(plan.createdAt).toLocaleDateString()}
+                  </p>
+                  <p className={`${lessonPlanCardText}`}>
+                    <strong>Teacher:</strong>{' '}
+                    {plan.teacher ? plan.teacher.fullName : 'Unknown'}
+                  </p>
+                  <p className={`${lessonPlanCardText}`}>
+                    <strong>Subject:</strong> {plan.subject}
+                  </p>
+                  <p className={`${lessonPlanCardText}`}>
+                    <strong>Type:</strong>{' '}
+                    {plan.type.charAt(0).toUpperCase() + plan.type.slice(1)}
+                  </p>
+                </div>
                 <div className="mt-4 flex gap-2">
-                  <Button onClick={() => handleOpen(plan)}>Open</Button>
+                  <Button onClick={() => handleOpen(plan)} variant="outline">
+                    <Eye className="w-4 h-4 mr-2" />
+                    View Details
+                  </Button>
                   {plan.status === 'pending' && (
                     <>
                       <Button
                         onClick={() => handleAccept(plan._id)}
-                        variant="default"
+                        className="bg-green-600 hover:bg-green-700"
                         disabled={processingIds.includes(plan._id)}
                       >
+                        <CheckCircle className="w-4 h-4 mr-2" />
                         Accept
                       </Button>
                       <Button
                         onClick={() => handleReject(plan._id)}
-                        variant="danger"
+                        className="bg-red-600 hover:bg-red-700"
                         disabled={processingIds.includes(plan._id)}
                       >
+                        <XCircle className="w-4 h-4 mr-2" />
                         Reject
                       </Button>
                     </>
                   )}
                   {plan.status === 'accepted' && (
-                    <>
-                      <Button
-                        onClick={() => handleReject(plan._id)}
-                        variant="danger"
-                        disabled={processingIds.includes(plan._id)}
-                      >
-                        Reject
-                      </Button>
-                    </>
+                    <span className="text-green-600 text-sm font-medium">
+                      ✓ Accepted
+                    </span>
                   )}
                   {plan.status === 'rejected' && (
                     <>
                       <Button
+                        onClick={() => handleOpen(plan)}
+                        className="bg-blue-600 hover:bg-blue-700"
+                      >
+                        View Rejection Details
+                      </Button>
+                      <Button
                         onClick={() => handleAccept(plan._id)}
-                        variant="default"
+                        className="bg-green-600 hover:bg-green-700"
                         disabled={processingIds.includes(plan._id)}
                       >
                         Accept
