@@ -40,12 +40,16 @@ const LessonPlanDetails: React.FC = () => {
   const [selectedText, setSelectedText] = useState('')
   const [rejectionReason, setRejectionReason] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [showRejectionForm, setShowRejectionForm] = useState(false)
 
   const handleTextSelection = () => {
     const selection = window.getSelection()
     if (selection && selection.rangeCount > 0) {
       const selectedText = selection.toString()
       setSelectedText(selectedText)
+      if (selectedText.trim()) {
+        setShowRejectionForm(true)
+      }
     }
   }
 
@@ -224,6 +228,11 @@ const LessonPlanDetails: React.FC = () => {
             <div
               onMouseUp={handleTextSelection}
               className="cursor-text select-text"
+              style={{
+                backgroundColor: selectedText
+                  ? 'rgba(255, 255, 0, 0.3)'
+                  : 'transparent',
+              }}
             >
               {lessonPlan.description}
             </div>
@@ -302,15 +311,15 @@ const LessonPlanDetails: React.FC = () => {
           </div>
         )}
 
-        {rejectionMode && (
+        {rejectionMode && showRejectionForm && (
           <div className="mt-4 sm:mt-6 space-y-4">
             <div className="bg-yellow-50 dark:bg-yellow-900/20 p-4 rounded-lg border border-yellow-200 dark:border-yellow-800">
               <h3 className="text-lg font-semibold text-yellow-800 dark:text-yellow-200 mb-2">
                 Rejection Mode
               </h3>
               <p className="text-sm text-yellow-700 dark:text-yellow-300 mb-4">
-                Select text in the lesson plan above that needs correction, then
-                provide your rejection reason below.
+                You selected text that needs correction. Please provide your
+                rejection reason below.
               </p>
               {selectedText && (
                 <div className="mb-4">
@@ -344,11 +353,26 @@ const LessonPlanDetails: React.FC = () => {
                 {isSubmitting ? 'Submitting...' : 'Submit Rejection'}
               </Button>
               <Button
-                onClick={() => navigate('/check-lesson-plans')}
+                onClick={() => {
+                  setShowRejectionForm(false)
+                  setSelectedText('')
+                  setRejectionReason('')
+                }}
                 variant="outline"
               >
                 Cancel
               </Button>
+            </div>
+          </div>
+        )}
+
+        {rejectionMode && !showRejectionForm && (
+          <div className="mt-4 sm:mt-6">
+            <div className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg border border-blue-200 dark:border-blue-800">
+              <p className="text-sm text-blue-700 dark:text-blue-300">
+                Select text in the lesson plan above that needs correction to
+                proceed with rejection.
+              </p>
             </div>
           </div>
         )}
