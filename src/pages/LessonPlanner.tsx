@@ -20,6 +20,15 @@ interface LessonPlan {
   highlightedText?: string
 }
 
+interface RejectionReason {
+  _id: string
+  lessonPlanId: string
+  reason: string
+  highlightedText?: string
+  createdAt: string
+  status: 'active' | 'resolved'
+}
+
 const LessonPlanner: React.FC = () => {
   const { user, accessToken } = useAuth()
   const { theme, isLight } = useTheme()
@@ -27,6 +36,9 @@ const LessonPlanner: React.FC = () => {
   const navigate = useNavigate()
   const [lessonPlans, setLessonPlans] = useState<LessonPlan[]>([])
   const [loading, setLoading] = useState(true)
+  const [rejectionReasons, setRejectionReasons] = useState<RejectionReason[]>(
+    []
+  )
 
   const getDashboardPath = (role: string) => {
     switch (role) {
@@ -90,6 +102,31 @@ const LessonPlanner: React.FC = () => {
     }
   }
 
+  const fetchRejectionReasons = async () => {
+    try {
+      const token = localStorage.getItem('accessToken')
+      if (!token) return
+
+      const response = await fetch(
+        `${API_BASE_URL}/department/rejection-reasons`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch rejection reasons')
+      }
+
+      const data = await response.json()
+      setRejectionReasons(data.rejectionReasons || [])
+    } catch (error) {
+      console.error('Failed to fetch rejection reasons:', error)
+    }
+  }
+
   useEffect(() => {
     if (!user) {
       navigate('/login')
@@ -101,6 +138,7 @@ const LessonPlanner: React.FC = () => {
       return
     }
     fetchLessonPlans()
+    fetchRejectionReasons()
   }, [accessToken, user])
 
   const handleSubmitLessonPlan = async (lessonPlanId: string) => {
@@ -266,16 +304,26 @@ const LessonPlanner: React.FC = () => {
                       isLight ? 'text-gray-800' : 'text-gray-200'
                     }`}
                   >
-                    {plan.status === 'rejected' && plan.rejectionReason ? (
+                    {plan.status === 'rejected' ? (
                       <div className="mb-2 p-2 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded">
-                        <p className="text-sm text-red-700 dark:text-red-300">
-                          <strong>Rejected:</strong> {plan.rejectionReason}
-                        </p>
-                        {plan.highlightedText && (
-                          <p className="text-sm text-red-600 dark:text-red-400 mt-1">
-                            <strong>Issue:</strong> {plan.highlightedText}
-                          </p>
-                        )}
+                        {rejectionReasons
+                          .filter((reason) => reason.lessonPlanId === plan._id)
+                          .map((reason) => (
+                            <div key={reason._id} className="mb-2 last:mb-0">
+                              <p className="text-sm text-red-700 dark:text-red-300">
+                                <strong>Rejected:</strong> {reason.reason}
+                              </p>
+                              {reason.highlightedText && (
+                                <p className="text-sm text-red-600 dark:text-red-400 mt-1">
+                                  <strong>Issue:</strong>{' '}
+                                  {reason.highlightedText}
+                                </p>
+                              )}
+                              <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                                {new Date(reason.createdAt).toLocaleString()}
+                              </p>
+                            </div>
+                          ))}
                       </div>
                     ) : null}
                     {plan.description}
