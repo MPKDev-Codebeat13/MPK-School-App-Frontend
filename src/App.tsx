@@ -21,7 +21,6 @@ import ManageUsersPage from './pages/ManageUsersPage'
 import ReportsLessonPlan from './pages/ReportsLessonPlan'
 import ReportsAttendancePage from './pages/ReportsAttendancePage'
 import CheckLessonPlans from './pages/CheckLessonPlans'
-import CheckChild from './pages/CheckChild'
 import LessonPlanner from './pages/LessonPlanner'
 import CreateLessonPlan from './pages/CreateLessonPlan'
 import AttendanceList from './pages/AttendanceList'
@@ -29,7 +28,6 @@ import CreateAttendance from './pages/CreateAttendance'
 import TakeAttendance from './pages/TakeAttendance'
 import ViewAttendance from './pages/ViewAttendance'
 import LessonPlanDetails from './pages/LessonPlanDetails'
-import HomeworkHelper from './pages/HomeworkHelper'
 
 export default function App() {
   return (
@@ -77,8 +75,6 @@ export default function App() {
                 element={<TakeAttendance />}
               />
               <Route path="/attendance/view/:id" element={<ViewAttendance />} />
-              <Route path="/check-child" element={<CheckChild />} />
-              <Route path="/homework" element={<HomeworkHelper />} />
             </Route>
             <Route path="/verify/check-email" element={<CheckEmailPage />} />
             <Route path="/check-email" element={<CheckEmailPage />} />
