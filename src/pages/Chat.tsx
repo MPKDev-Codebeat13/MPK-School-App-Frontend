@@ -1066,16 +1066,14 @@ const Chat: React.FC = () => {
   }
 
   return (
-    <div className={`min-h-screen ${theme} overflow-x-hidden flex`}>
-      {/* Sidebar */}
-      <Sidebar
-        isOpen={isSidebarOpen}
-        setIsOpen={setIsSidebarOpen}
-        showHamburger={true}
-      />
+   <div className={`min-h-screen ${theme} overflow-x-hidden`}>
+         {/* Sidebar */}
+         <Sidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
 
       {/* Main Chat Area */}
-      <div className="flex flex-col flex-1">
+      <div className={`p-4 sm:p-6 md:p-8 space-y-4 sm:space-y-6 md:space-y-8 ${
+          isSidebarOpen ? 'sm:ml-64' : ''
+        }`}>
         {/* Chat Header */}
         <div
           className={`pt-2 pb-4 px-4 border-b fixed top-0 z-10 ${

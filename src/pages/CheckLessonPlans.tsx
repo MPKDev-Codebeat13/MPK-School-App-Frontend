@@ -21,6 +21,8 @@ interface LessonPlan {
   type: 'manual' | 'uploaded' | 'ai'
   status: 'pending' | 'accepted' | 'rejected'
   content: string // full lesson plan content
+  rejectionReason?: string
+  highlightedText?: string
 }
 
 const CheckLessonPlans: React.FC = () => {
@@ -33,6 +35,10 @@ const CheckLessonPlans: React.FC = () => {
   const [error, setError] = useState<string | null>(null)
   const [successMessage, setSuccessMessage] = useState<string | null>(null)
   const [processingIds, setProcessingIds] = useState<string[]>([])
+  const [showRejectModal, setShowRejectModal] = useState(false)
+  const [rejectingPlanId, setRejectingPlanId] = useState<string | null>(null)
+  const [rejectionReason, setRejectionReason] = useState('')
+  const [selectedText, setSelectedText] = useState('')
 
   const getDashboardPath = (role: string) => {
     switch (role) {
@@ -110,7 +116,50 @@ const CheckLessonPlans: React.FC = () => {
   }
 
   const handleReject = (planId: string) => {
-    navigate(`/lesson-plan/${planId}`, { state: { rejectionMode: true } })
+    setRejectingPlanId(planId)
+    setShowRejectModal(true)
+    setRejectionReason('')
+    setSelectedText('')
+  }
+
+  const handleRejectSubmit = async () => {
+    if (!rejectionReason.trim() || !rejectingPlanId) return
+
+    try {
+      if (!accessToken) {
+        setError('Not authenticated')
+        return
+      }
+      setProcessingIds((prev) => [...prev, rejectingPlanId])
+      await rejectLessonPlan(
+        rejectingPlanId,
+        accessToken,
+        rejectionReason,
+        selectedText
+      )
+      setError(null)
+      setSuccessMessage('Lesson plan rejected successfully!')
+      // Update lessonPlans state directly
+      setLessonPlans((prevPlans) =>
+        prevPlans.map((plan) =>
+          plan._id === rejectingPlanId
+            ? {
+                ...plan,
+                status: 'rejected',
+                rejectionReason,
+                highlightedText: selectedText,
+              }
+            : plan
+        )
+      )
+      setShowRejectModal(false)
+      setRejectingPlanId(null)
+      setTimeout(() => setSuccessMessage(null), 3000)
+    } catch {
+      setError('Failed to reject lesson plan')
+    } finally {
+      setProcessingIds((prev) => prev.filter((id) => id !== rejectingPlanId))
+    }
   }
 
   const { isLight } = useTheme()
@@ -232,13 +281,6 @@ const CheckLessonPlans: React.FC = () => {
                       >
                         View Rejection Details
                       </Button>
-                      <Button
-                        onClick={() => handleAccept(plan._id)}
-                        className="bg-green-600 hover:bg-green-700 text-xs px-3 py-2"
-                        disabled={processingIds.includes(plan._id)}
-                      >
-                        Accept
-                      </Button>
                     </>
                   )}
                 </div>
@@ -247,6 +289,70 @@ const CheckLessonPlans: React.FC = () => {
           </div>
         </div>
       </main>
+
+      {/* Rejection Modal */}
+      {showRejectModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div
+            className={`p-6 rounded-lg shadow-lg max-w-md w-full mx-4 ${
+              isLight ? 'bg-white' : 'bg-gray-800'
+            }`}
+          >
+            <h3 className="text-lg font-semibold mb-4">Reject Lesson Plan</h3>
+            <div className="mb-4">
+              <label className="block text-sm font-medium mb-2">
+                Rejection Reason *
+              </label>
+              <textarea
+                value={rejectionReason}
+                onChange={(e) => setRejectionReason(e.target.value)}
+                placeholder="Please explain why this lesson plan is being rejected..."
+                className={`w-full p-3 border rounded-lg resize-vertical min-h-[100px] ${
+                  isLight
+                    ? 'bg-white border-gray-300 text-gray-900'
+                    : 'bg-gray-700 border-gray-600 text-white'
+                }`}
+                required
+              />
+            </div>
+            <div className="mb-4">
+              <label className="block text-sm font-medium mb-2">
+                Highlighted Text (optional)
+              </label>
+              <textarea
+                value={selectedText}
+                onChange={(e) => setSelectedText(e.target.value)}
+                placeholder="Paste or type the text that needs correction..."
+                className={`w-full p-3 border rounded-lg resize-vertical min-h-[80px] ${
+                  isLight
+                    ? 'bg-white border-gray-300 text-gray-900'
+                    : 'bg-gray-700 border-gray-600 text-white'
+                }`}
+              />
+            </div>
+            <div className="flex justify-end space-x-2">
+              <Button
+                onClick={() => setShowRejectModal(false)}
+                variant="outline"
+              >
+                Cancel
+              </Button>
+              <Button
+                onClick={handleRejectSubmit}
+                className="bg-red-600 hover:bg-red-700"
+                disabled={
+                  !rejectionReason.trim() ||
+                  processingIds.includes(rejectingPlanId || '')
+                }
+              >
+                {processingIds.includes(rejectingPlanId || '')
+                  ? 'Rejecting...'
+                  : 'Reject'}
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
