@@ -188,8 +188,10 @@ const LessonPlanDetails: React.FC = () => {
     >
       <Sidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
       <main
-        className={`flex-1 p-4 sm:p-6 lg:p-8 max-w-4xl mx-auto rounded-lg shadow-md text-gray-900 backdrop-blur-md bg-transparent text-sm sm:text-base ${
-          !isLight ? 'text-white' : 'text-gray-900'
+        className={`flex-1 p-4 sm:p-6 lg:p-8 max-w-4xl mx-auto rounded-2xl shadow-lg text-gray-900 backdrop-blur-sm text-sm sm:text-base ${
+          isLight
+            ? 'bg-white/90 border border-gray-200 hover:shadow-xl hover:shadow-blue-500/20'
+            : 'bg-gray-800/90 border border-gray-700 hover:shadow-violet-500/40 text-white'
         }`}
       >
         <h1 className="text-2xl sm:text-3xl font-bold mb-4 sm:mb-6">
@@ -213,7 +215,29 @@ const LessonPlanDetails: React.FC = () => {
           <strong>Type:</strong> {lessonPlan.type}
         </p>
         <p className="mb-2">
-          <strong>Status:</strong> {lessonPlan.status}
+          <strong>Status:</strong>{' '}
+          <span
+            className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+              lessonPlan.status === 'accepted'
+                ? isLight
+                  ? 'bg-green-100 text-green-800'
+                  : 'bg-green-900 text-green-200'
+                : lessonPlan.status === 'rejected'
+                ? isLight
+                  ? 'bg-red-100 text-red-800'
+                  : 'bg-red-900 text-red-200'
+                : lessonPlan.status === 'pending'
+                ? isLight
+                  ? 'bg-yellow-100 text-yellow-800'
+                  : 'bg-yellow-900 text-yellow-200'
+                : isLight
+                ? 'bg-gray-100 text-gray-800'
+                : 'bg-gray-700 text-gray-200'
+            }`}
+          >
+            {lessonPlan.status.charAt(0).toUpperCase() +
+              lessonPlan.status.slice(1)}
+          </span>
         </p>
         <p className="mb-2">
           <strong>Created At:</strong>{' '}
@@ -223,7 +247,11 @@ const LessonPlanDetails: React.FC = () => {
           <strong>Updated At:</strong>{' '}
           {new Date(lessonPlan.updatedAt).toLocaleString()}
         </p>
-        <div className="mt-4 sm:mt-6 whitespace-pre-wrap bg-transparent p-4 sm:p-6 rounded-lg shadow-inner text-sm sm:text-base max-h-64 overflow-y-auto">
+        <div
+          className={`mt-4 sm:mt-6 whitespace-pre-wrap p-4 sm:p-6 rounded-lg shadow-inner text-sm sm:text-base max-h-64 overflow-y-auto ${
+            isLight ? 'bg-gray-50' : 'bg-gray-700/50'
+          }`}
+        >
           {rejectionMode ? (
             <div
               onMouseUp={handleTextSelection}
