@@ -317,47 +317,49 @@ const LessonPlanDetails: React.FC = () => {
             </button>
           </div>
         )}
-        {user?.role === 'Department' && !rejectionMode && (
-          <div className="mt-4 sm:mt-6 flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4">
-            <Button
-              onClick={async () => {
-                try {
-                  const response = await fetch(
-                    `${API_BASE_URL}/department/lesson-plans/${lessonPlan._id}/accept`,
-                    {
-                      method: 'POST',
-                      headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                      },
+        {user?.role === 'Department' &&
+          !rejectionMode &&
+          lessonPlan.status === 'pending' && (
+            <div className="mt-4 sm:mt-6 flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4">
+              <Button
+                onClick={async () => {
+                  try {
+                    const response = await fetch(
+                      `${API_BASE_URL}/department/lesson-plans/${lessonPlan._id}/accept`,
+                      {
+                        method: 'POST',
+                        headers: {
+                          Authorization: `Bearer ${accessToken}`,
+                        },
+                      }
+                    )
+                    if (!response.ok) {
+                      throw new Error('Failed to accept lesson plan')
                     }
-                  )
-                  if (!response.ok) {
-                    throw new Error('Failed to accept lesson plan')
+                    setLessonPlan({ ...lessonPlan, status: 'accepted' })
+                    alert('Lesson plan accepted')
+                  } catch (error) {
+                    alert(error instanceof Error ? error.message : 'Error')
                   }
-                  setLessonPlan({ ...lessonPlan, status: 'accepted' })
-                  alert('Lesson plan accepted')
-                } catch (error) {
-                  alert(error instanceof Error ? error.message : 'Error')
+                }}
+                className="bg-green-600 hover:bg-green-700"
+              >
+                <CheckCircle className="w-4 h-4 mr-2" />
+                Accept
+              </Button>
+              <Button
+                onClick={() =>
+                  navigate(`/lesson-plan/${lessonPlan._id}`, {
+                    state: { rejectionMode: true },
+                  })
                 }
-              }}
-              className="bg-green-600 hover:bg-green-700"
-            >
-              <CheckCircle className="w-4 h-4 mr-2" />
-              Accept
-            </Button>
-            <Button
-              onClick={() =>
-                navigate(`/lesson-plan/${lessonPlan._id}`, {
-                  state: { rejectionMode: true },
-                })
-              }
-              className="bg-red-600 hover:bg-red-700"
-            >
-              <XCircle className="w-4 h-4 mr-2" />
-              Reject
-            </Button>
-          </div>
-        )}
+                className="bg-red-600 hover:bg-red-700"
+              >
+                <XCircle className="w-4 h-4 mr-2" />
+                Reject
+              </Button>
+            </div>
+          )}
 
         {rejectionMode && showRejectionForm && (
           <div className="mt-4 sm:mt-6 space-y-4">
