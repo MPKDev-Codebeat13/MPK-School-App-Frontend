@@ -286,6 +286,14 @@ const LessonPlanDetails: React.FC = () => {
                       {lessonPlan.highlightedText}
                     </p>
                   )}
+                  {user?.role === 'Teacher' && (
+                    <button
+                      onClick={() => navigate('/rejection-reasons')}
+                      className="mt-2 px-3 py-1 bg-blue-600 text-white text-xs rounded hover:bg-blue-700 transition-colors"
+                    >
+                      View Rejection Reasons
+                    </button>
+                  )}
                 </div>
               ) : null}
               {lessonPlan.description}

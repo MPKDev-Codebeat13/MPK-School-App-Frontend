@@ -70,7 +70,6 @@ export default function Sidebar({
       { to: '/chat', label: 'Chat' },
       { to: '/settings', label: 'Settings' },
       { to: '/check-lesson-plans', label: 'Check Lesson Plans' },
-      { to: '/rejection-reasons', label: 'Rejection Reasons' },
     ],
     principal: [
       { to: '/principal', label: 'Principals' },
