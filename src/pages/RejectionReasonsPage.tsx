@@ -47,7 +47,11 @@ export default function RejectionReasonsPage() {
       navigate('/login')
       return
     }
-    if (user.role !== 'Department' && user.role !== 'Admin') {
+    if (
+      user.role !== 'Department' &&
+      user.role !== 'Admin' &&
+      user.role !== 'Teacher'
+    ) {
       alert('Access denied. You do not have permission to access this page.')
       navigate(getDashboardPath(user.role))
       return
@@ -154,7 +158,9 @@ export default function RejectionReasonsPage() {
       <main className="flex-1 p-4 sm:p-6 lg:p-8">
         <div className="max-w-6xl mx-auto">
           <h1 className="text-2xl sm:text-3xl font-bold mb-6">
-            Rejection Reasons Management
+            {user?.role === 'Teacher'
+              ? 'My Rejection Reasons'
+              : 'Rejection Reasons Management'}
           </h1>
 
           <div className="grid gap-4">
@@ -217,15 +223,16 @@ export default function RejectionReasonsPage() {
                       >
                         {reason.status}
                       </span>
-                      {reason.status === 'active' && (
-                        <Button
-                          onClick={() => handleMarkResolved(reason._id)}
-                          size="sm"
-                          className="bg-green-600 hover:bg-green-700"
-                        >
-                          Mark Resolved
-                        </Button>
-                      )}
+                      {reason.status === 'active' &&
+                        user?.role !== 'Teacher' && (
+                          <Button
+                            onClick={() => handleMarkResolved(reason._id)}
+                            size="sm"
+                            className="bg-green-600 hover:bg-green-700"
+                          >
+                            Mark Resolved
+                          </Button>
+                        )}
                     </div>
                   </div>
 
