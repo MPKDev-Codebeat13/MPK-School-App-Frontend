@@ -1364,11 +1364,13 @@ const Chat: React.FC = () => {
 
         {/* Input Area */}
         <div
-          className={`p-4 border-t sticky bottom-0 ${
+          className={`p-4 border-t fixed bottom-0 left-0 right-0 ${
+            isSidebarOpen ? 'sm:left-64' : 'left-0'
+          } ${
             isLight
               ? 'border-gray-200 bg-white'
               : 'border-gray-700 bg-gray-800/50'
-          } backdrop-blur-xl`}
+          } backdrop-blur-xl z-10`}
         >
           <ReplyBar />
           <div className="flex items-center gap-2">
