@@ -174,9 +174,12 @@ const CheckLessonPlans: React.FC = () => {
 
   if (loading) return <div>Loading lesson plans...</div>
   return (
-   <div className={`min-h-screen ${theme} overflow-x-hidden`}>
-         {/* Sidebar */}
-         <Sidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
+    <div
+      className={`min-h-screen ${theme} overflow-x-hidden ${
+        isSidebarOpen ? 'sm:ml-64' : ''
+      }`}
+    >
+      <Sidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
       <main className="flex-1 p-4 sm:p-6 md:p-8">
         <div className="max-w-7xl mx-auto">
           <div className="flex justify-between items-center mb-6">

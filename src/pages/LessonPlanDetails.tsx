@@ -181,8 +181,11 @@ const LessonPlanDetails: React.FC = () => {
   }
 
   return (
-    <div className={`min-h-screen ${theme} overflow-x-hidden`}>
-      {/* Sidebar */}
+    <div
+      className={`min-h-screen ${theme} overflow-x-hidden ${
+        isSidebarOpen ? 'sm:ml-64' : ''
+      }`}
+    >
       <Sidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
 
       <main
