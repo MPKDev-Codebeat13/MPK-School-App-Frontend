@@ -276,10 +276,30 @@ const CheckLessonPlans: React.FC = () => {
                   {plan.status === 'rejected' && (
                     <>
                       <Button
-                        onClick={() => handleOpen(plan)}
-                        className="bg-blue-600 hover:bg-blue-700 text-xs px-3 py-2"
+                        onClick={() => handleAccept(plan._id)}
+                        className="bg-green-600 hover:bg-green-700 text-xs px-3 py-2"
+                        disabled={processingIds.includes(plan._id)}
                       >
-                        View Rejection Details
+                        <CheckCircle className="w-3 h-3 mr-1" />
+                        Accept
+                      </Button>
+                      <Button
+                        onClick={() => navigate('/rejection-reasons')}
+                        className="bg-purple-600 hover:bg-purple-700 text-xs px-3 py-2"
+                      >
+                        View Rejection Reasons
+                      </Button>
+                    </>
+                  )}
+                  {plan.status === 'accepted' && (
+                    <>
+                      <Button
+                        onClick={() => handleReject(plan._id)}
+                        className="bg-red-600 hover:bg-red-700 text-xs px-3 py-2"
+                        disabled={processingIds.includes(plan._id)}
+                      >
+                        <XCircle className="w-3 h-3 mr-1" />
+                        Reject
                       </Button>
                       <Button
                         onClick={() => navigate('/rejection-reasons')}
