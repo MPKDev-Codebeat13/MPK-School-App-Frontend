@@ -71,6 +71,16 @@ export default function Sidebar({
       { to: '/settings', label: 'Settings' },
       { to: '/check-lesson-plans', label: 'Check Lesson Plans' },
     ],
+    principal: [
+      { to: '/principal', label: 'Principals' },
+      { to: '/chat', label: 'Chat' },
+      { to: '/settings', label: 'Settings' },
+    ],
+    'sub principal': [
+      { to: '/principal', label: 'Principals' },
+      { to: '/chat', label: 'Chat' },
+      { to: '/settings', label: 'Settings' },
+    ],
   }
 
   const links = roleLinks[user?.role?.toLowerCase() || 'teacher']
